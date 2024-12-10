@@ -13,7 +13,7 @@
 <v>Output</v>
 </TreeKeys>
 <TreeStates>
-<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="I2C_Sens\I2C_Sens\I2C_Sens.cydwr\Pins">
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="I2C_Sens\I2C_Sens\TopDesign">
 <ExpandedNodeIds>
 <v>I2C_Sens</v>
 <v>I2C_Sens\I2C_Sens</v>
@@ -97,6 +97,7 @@
 <v>I2C_Sens\I2C_Sens\System Reference Guides</v>
 <v>I2C_Sens\I2C_Sens\System Reference Guides\cy_boot_v6_0</v>
 <v>I2C_Sens\I2C_Sens\cy_pins_v2_20.pdf</v>
+<v>I2C_Sens\I2C_Sens\CyControlReg_v1_80.pdf</v>
 <v>I2C_Sens\I2C_Sens\EZI2C_v2_0.pdf</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
@@ -107,6 +108,7 @@
 <v>I2C_Sens\I2C_Sens\System Reference Guides</v>
 <v>I2C_Sens\I2C_Sens\System Reference Guides\cy_boot_v6_0</v>
 <v>I2C_Sens\I2C_Sens\cy_pins_v2_20.pdf</v>
+<v>I2C_Sens\I2C_Sens\CyControlReg_v1_80.pdf</v>
 <v>I2C_Sens\I2C_Sens\EZI2C_v2_0.pdf</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
