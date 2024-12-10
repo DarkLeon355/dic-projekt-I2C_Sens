@@ -2,7 +2,7 @@
 --	Conversion of I2C_Sens.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Tue Dec 10 16:08:33 2024
+--	Tue Dec 10 16:13:41 2024
 --
 
 USE cypress.cypress.all;
@@ -12,31 +12,31 @@ ATTRIBUTE part_name of top_RTL:TYPE IS "cpsoc3";
 END top_RTL;
 --------------------------------------------------------
 ARCHITECTURE R_T_L OF top_RTL IS
-SIGNAL \I2C:sda_x_wire\ : bit;
-SIGNAL \I2C:Net_643_1\ : bit;
-SIGNAL \I2C:Net_697\ : bit;
-SIGNAL \I2C:bus_clk\ : bit;
-SIGNAL \I2C:Net_1109_0\ : bit;
-SIGNAL \I2C:Net_1109_1\ : bit;
-SIGNAL \I2C:Net_643_0\ : bit;
-SIGNAL \I2C:Net_643_2\ : bit;
-SIGNAL \I2C:scl_x_wire\ : bit;
-SIGNAL \I2C:Net_969\ : bit;
-SIGNAL \I2C:Net_968\ : bit;
-SIGNAL \I2C:udb_clk\ : bit;
+SIGNAL \I2C_Master:sda_x_wire\ : bit;
+SIGNAL \I2C_Master:Net_643_1\ : bit;
+SIGNAL \I2C_Master:Net_697\ : bit;
+SIGNAL \I2C_Master:bus_clk\ : bit;
+SIGNAL \I2C_Master:Net_1109_0\ : bit;
+SIGNAL \I2C_Master:Net_1109_1\ : bit;
+SIGNAL \I2C_Master:Net_643_0\ : bit;
+SIGNAL \I2C_Master:Net_643_2\ : bit;
+SIGNAL \I2C_Master:scl_x_wire\ : bit;
+SIGNAL \I2C_Master:Net_969\ : bit;
+SIGNAL \I2C_Master:Net_968\ : bit;
+SIGNAL \I2C_Master:udb_clk\ : bit;
 SIGNAL Net_23 : bit;
-SIGNAL \I2C:Net_973\ : bit;
+SIGNAL \I2C_Master:Net_973\ : bit;
 SIGNAL Net_25 : bit;
-SIGNAL \I2C:Net_974\ : bit;
-SIGNAL \I2C:scl_yfb\ : bit;
-SIGNAL \I2C:sda_yfb\ : bit;
-SIGNAL \I2C:tmpOE__Bufoe_scl_net_0\ : bit;
+SIGNAL \I2C_Master:Net_974\ : bit;
+SIGNAL \I2C_Master:scl_yfb\ : bit;
+SIGNAL \I2C_Master:sda_yfb\ : bit;
+SIGNAL \I2C_Master:tmpOE__Bufoe_scl_net_0\ : bit;
 SIGNAL Net_22 : bit;
-SIGNAL \I2C:tmpOE__Bufoe_sda_net_0\ : bit;
+SIGNAL \I2C_Master:tmpOE__Bufoe_sda_net_0\ : bit;
 SIGNAL Net_21 : bit;
-SIGNAL \I2C:timeout_clk\ : bit;
+SIGNAL \I2C_Master:timeout_clk\ : bit;
 SIGNAL Net_26 : bit;
-SIGNAL \I2C:Net_975\ : bit;
+SIGNAL \I2C_Master:Net_975\ : bit;
 SIGNAL Net_29 : bit;
 SIGNAL Net_31 : bit;
 SIGNAL tmpOE__SCL_net_0 : bit;
@@ -121,20 +121,20 @@ zero <=  ('0') ;
 
 tmpOE__SCL_net_0 <=  ('1') ;
 
-\I2C:I2C_IRQ\:cy_isr_v1_0
+\I2C_Master:I2C_IRQ\:cy_isr_v1_0
 	GENERIC MAP(int_type=>"00",
 		is_nmi=>'0')
-	PORT MAP(int_signal=>\I2C:Net_697\);
-\I2C:I2C_FF\:cy_psoc3_i2c_v1_0
+	PORT MAP(int_signal=>\I2C_Master:Net_697\);
+\I2C_Master:I2C_FF\:cy_psoc3_i2c_v1_0
 	GENERIC MAP(cy_registers=>"",
 		use_wakeup=>'0')
-	PORT MAP(clock=>\I2C:bus_clk\,
-		scl_in=>\I2C:Net_1109_0\,
-		sda_in=>\I2C:Net_1109_1\,
-		scl_out=>\I2C:Net_643_0\,
-		sda_out=>\I2C:sda_x_wire\,
-		interrupt=>\I2C:Net_697\);
-\I2C:BusClock\:cy_clock_v1_0
+	PORT MAP(clock=>\I2C_Master:bus_clk\,
+		scl_in=>\I2C_Master:Net_1109_0\,
+		sda_in=>\I2C_Master:Net_1109_1\,
+		scl_out=>\I2C_Master:Net_643_0\,
+		sda_out=>\I2C_Master:sda_x_wire\,
+		interrupt=>\I2C_Master:Net_697\);
+\I2C_Master:BusClock\:cy_clock_v1_0
 	GENERIC MAP(cy_registers=>"",
 		id=>"6f2d57bd-b6d0-4115-93da-ded3485bf4ed/5ece924d-20ba-480e-9102-bc082dcdd926",
 		source_clock_id=>"75C2148C-3656-4d8a-846D-0CAE99AB6FF7",
@@ -142,18 +142,18 @@ tmpOE__SCL_net_0 <=  ('1') ;
 		period=>"0",
 		is_direct=>'1',
 		is_digital=>'1')
-	PORT MAP(clock_out=>\I2C:bus_clk\,
+	PORT MAP(clock_out=>\I2C_Master:bus_clk\,
 		dig_domain_out=>open);
-\I2C:Bufoe_scl\:cy_bufoe
-	PORT MAP(x=>\I2C:Net_643_0\,
+\I2C_Master:Bufoe_scl\:cy_bufoe
+	PORT MAP(x=>\I2C_Master:Net_643_0\,
 		oe=>tmpOE__SCL_net_0,
 		y=>Net_22,
-		yfb=>\I2C:Net_1109_0\);
-\I2C:Bufoe_sda\:cy_bufoe
-	PORT MAP(x=>\I2C:sda_x_wire\,
+		yfb=>\I2C_Master:Net_1109_0\);
+\I2C_Master:Bufoe_sda\:cy_bufoe
+	PORT MAP(x=>\I2C_Master:sda_x_wire\,
 		oe=>tmpOE__SCL_net_0,
 		y=>Net_21,
-		yfb=>\I2C:Net_1109_1\);
+		yfb=>\I2C_Master:Net_1109_1\);
 SCL:cy_psoc3_pins_v1_10
 	GENERIC MAP(id=>"02f2cf2c-2c7a-49df-9246-7a3435c21be3",
 		drive_mode=>"100",

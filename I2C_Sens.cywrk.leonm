@@ -13,7 +13,7 @@
 <v>Output</v>
 </TreeKeys>
 <TreeStates>
-<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="I2C_Sens\I2C_Sens\TopDesign">
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="I2C_Sens\I2C_Sens\Source Files\main.c">
 <ExpandedNodeIds>
 <v>I2C_Sens</v>
 <v>I2C_Sens\I2C_Sens</v>
@@ -58,7 +58,7 @@
 <v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\Control_Reg_1</v>
 <v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\cy_boot</v>
 <v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\Em_EEPROM_Dynamic</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\I2C</v>
+<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\I2C_Master</v>
 <v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\LED_0</v>
 <v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\LED_1</v>
 <v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\LED_2</v>
@@ -110,6 +110,7 @@
 <VisibleNodeIds>
 <v>I2C_Sens</v>
 <v>I2C_Sens\I2C_Sens</v>
+<v>I2C_Sens\I2C_Sens\I2C_Sens.gpdsc</v>
 <v>I2C_Sens\I2C_Sens\I2C_Sens.rpt</v>
 <v>I2C_Sens\I2C_Sens\I2C_Sens_timing.html</v>
 </VisibleNodeIds>
@@ -151,7 +152,19 @@
 </userData>
 </CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
 <Unloaded />
-<OpenDocs />
+<OpenDocs>
+<name v=".\I2C_Sens.cydsn\TopDesign\TopDesign.cysch" />
+<name v=".\I2C_Sens.cydsn\main.c" />
+<name v=".\I2C_Sens.cydsn\I2C_Sens.cydwr" />
+<name v=".\I2C_Sens.cydsn\cyapicallbacks.h" />
+</OpenDocs>
+<OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
+
+  Actipro Docking/MDI for WinForms
+  Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
+  http://www.actiprosoftware.com
+
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1464, 647" SelectedTabbedMdiWindow="ecde1809-20fe-40cc-8e29-fc6086cd014f"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="8cf1d5d8-6f7e-4ea5-96a8-609cce1747e4" /><DocumentWindow Key="C:\Users\leonm\Documents\PSoC Creator\I2C_Sens\I2C_Sens.cydsn\TopDesign\TopDesign.cysch" Guid="c62bdeec-3d48-4459-9be1-c5817bdb3188" /><DocumentWindow Key="C:\Users\leonm\Documents\PSoC Creator\I2C_Sens\I2C_Sens.cydsn\main.c" Guid="ecde1809-20fe-40cc-8e29-fc6086cd014f" /><DocumentWindow Key="C:\Users\leonm\Documents\PSoC Creator\I2C_Sens\I2C_Sens.cydsn\I2C_Sens.cydwr" Guid="27266d29-41c8-4928-b732-0b0f97b6e2f8" /><DocumentWindow Key="C:\Users\leonm\Documents\PSoC Creator\I2C_Sens\I2C_Sens.cydsn\cyapicallbacks.h" Guid="c8ce9940-4d8f-4f1f-9707-3ed28b1ce33d" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
 <config v="" />
 <AutoUpdate v="true" />
 </CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>

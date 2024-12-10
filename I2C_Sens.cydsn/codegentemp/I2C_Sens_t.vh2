@@ -1,5 +1,5 @@
 -- Project:   C:\Users\leonm\Documents\PSoC Creator\I2C_Sens\I2C_Sens.cydsn\I2C_Sens.cyprj
--- Generated: 12/10/2024 16:08:36
+-- Generated: 12/10/2024 16:13:44
 -- PSoC Creator  4.4
 
 ENTITY I2C_Sens IS
@@ -55,11 +55,11 @@ ARCHITECTURE __DEFAULT__ OF I2C_Sens IS
     SIGNAL Net_9 : bit;
     SIGNAL SCL(0)__PA : bit;
     SIGNAL SDA(0)__PA : bit;
-    SIGNAL \I2C:Net_1109_0\ : bit;
-    SIGNAL \I2C:Net_1109_1\ : bit;
-    SIGNAL \I2C:Net_643_0\ : bit;
-    SIGNAL \I2C:Net_697\ : bit;
-    SIGNAL \I2C:sda_x_wire\ : bit;
+    SIGNAL \I2C_Master:Net_1109_0\ : bit;
+    SIGNAL \I2C_Master:Net_1109_1\ : bit;
+    SIGNAL \I2C_Master:Net_643_0\ : bit;
+    SIGNAL \I2C_Master:Net_697\ : bit;
+    SIGNAL \I2C_Master:sda_x_wire\ : bit;
     SIGNAL __ONE__ : bit;
     ATTRIBUTE POWER OF __ONE__ : SIGNAL IS true;
     SIGNAL __ZERO__ : bit;
@@ -90,8 +90,8 @@ ARCHITECTURE __DEFAULT__ OF I2C_Sens IS
     ATTRIBUTE Location OF LED_7(0) : LABEL IS "P2[7]";
     ATTRIBUTE lib_model OF SDA(0) : LABEL IS "iocell10";
     ATTRIBUTE Location OF SDA(0) : LABEL IS "P15[4]";
-    ATTRIBUTE Location OF \I2C:I2C_IRQ\ : LABEL IS "[IntrContainer=(0)][IntrId=(15)]";
-    ATTRIBUTE Location OF \I2C:I2C_FF\ : LABEL IS "F(I2C,0)";
+    ATTRIBUTE Location OF \I2C_Master:I2C_IRQ\ : LABEL IS "[IntrContainer=(0)][IntrId=(15)]";
+    ATTRIBUTE Location OF \I2C_Master:I2C_FF\ : LABEL IS "F(I2C,0)";
     ATTRIBUTE lib_model OF \Control_Reg_1:Sync:ctrl_reg\ : LABEL IS "controlcell1";
     ATTRIBUTE Location OF \Control_Reg_1:Sync:ctrl_reg\ : LABEL IS "U(0,4)";
     COMPONENT clockblockcell
@@ -333,8 +333,8 @@ BEGIN
         PORT MAP(
             pa_out => SCL(0)__PA,
             oe => open,
-            fb => \I2C:Net_1109_0\,
-            pin_input => \I2C:Net_643_0\,
+            fb => \I2C_Master:Net_1109_0\,
+            pin_input => \I2C_Master:Net_643_0\,
             pad_out => SCL(0)_PAD,
             pad_in => SCL(0)_PAD,
             in_clock => ClockBlock_BUS_CLK,
@@ -1163,8 +1163,8 @@ BEGIN
         PORT MAP(
             pa_out => SDA(0)__PA,
             oe => open,
-            fb => \I2C:Net_1109_1\,
-            pin_input => \I2C:sda_x_wire\,
+            fb => \I2C_Master:Net_1109_1\,
+            pin_input => \I2C_Master:sda_x_wire\,
             pad_out => SDA(0)_PAD,
             pad_in => SDA(0)_PAD,
             in_clock => ClockBlock_BUS_CLK,
@@ -1174,25 +1174,25 @@ BEGIN
             out_clock_en => '1',
             out_reset => '0');
 
-    \I2C:I2C_IRQ\:interrupt
+    \I2C_Master:I2C_IRQ\:interrupt
         GENERIC MAP(
             int_type => "00",
             is_nmi => 0)
         PORT MAP(
-            interrupt => \I2C:Net_697\,
+            interrupt => \I2C_Master:Net_697\,
             clock => ClockBlock_BUS_CLK);
 
-    \I2C:I2C_FF\:i2ccell
+    \I2C_Master:I2C_FF\:i2ccell
         GENERIC MAP(
             cy_registers => "",
             use_wakeup => 0)
         PORT MAP(
             clock => \ClockBlock.clk_bus_glb_ff__sig\,
-            scl_in => \I2C:Net_1109_0\,
-            sda_in => \I2C:Net_1109_1\,
-            scl_out => \I2C:Net_643_0\,
-            sda_out => \I2C:sda_x_wire\,
-            interrupt => \I2C:Net_697\);
+            scl_in => \I2C_Master:Net_1109_0\,
+            sda_in => \I2C_Master:Net_1109_1\,
+            scl_out => \I2C_Master:Net_643_0\,
+            sda_out => \I2C_Master:sda_x_wire\,
+            interrupt => \I2C_Master:Net_697\);
 
     \Control_Reg_1:Sync:ctrl_reg\:controlcell
         GENERIC MAP(

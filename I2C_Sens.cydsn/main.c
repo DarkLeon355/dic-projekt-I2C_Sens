@@ -1,21 +1,15 @@
-/* ========================================
- *
- * Copyright YOUR COMPANY, THE YEAR
- * All Rights Reserved
- * UNPUBLISHED, LICENSED SOFTWARE.
- *
- * CONFIDENTIAL AND PROPRIETARY INFORMATION
- * WHICH IS THE PROPERTY OF your company.
- *
- * ========================================
-*/
 #include "project.h"
 
 int main(void)
 {
-    CyGlobalIntEnable; /* Enable global interrupts. */
+    CyGlobalIntEnable; 
+    uint8 reg = 0x76;
+    uint8 rbuf[20];
+    
+    I2C_Master_MasterReadBuf((uint8 *) rbuf, 20);
 
-    /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+    
+    I2C_Master_Start();
 
     for(;;)
     {
@@ -23,4 +17,4 @@ int main(void)
     }
 }
 
-/* [] END OF FILE */
+
