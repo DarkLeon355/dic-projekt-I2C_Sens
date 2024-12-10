@@ -96,7 +96,8 @@
 <v>I2C_Sens\I2C_Sens\CY8C58LP Family Datasheet</v>
 <v>I2C_Sens\I2C_Sens\System Reference Guides</v>
 <v>I2C_Sens\I2C_Sens\System Reference Guides\cy_boot_v6_0</v>
-<v>I2C_Sens\I2C_Sens\cy_pins_v2_20.pdf</v>
+<v>I2C_Sens\I2C_Sens\cy_pins_v2_20</v>
+<v>I2C_Sens\I2C_Sens\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
 <v>I2C_Sens\I2C_Sens\CyControlReg_v1_80.pdf</v>
 <v>I2C_Sens\I2C_Sens\EZI2C_v2_0.pdf</v>
 </ExpandedNodeIds>
@@ -107,7 +108,8 @@
 <v>I2C_Sens\I2C_Sens\CY8C58LP Family Datasheet</v>
 <v>I2C_Sens\I2C_Sens\System Reference Guides</v>
 <v>I2C_Sens\I2C_Sens\System Reference Guides\cy_boot_v6_0</v>
-<v>I2C_Sens\I2C_Sens\cy_pins_v2_20.pdf</v>
+<v>I2C_Sens\I2C_Sens\cy_pins_v2_20</v>
+<v>I2C_Sens\I2C_Sens\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
 <v>I2C_Sens\I2C_Sens\CyControlReg_v1_80.pdf</v>
 <v>I2C_Sens\I2C_Sens\EZI2C_v2_0.pdf</v>
 </VisibleNodeIds>
