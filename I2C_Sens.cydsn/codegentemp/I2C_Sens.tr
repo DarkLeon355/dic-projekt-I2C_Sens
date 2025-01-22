@@ -58,16 +58,16 @@ Port Name  Setup to Clk  Clock Name:Phase
 
 Port Name       Clock to Out  Clock Name:Phase             
 --------------  ------------  ---------------------------  
-LED_0(0)_PAD    25860         CyBUS_CLK:R                  
-LED_1(0)_PAD    26441         CyBUS_CLK:R                  
+LED_0(0)_PAD    25464         CyBUS_CLK:R                  
+LED_1(0)_PAD    26323         CyBUS_CLK:R                  
 LED_2(0)_PAD    23845         CyBUS_CLK:R                  
 LED_3(0)_PAD    23613         CyBUS_CLK:R                  
 LED_4(0)_PAD    24352         CyBUS_CLK:R                  
-LED_5(0)_PAD    23822         CyBUS_CLK:R                  
-LED_6(0)_PAD    24122         CyBUS_CLK:R                  
+LED_5(0)_PAD    24820         CyBUS_CLK:R                  
+LED_6(0)_PAD    23428         CyBUS_CLK:R                  
 LED_7(0)_PAD    23186         CyBUS_CLK:R                  
-SCL(0)_PAD:out  24770         CyBUS_CLK(fixed-function):R  
-SDA(0)_PAD:out  20218         CyBUS_CLK(fixed-function):R  
+SCL(0)_PAD:out  25279         CyBUS_CLK(fixed-function):R  
+SDA(0)_PAD:out  24952         CyBUS_CLK(fixed-function):R  
 
 
                          3.3::Pad to Pad

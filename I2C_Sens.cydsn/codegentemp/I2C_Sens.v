@@ -1,6 +1,6 @@
 // ======================================================================
 // I2C_Sens.v generated from TopDesign.cysch
-// 12/10/2024 at 16:13
+// 01/21/2025 at 16:08
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
@@ -371,30 +371,30 @@ module top ;
           wire  Net_1;
           wire  Net_4;
           wire  Net_11;
-          wire  Net_31;
-          wire  Net_30;
+          wire  Net_40;
+          wire  Net_39;
           wire  Net_21;
-          wire  Net_29;
-          wire  Net_28;
+          wire  Net_38;
+          wire  Net_37;
           wire  Net_22;
-          wire  Net_27;
-          wire  Net_26;
-          wire  Net_25;
-          wire  Net_24;
-          wire  Net_23;
+          wire  Net_36;
+          wire  Net_35;
+          wire  Net_34;
+          wire  Net_33;
+          wire  Net_32;
 
     I2C_v3_50_0 I2C_Master (
-        .bclk(Net_23),
+        .bclk(Net_32),
         .clock(1'b0),
-        .iclk(Net_25),
-        .itclk(Net_26),
+        .iclk(Net_34),
+        .itclk(Net_35),
         .reset(1'b0),
         .scl(Net_22),
         .scl_i(1'b0),
-        .scl_o(Net_29),
+        .scl_o(Net_38),
         .sda(Net_21),
         .sda_i(1'b0),
-        .sda_o(Net_31));
+        .sda_o(Net_40));
 
 	wire [0:0] tmpOE__SCL_net;
 	wire [0:0] tmpFB_0__SCL_net;

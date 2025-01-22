@@ -1,5 +1,5 @@
 -- Project:   I2C_Sens
--- Generated: 12/10/2024 16:13:42
+-- Generated: 01/21/2025 16:08:20
 -- PSoC Creator  4.4
 
 ENTITY I2C_Sens IS
@@ -70,7 +70,7 @@ ARCHITECTURE __DEFAULT__ OF I2C_Sens IS
     ATTRIBUTE GROUND OF zero : SIGNAL IS true;
     SIGNAL \ClockBlock.clk_bus_glb_ff__sig\ : bit;
     ATTRIBUTE lib_model OF SCL(0) : LABEL IS "iocell1";
-    ATTRIBUTE Location OF SCL(0) : LABEL IS "P15[3]";
+    ATTRIBUTE Location OF SCL(0) : LABEL IS "P12[0]";
     ATTRIBUTE lib_model OF LED_0(0) : LABEL IS "iocell2";
     ATTRIBUTE Location OF LED_0(0) : LABEL IS "P12[2]";
     ATTRIBUTE lib_model OF LED_1(0) : LABEL IS "iocell3";
@@ -88,7 +88,7 @@ ARCHITECTURE __DEFAULT__ OF I2C_Sens IS
     ATTRIBUTE lib_model OF LED_7(0) : LABEL IS "iocell9";
     ATTRIBUTE Location OF LED_7(0) : LABEL IS "P2[7]";
     ATTRIBUTE lib_model OF SDA(0) : LABEL IS "iocell10";
-    ATTRIBUTE Location OF SDA(0) : LABEL IS "P15[4]";
+    ATTRIBUTE Location OF SDA(0) : LABEL IS "P12[1]";
     ATTRIBUTE lib_model OF \Control_Reg_1:Sync:ctrl_reg\ : LABEL IS "controlcell1";
     COMPONENT clockblockcell
         PORT (

@@ -2,7 +2,7 @@
 --	Conversion of I2C_Sens.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Tue Dec 10 16:13:41 2024
+--	Tue Jan 21 16:08:19 2025
 --
 
 USE cypress.cypress.all;
@@ -24,9 +24,9 @@ SIGNAL \I2C_Master:scl_x_wire\ : bit;
 SIGNAL \I2C_Master:Net_969\ : bit;
 SIGNAL \I2C_Master:Net_968\ : bit;
 SIGNAL \I2C_Master:udb_clk\ : bit;
-SIGNAL Net_23 : bit;
+SIGNAL Net_32 : bit;
 SIGNAL \I2C_Master:Net_973\ : bit;
-SIGNAL Net_25 : bit;
+SIGNAL Net_34 : bit;
 SIGNAL \I2C_Master:Net_974\ : bit;
 SIGNAL \I2C_Master:scl_yfb\ : bit;
 SIGNAL \I2C_Master:sda_yfb\ : bit;
@@ -35,10 +35,10 @@ SIGNAL Net_22 : bit;
 SIGNAL \I2C_Master:tmpOE__Bufoe_sda_net_0\ : bit;
 SIGNAL Net_21 : bit;
 SIGNAL \I2C_Master:timeout_clk\ : bit;
-SIGNAL Net_26 : bit;
+SIGNAL Net_35 : bit;
 SIGNAL \I2C_Master:Net_975\ : bit;
-SIGNAL Net_29 : bit;
-SIGNAL Net_31 : bit;
+SIGNAL Net_38 : bit;
+SIGNAL Net_40 : bit;
 SIGNAL tmpOE__SCL_net_0 : bit;
 SIGNAL zero : bit;
 SIGNAL tmpFB_0__SCL_net_0 : bit;

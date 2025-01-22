@@ -1,0 +1,858 @@
+ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.main,"ax",%progbits
+  20              		.align	2
+  21              		.global	main
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	main, %function
+  25              	main:
+  26              	.LFB63:
+  27              		.file 1 "main.c"
+   1:main.c        **** #include "project.h"
+   2:main.c        **** 
+   3:main.c        **** int main(void)
+   4:main.c        **** {
+  28              		.loc 1 4 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 8
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 00B5     		push	{lr}
+  33              		.cfi_def_cfa_offset 4
+  34              		.cfi_offset 14, -4
+  35 0002 83B0     		sub	sp, sp, #12
+  36              		.cfi_def_cfa_offset 16
+   5:main.c        ****     CyGlobalIntEnable; 
+  37              		.loc 1 5 0
+  38              		.syntax unified
+  39              	@ 5 "main.c" 1
+  40 0004 62B6     		CPSIE   i
+  41              	@ 0 "" 2
+  42              	.LVL0:
+   6:main.c        ****     
+   7:main.c        ****     uint8 rbuf[20];
+   8:main.c        ****     uint8 SlaveAddr = 0x77;
+   9:main.c        ****     uint8 wrData,cnt = 0x0;
+  10:main.c        ****     uint8 rdData = 0;
+  11:main.c        ****     uint8 mode = 0;
+  12:main.c        ****     
+  13:main.c        ****     I2C_Master_MasterWriteBuf(SlaveAddr, &wrData, cnt, mode);
+  43              		.loc 1 13 0
+  44              		.thumb
+ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 2
+
+
+  45              		.syntax unified
+  46 0006 0023     		movs	r3, #0
+  47 0008 1A46     		mov	r2, r3
+  48 000a 0DF10701 		add	r1, sp, #7
+  49 000e 7720     		movs	r0, #119
+  50 0010 FFF7FEFF 		bl	I2C_Master_MasterWriteBuf
+  51              	.LVL1:
+  14:main.c        ****     
+  15:main.c        ****     I2C_Master_Start();
+  52              		.loc 1 15 0
+  53 0014 FFF7FEFF 		bl	I2C_Master_Start
+  54              	.LVL2:
+  55              	.L2:
+  56              	.LBB2:
+  16:main.c        **** 
+  17:main.c        ****     for(;;)
+  18:main.c        ****     {
+  19:main.c        ****         uint8 I2C_Master_MasterReadBuf(uint8 SlaveAddr,
+  20:main.c        ****             uint8 * rdData, uint8 cnt, uint8 mode);
+  21:main.c        ****         
+  22:main.c        ****         if (&rdData < 0)
+  23:main.c        ****         {
+  24:main.c        ****             Control_Reg_1_Write(255);
+  25:main.c        ****             CyDelay(1000);
+  26:main.c        ****             Control_Reg_1_Write(0);
+  27:main.c        ****             CyDelay(1000);
+  28:main.c        ****         }
+  29:main.c        ****         else
+  30:main.c        ****         {
+  31:main.c        ****             Control_Reg_1_Write(0);
+  57              		.loc 1 31 0
+  58 0018 0020     		movs	r0, #0
+  59 001a FFF7FEFF 		bl	Control_Reg_1_Write
+  60              	.LVL3:
+  61 001e FBE7     		b	.L2
+  62              	.LBE2:
+  63              		.cfi_endproc
+  64              	.LFE63:
+  65              		.size	main, .-main
+  66              		.text
+  67              	.Letext0:
+  68              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+  69              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+  70              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+  71              		.file 5 "Generated_Source\\PSoC5/Control_Reg_1.h"
+  72              		.file 6 "Generated_Source\\PSoC5/I2C_Master.h"
+  73              		.file 7 "Generated_Source\\PSoC5/core_cm3.h"
+  74              		.section	.debug_info,"",%progbits
+  75              	.Ldebug_info0:
+  76 0000 C6010000 		.4byte	0x1c6
+  77 0004 0400     		.2byte	0x4
+  78 0006 00000000 		.4byte	.Ldebug_abbrev0
+  79 000a 04       		.byte	0x4
+  80 000b 01       		.uleb128 0x1
+  81 000c D4000000 		.4byte	.LASF24
+  82 0010 0C       		.byte	0xc
+  83 0011 0D020000 		.4byte	.LASF25
+ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 3
+
+
+  84 0015 5A000000 		.4byte	.LASF26
+  85 0019 00000000 		.4byte	.Ldebug_ranges0+0
+  86 001d 00000000 		.4byte	0
+  87 0021 00000000 		.4byte	.Ldebug_line0
+  88 0025 02       		.uleb128 0x2
+  89 0026 01       		.byte	0x1
+  90 0027 06       		.byte	0x6
+  91 0028 3E020000 		.4byte	.LASF0
+  92 002c 02       		.uleb128 0x2
+  93 002d 01       		.byte	0x1
+  94 002e 08       		.byte	0x8
+  95 002f C6000000 		.4byte	.LASF1
+  96 0033 02       		.uleb128 0x2
+  97 0034 02       		.byte	0x2
+  98 0035 05       		.byte	0x5
+  99 0036 19020000 		.4byte	.LASF2
+ 100 003a 02       		.uleb128 0x2
+ 101 003b 02       		.byte	0x2
+ 102 003c 07       		.byte	0x7
+ 103 003d 74010000 		.4byte	.LASF3
+ 104 0041 03       		.uleb128 0x3
+ 105 0042 2C000000 		.4byte	.LASF9
+ 106 0046 02       		.byte	0x2
+ 107 0047 3F       		.byte	0x3f
+ 108 0048 4C000000 		.4byte	0x4c
+ 109 004c 02       		.uleb128 0x2
+ 110 004d 04       		.byte	0x4
+ 111 004e 05       		.byte	0x5
+ 112 004f 29020000 		.4byte	.LASF4
+ 113 0053 02       		.uleb128 0x2
+ 114 0054 04       		.byte	0x4
+ 115 0055 07       		.byte	0x7
+ 116 0056 62010000 		.4byte	.LASF5
+ 117 005a 02       		.uleb128 0x2
+ 118 005b 08       		.byte	0x8
+ 119 005c 05       		.byte	0x5
+ 120 005d 00000000 		.4byte	.LASF6
+ 121 0061 02       		.uleb128 0x2
+ 122 0062 08       		.byte	0x8
+ 123 0063 07       		.byte	0x7
+ 124 0064 CC010000 		.4byte	.LASF7
+ 125 0068 04       		.uleb128 0x4
+ 126 0069 04       		.byte	0x4
+ 127 006a 05       		.byte	0x5
+ 128 006b 696E7400 		.ascii	"int\000"
+ 129 006f 02       		.uleb128 0x2
+ 130 0070 04       		.byte	0x4
+ 131 0071 07       		.byte	0x7
+ 132 0072 B8010000 		.4byte	.LASF8
+ 133 0076 03       		.uleb128 0x3
+ 134 0077 FC010000 		.4byte	.LASF10
+ 135 007b 03       		.byte	0x3
+ 136 007c 2C       		.byte	0x2c
+ 137 007d 41000000 		.4byte	0x41
+ 138 0081 05       		.uleb128 0x5
+ 139 0082 23020000 		.4byte	.LASF11
+ 140 0086 04       		.byte	0x4
+ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 4
+
+
+ 141 0087 E801     		.2byte	0x1e8
+ 142 0089 2C000000 		.4byte	0x2c
+ 143 008d 02       		.uleb128 0x2
+ 144 008e 04       		.byte	0x4
+ 145 008f 04       		.byte	0x4
+ 146 0090 C0000000 		.4byte	.LASF12
+ 147 0094 02       		.uleb128 0x2
+ 148 0095 08       		.byte	0x8
+ 149 0096 04       		.byte	0x4
+ 150 0097 A5010000 		.4byte	.LASF13
+ 151 009b 02       		.uleb128 0x2
+ 152 009c 01       		.byte	0x1
+ 153 009d 08       		.byte	0x8
+ 154 009e 14020000 		.4byte	.LASF14
+ 155 00a2 02       		.uleb128 0x2
+ 156 00a3 08       		.byte	0x8
+ 157 00a4 04       		.byte	0x4
+ 158 00a5 32020000 		.4byte	.LASF15
+ 159 00a9 02       		.uleb128 0x2
+ 160 00aa 04       		.byte	0x4
+ 161 00ab 07       		.byte	0x7
+ 162 00ac 04020000 		.4byte	.LASF16
+ 163 00b0 06       		.uleb128 0x6
+ 164 00b1 AC010000 		.4byte	.LASF27
+ 165 00b5 01       		.byte	0x1
+ 166 00b6 03       		.byte	0x3
+ 167 00b7 68000000 		.4byte	0x68
+ 168 00bb 00000000 		.4byte	.LFB63
+ 169 00bf 20000000 		.4byte	.LFE63-.LFB63
+ 170 00c3 01       		.uleb128 0x1
+ 171 00c4 9C       		.byte	0x9c
+ 172 00c5 81010000 		.4byte	0x181
+ 173 00c9 07       		.uleb128 0x7
+ 174 00ca 0E000000 		.4byte	.LASF28
+ 175 00ce 01       		.byte	0x1
+ 176 00cf 07       		.byte	0x7
+ 177 00d0 81010000 		.4byte	0x181
+ 178 00d4 08       		.uleb128 0x8
+ 179 00d5 50000000 		.4byte	.LASF17
+ 180 00d9 01       		.byte	0x1
+ 181 00da 08       		.byte	0x8
+ 182 00db 81000000 		.4byte	0x81
+ 183 00df 77       		.byte	0x77
+ 184 00e0 09       		.uleb128 0x9
+ 185 00e1 C5010000 		.4byte	.LASF18
+ 186 00e5 01       		.byte	0x1
+ 187 00e6 09       		.byte	0x9
+ 188 00e7 81000000 		.4byte	0x81
+ 189 00eb 02       		.uleb128 0x2
+ 190 00ec 91       		.byte	0x91
+ 191 00ed 77       		.sleb128 -9
+ 192 00ee 0A       		.uleb128 0xa
+ 193 00ef 636E7400 		.ascii	"cnt\000"
+ 194 00f3 01       		.byte	0x1
+ 195 00f4 09       		.byte	0x9
+ 196 00f5 81000000 		.4byte	0x81
+ 197 00f9 00       		.byte	0
+ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 5
+
+
+ 198 00fa 08       		.uleb128 0x8
+ 199 00fb B1010000 		.4byte	.LASF19
+ 200 00ff 01       		.byte	0x1
+ 201 0100 0A       		.byte	0xa
+ 202 0101 81000000 		.4byte	0x81
+ 203 0105 00       		.byte	0
+ 204 0106 08       		.uleb128 0x8
+ 205 0107 F7010000 		.4byte	.LASF20
+ 206 010b 01       		.byte	0x1
+ 207 010c 0B       		.byte	0xb
+ 208 010d 81000000 		.4byte	0x81
+ 209 0111 00       		.byte	0
+ 210 0112 0B       		.uleb128 0xb
+ 211 0113 18000000 		.4byte	.LBB2
+ 212 0117 08000000 		.4byte	.LBE2-.LBB2
+ 213 011b 53010000 		.4byte	0x153
+ 214 011f 0C       		.uleb128 0xc
+ 215 0120 13000000 		.4byte	.LASF29
+ 216 0124 01       		.byte	0x1
+ 217 0125 13       		.byte	0x13
+ 218 0126 81000000 		.4byte	0x81
+ 219 012a 43010000 		.4byte	0x143
+ 220 012e 0D       		.uleb128 0xd
+ 221 012f 81000000 		.4byte	0x81
+ 222 0133 0D       		.uleb128 0xd
+ 223 0134 91010000 		.4byte	0x191
+ 224 0138 0D       		.uleb128 0xd
+ 225 0139 81000000 		.4byte	0x81
+ 226 013d 0D       		.uleb128 0xd
+ 227 013e 81000000 		.4byte	0x81
+ 228 0142 00       		.byte	0
+ 229 0143 0E       		.uleb128 0xe
+ 230 0144 1E000000 		.4byte	.LVL3
+ 231 0148 A8010000 		.4byte	0x1a8
+ 232 014c 0F       		.uleb128 0xf
+ 233 014d 01       		.uleb128 0x1
+ 234 014e 50       		.byte	0x50
+ 235 014f 01       		.uleb128 0x1
+ 236 0150 30       		.byte	0x30
+ 237 0151 00       		.byte	0
+ 238 0152 00       		.byte	0
+ 239 0153 10       		.uleb128 0x10
+ 240 0154 14000000 		.4byte	.LVL1
+ 241 0158 B3010000 		.4byte	0x1b3
+ 242 015c 77010000 		.4byte	0x177
+ 243 0160 0F       		.uleb128 0xf
+ 244 0161 01       		.uleb128 0x1
+ 245 0162 50       		.byte	0x50
+ 246 0163 02       		.uleb128 0x2
+ 247 0164 08       		.byte	0x8
+ 248 0165 77       		.byte	0x77
+ 249 0166 0F       		.uleb128 0xf
+ 250 0167 01       		.uleb128 0x1
+ 251 0168 51       		.byte	0x51
+ 252 0169 02       		.uleb128 0x2
+ 253 016a 91       		.byte	0x91
+ 254 016b 77       		.sleb128 -9
+ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 6
+
+
+ 255 016c 0F       		.uleb128 0xf
+ 256 016d 01       		.uleb128 0x1
+ 257 016e 52       		.byte	0x52
+ 258 016f 01       		.uleb128 0x1
+ 259 0170 30       		.byte	0x30
+ 260 0171 0F       		.uleb128 0xf
+ 261 0172 01       		.uleb128 0x1
+ 262 0173 53       		.byte	0x53
+ 263 0174 01       		.uleb128 0x1
+ 264 0175 30       		.byte	0x30
+ 265 0176 00       		.byte	0
+ 266 0177 11       		.uleb128 0x11
+ 267 0178 18000000 		.4byte	.LVL2
+ 268 017c BE010000 		.4byte	0x1be
+ 269 0180 00       		.byte	0
+ 270 0181 12       		.uleb128 0x12
+ 271 0182 81000000 		.4byte	0x81
+ 272 0186 91010000 		.4byte	0x191
+ 273 018a 13       		.uleb128 0x13
+ 274 018b A9000000 		.4byte	0xa9
+ 275 018f 13       		.byte	0x13
+ 276 0190 00       		.byte	0
+ 277 0191 14       		.uleb128 0x14
+ 278 0192 04       		.byte	0x4
+ 279 0193 81000000 		.4byte	0x81
+ 280 0197 15       		.uleb128 0x15
+ 281 0198 87010000 		.4byte	.LASF30
+ 282 019c 07       		.byte	0x7
+ 283 019d 1207     		.2byte	0x712
+ 284 019f A3010000 		.4byte	0x1a3
+ 285 01a3 16       		.uleb128 0x16
+ 286 01a4 76000000 		.4byte	0x76
+ 287 01a8 17       		.uleb128 0x17
+ 288 01a9 E3010000 		.4byte	.LASF21
+ 289 01ad E3010000 		.4byte	.LASF21
+ 290 01b1 05       		.byte	0x5
+ 291 01b2 2F       		.byte	0x2f
+ 292 01b3 17       		.uleb128 0x17
+ 293 01b4 36000000 		.4byte	.LASF22
+ 294 01b8 36000000 		.4byte	.LASF22
+ 295 01bc 06       		.byte	0x6
+ 296 01bd A7       		.byte	0xa7
+ 297 01be 17       		.uleb128 0x17
+ 298 01bf 94010000 		.4byte	.LASF23
+ 299 01c3 94010000 		.4byte	.LASF23
+ 300 01c7 06       		.byte	0x6
+ 301 01c8 93       		.byte	0x93
+ 302 01c9 00       		.byte	0
+ 303              		.section	.debug_abbrev,"",%progbits
+ 304              	.Ldebug_abbrev0:
+ 305 0000 01       		.uleb128 0x1
+ 306 0001 11       		.uleb128 0x11
+ 307 0002 01       		.byte	0x1
+ 308 0003 25       		.uleb128 0x25
+ 309 0004 0E       		.uleb128 0xe
+ 310 0005 13       		.uleb128 0x13
+ 311 0006 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 7
+
+
+ 312 0007 03       		.uleb128 0x3
+ 313 0008 0E       		.uleb128 0xe
+ 314 0009 1B       		.uleb128 0x1b
+ 315 000a 0E       		.uleb128 0xe
+ 316 000b 55       		.uleb128 0x55
+ 317 000c 17       		.uleb128 0x17
+ 318 000d 11       		.uleb128 0x11
+ 319 000e 01       		.uleb128 0x1
+ 320 000f 10       		.uleb128 0x10
+ 321 0010 17       		.uleb128 0x17
+ 322 0011 00       		.byte	0
+ 323 0012 00       		.byte	0
+ 324 0013 02       		.uleb128 0x2
+ 325 0014 24       		.uleb128 0x24
+ 326 0015 00       		.byte	0
+ 327 0016 0B       		.uleb128 0xb
+ 328 0017 0B       		.uleb128 0xb
+ 329 0018 3E       		.uleb128 0x3e
+ 330 0019 0B       		.uleb128 0xb
+ 331 001a 03       		.uleb128 0x3
+ 332 001b 0E       		.uleb128 0xe
+ 333 001c 00       		.byte	0
+ 334 001d 00       		.byte	0
+ 335 001e 03       		.uleb128 0x3
+ 336 001f 16       		.uleb128 0x16
+ 337 0020 00       		.byte	0
+ 338 0021 03       		.uleb128 0x3
+ 339 0022 0E       		.uleb128 0xe
+ 340 0023 3A       		.uleb128 0x3a
+ 341 0024 0B       		.uleb128 0xb
+ 342 0025 3B       		.uleb128 0x3b
+ 343 0026 0B       		.uleb128 0xb
+ 344 0027 49       		.uleb128 0x49
+ 345 0028 13       		.uleb128 0x13
+ 346 0029 00       		.byte	0
+ 347 002a 00       		.byte	0
+ 348 002b 04       		.uleb128 0x4
+ 349 002c 24       		.uleb128 0x24
+ 350 002d 00       		.byte	0
+ 351 002e 0B       		.uleb128 0xb
+ 352 002f 0B       		.uleb128 0xb
+ 353 0030 3E       		.uleb128 0x3e
+ 354 0031 0B       		.uleb128 0xb
+ 355 0032 03       		.uleb128 0x3
+ 356 0033 08       		.uleb128 0x8
+ 357 0034 00       		.byte	0
+ 358 0035 00       		.byte	0
+ 359 0036 05       		.uleb128 0x5
+ 360 0037 16       		.uleb128 0x16
+ 361 0038 00       		.byte	0
+ 362 0039 03       		.uleb128 0x3
+ 363 003a 0E       		.uleb128 0xe
+ 364 003b 3A       		.uleb128 0x3a
+ 365 003c 0B       		.uleb128 0xb
+ 366 003d 3B       		.uleb128 0x3b
+ 367 003e 05       		.uleb128 0x5
+ 368 003f 49       		.uleb128 0x49
+ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 8
+
+
+ 369 0040 13       		.uleb128 0x13
+ 370 0041 00       		.byte	0
+ 371 0042 00       		.byte	0
+ 372 0043 06       		.uleb128 0x6
+ 373 0044 2E       		.uleb128 0x2e
+ 374 0045 01       		.byte	0x1
+ 375 0046 3F       		.uleb128 0x3f
+ 376 0047 19       		.uleb128 0x19
+ 377 0048 03       		.uleb128 0x3
+ 378 0049 0E       		.uleb128 0xe
+ 379 004a 3A       		.uleb128 0x3a
+ 380 004b 0B       		.uleb128 0xb
+ 381 004c 3B       		.uleb128 0x3b
+ 382 004d 0B       		.uleb128 0xb
+ 383 004e 27       		.uleb128 0x27
+ 384 004f 19       		.uleb128 0x19
+ 385 0050 49       		.uleb128 0x49
+ 386 0051 13       		.uleb128 0x13
+ 387 0052 8701     		.uleb128 0x87
+ 388 0054 19       		.uleb128 0x19
+ 389 0055 11       		.uleb128 0x11
+ 390 0056 01       		.uleb128 0x1
+ 391 0057 12       		.uleb128 0x12
+ 392 0058 06       		.uleb128 0x6
+ 393 0059 40       		.uleb128 0x40
+ 394 005a 18       		.uleb128 0x18
+ 395 005b 9742     		.uleb128 0x2117
+ 396 005d 19       		.uleb128 0x19
+ 397 005e 01       		.uleb128 0x1
+ 398 005f 13       		.uleb128 0x13
+ 399 0060 00       		.byte	0
+ 400 0061 00       		.byte	0
+ 401 0062 07       		.uleb128 0x7
+ 402 0063 34       		.uleb128 0x34
+ 403 0064 00       		.byte	0
+ 404 0065 03       		.uleb128 0x3
+ 405 0066 0E       		.uleb128 0xe
+ 406 0067 3A       		.uleb128 0x3a
+ 407 0068 0B       		.uleb128 0xb
+ 408 0069 3B       		.uleb128 0x3b
+ 409 006a 0B       		.uleb128 0xb
+ 410 006b 49       		.uleb128 0x49
+ 411 006c 13       		.uleb128 0x13
+ 412 006d 00       		.byte	0
+ 413 006e 00       		.byte	0
+ 414 006f 08       		.uleb128 0x8
+ 415 0070 34       		.uleb128 0x34
+ 416 0071 00       		.byte	0
+ 417 0072 03       		.uleb128 0x3
+ 418 0073 0E       		.uleb128 0xe
+ 419 0074 3A       		.uleb128 0x3a
+ 420 0075 0B       		.uleb128 0xb
+ 421 0076 3B       		.uleb128 0x3b
+ 422 0077 0B       		.uleb128 0xb
+ 423 0078 49       		.uleb128 0x49
+ 424 0079 13       		.uleb128 0x13
+ 425 007a 1C       		.uleb128 0x1c
+ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 9
+
+
+ 426 007b 0B       		.uleb128 0xb
+ 427 007c 00       		.byte	0
+ 428 007d 00       		.byte	0
+ 429 007e 09       		.uleb128 0x9
+ 430 007f 34       		.uleb128 0x34
+ 431 0080 00       		.byte	0
+ 432 0081 03       		.uleb128 0x3
+ 433 0082 0E       		.uleb128 0xe
+ 434 0083 3A       		.uleb128 0x3a
+ 435 0084 0B       		.uleb128 0xb
+ 436 0085 3B       		.uleb128 0x3b
+ 437 0086 0B       		.uleb128 0xb
+ 438 0087 49       		.uleb128 0x49
+ 439 0088 13       		.uleb128 0x13
+ 440 0089 02       		.uleb128 0x2
+ 441 008a 18       		.uleb128 0x18
+ 442 008b 00       		.byte	0
+ 443 008c 00       		.byte	0
+ 444 008d 0A       		.uleb128 0xa
+ 445 008e 34       		.uleb128 0x34
+ 446 008f 00       		.byte	0
+ 447 0090 03       		.uleb128 0x3
+ 448 0091 08       		.uleb128 0x8
+ 449 0092 3A       		.uleb128 0x3a
+ 450 0093 0B       		.uleb128 0xb
+ 451 0094 3B       		.uleb128 0x3b
+ 452 0095 0B       		.uleb128 0xb
+ 453 0096 49       		.uleb128 0x49
+ 454 0097 13       		.uleb128 0x13
+ 455 0098 1C       		.uleb128 0x1c
+ 456 0099 0B       		.uleb128 0xb
+ 457 009a 00       		.byte	0
+ 458 009b 00       		.byte	0
+ 459 009c 0B       		.uleb128 0xb
+ 460 009d 0B       		.uleb128 0xb
+ 461 009e 01       		.byte	0x1
+ 462 009f 11       		.uleb128 0x11
+ 463 00a0 01       		.uleb128 0x1
+ 464 00a1 12       		.uleb128 0x12
+ 465 00a2 06       		.uleb128 0x6
+ 466 00a3 01       		.uleb128 0x1
+ 467 00a4 13       		.uleb128 0x13
+ 468 00a5 00       		.byte	0
+ 469 00a6 00       		.byte	0
+ 470 00a7 0C       		.uleb128 0xc
+ 471 00a8 2E       		.uleb128 0x2e
+ 472 00a9 01       		.byte	0x1
+ 473 00aa 3F       		.uleb128 0x3f
+ 474 00ab 19       		.uleb128 0x19
+ 475 00ac 03       		.uleb128 0x3
+ 476 00ad 0E       		.uleb128 0xe
+ 477 00ae 3A       		.uleb128 0x3a
+ 478 00af 0B       		.uleb128 0xb
+ 479 00b0 3B       		.uleb128 0x3b
+ 480 00b1 0B       		.uleb128 0xb
+ 481 00b2 27       		.uleb128 0x27
+ 482 00b3 19       		.uleb128 0x19
+ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 10
+
+
+ 483 00b4 49       		.uleb128 0x49
+ 484 00b5 13       		.uleb128 0x13
+ 485 00b6 3C       		.uleb128 0x3c
+ 486 00b7 19       		.uleb128 0x19
+ 487 00b8 01       		.uleb128 0x1
+ 488 00b9 13       		.uleb128 0x13
+ 489 00ba 00       		.byte	0
+ 490 00bb 00       		.byte	0
+ 491 00bc 0D       		.uleb128 0xd
+ 492 00bd 05       		.uleb128 0x5
+ 493 00be 00       		.byte	0
+ 494 00bf 49       		.uleb128 0x49
+ 495 00c0 13       		.uleb128 0x13
+ 496 00c1 00       		.byte	0
+ 497 00c2 00       		.byte	0
+ 498 00c3 0E       		.uleb128 0xe
+ 499 00c4 898201   		.uleb128 0x4109
+ 500 00c7 01       		.byte	0x1
+ 501 00c8 11       		.uleb128 0x11
+ 502 00c9 01       		.uleb128 0x1
+ 503 00ca 31       		.uleb128 0x31
+ 504 00cb 13       		.uleb128 0x13
+ 505 00cc 00       		.byte	0
+ 506 00cd 00       		.byte	0
+ 507 00ce 0F       		.uleb128 0xf
+ 508 00cf 8A8201   		.uleb128 0x410a
+ 509 00d2 00       		.byte	0
+ 510 00d3 02       		.uleb128 0x2
+ 511 00d4 18       		.uleb128 0x18
+ 512 00d5 9142     		.uleb128 0x2111
+ 513 00d7 18       		.uleb128 0x18
+ 514 00d8 00       		.byte	0
+ 515 00d9 00       		.byte	0
+ 516 00da 10       		.uleb128 0x10
+ 517 00db 898201   		.uleb128 0x4109
+ 518 00de 01       		.byte	0x1
+ 519 00df 11       		.uleb128 0x11
+ 520 00e0 01       		.uleb128 0x1
+ 521 00e1 31       		.uleb128 0x31
+ 522 00e2 13       		.uleb128 0x13
+ 523 00e3 01       		.uleb128 0x1
+ 524 00e4 13       		.uleb128 0x13
+ 525 00e5 00       		.byte	0
+ 526 00e6 00       		.byte	0
+ 527 00e7 11       		.uleb128 0x11
+ 528 00e8 898201   		.uleb128 0x4109
+ 529 00eb 00       		.byte	0
+ 530 00ec 11       		.uleb128 0x11
+ 531 00ed 01       		.uleb128 0x1
+ 532 00ee 31       		.uleb128 0x31
+ 533 00ef 13       		.uleb128 0x13
+ 534 00f0 00       		.byte	0
+ 535 00f1 00       		.byte	0
+ 536 00f2 12       		.uleb128 0x12
+ 537 00f3 01       		.uleb128 0x1
+ 538 00f4 01       		.byte	0x1
+ 539 00f5 49       		.uleb128 0x49
+ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 11
+
+
+ 540 00f6 13       		.uleb128 0x13
+ 541 00f7 01       		.uleb128 0x1
+ 542 00f8 13       		.uleb128 0x13
+ 543 00f9 00       		.byte	0
+ 544 00fa 00       		.byte	0
+ 545 00fb 13       		.uleb128 0x13
+ 546 00fc 21       		.uleb128 0x21
+ 547 00fd 00       		.byte	0
+ 548 00fe 49       		.uleb128 0x49
+ 549 00ff 13       		.uleb128 0x13
+ 550 0100 2F       		.uleb128 0x2f
+ 551 0101 0B       		.uleb128 0xb
+ 552 0102 00       		.byte	0
+ 553 0103 00       		.byte	0
+ 554 0104 14       		.uleb128 0x14
+ 555 0105 0F       		.uleb128 0xf
+ 556 0106 00       		.byte	0
+ 557 0107 0B       		.uleb128 0xb
+ 558 0108 0B       		.uleb128 0xb
+ 559 0109 49       		.uleb128 0x49
+ 560 010a 13       		.uleb128 0x13
+ 561 010b 00       		.byte	0
+ 562 010c 00       		.byte	0
+ 563 010d 15       		.uleb128 0x15
+ 564 010e 34       		.uleb128 0x34
+ 565 010f 00       		.byte	0
+ 566 0110 03       		.uleb128 0x3
+ 567 0111 0E       		.uleb128 0xe
+ 568 0112 3A       		.uleb128 0x3a
+ 569 0113 0B       		.uleb128 0xb
+ 570 0114 3B       		.uleb128 0x3b
+ 571 0115 05       		.uleb128 0x5
+ 572 0116 49       		.uleb128 0x49
+ 573 0117 13       		.uleb128 0x13
+ 574 0118 3F       		.uleb128 0x3f
+ 575 0119 19       		.uleb128 0x19
+ 576 011a 3C       		.uleb128 0x3c
+ 577 011b 19       		.uleb128 0x19
+ 578 011c 00       		.byte	0
+ 579 011d 00       		.byte	0
+ 580 011e 16       		.uleb128 0x16
+ 581 011f 35       		.uleb128 0x35
+ 582 0120 00       		.byte	0
+ 583 0121 49       		.uleb128 0x49
+ 584 0122 13       		.uleb128 0x13
+ 585 0123 00       		.byte	0
+ 586 0124 00       		.byte	0
+ 587 0125 17       		.uleb128 0x17
+ 588 0126 2E       		.uleb128 0x2e
+ 589 0127 00       		.byte	0
+ 590 0128 3F       		.uleb128 0x3f
+ 591 0129 19       		.uleb128 0x19
+ 592 012a 3C       		.uleb128 0x3c
+ 593 012b 19       		.uleb128 0x19
+ 594 012c 6E       		.uleb128 0x6e
+ 595 012d 0E       		.uleb128 0xe
+ 596 012e 03       		.uleb128 0x3
+ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 12
+
+
+ 597 012f 0E       		.uleb128 0xe
+ 598 0130 3A       		.uleb128 0x3a
+ 599 0131 0B       		.uleb128 0xb
+ 600 0132 3B       		.uleb128 0x3b
+ 601 0133 0B       		.uleb128 0xb
+ 602 0134 00       		.byte	0
+ 603 0135 00       		.byte	0
+ 604 0136 00       		.byte	0
+ 605              		.section	.debug_aranges,"",%progbits
+ 606 0000 1C000000 		.4byte	0x1c
+ 607 0004 0200     		.2byte	0x2
+ 608 0006 00000000 		.4byte	.Ldebug_info0
+ 609 000a 04       		.byte	0x4
+ 610 000b 00       		.byte	0
+ 611 000c 0000     		.2byte	0
+ 612 000e 0000     		.2byte	0
+ 613 0010 00000000 		.4byte	.LFB63
+ 614 0014 20000000 		.4byte	.LFE63-.LFB63
+ 615 0018 00000000 		.4byte	0
+ 616 001c 00000000 		.4byte	0
+ 617              		.section	.debug_ranges,"",%progbits
+ 618              	.Ldebug_ranges0:
+ 619 0000 00000000 		.4byte	.LFB63
+ 620 0004 20000000 		.4byte	.LFE63
+ 621 0008 00000000 		.4byte	0
+ 622 000c 00000000 		.4byte	0
+ 623              		.section	.debug_line,"",%progbits
+ 624              	.Ldebug_line0:
+ 625 0000 88010000 		.section	.debug_str,"MS",%progbits,1
+ 625      02006F01 
+ 625      00000201 
+ 625      FB0E0D00 
+ 625      01010101 
+ 626              	.LASF6:
+ 627 0000 6C6F6E67 		.ascii	"long long int\000"
+ 627      206C6F6E 
+ 627      6720696E 
+ 627      7400
+ 628              	.LASF28:
+ 629 000e 72627566 		.ascii	"rbuf\000"
+ 629      00
+ 630              	.LASF29:
+ 631 0013 4932435F 		.ascii	"I2C_Master_MasterReadBuf\000"
+ 631      4D617374 
+ 631      65725F4D 
+ 631      61737465 
+ 631      72526561 
+ 632              	.LASF9:
+ 633 002c 5F5F696E 		.ascii	"__int32_t\000"
+ 633      7433325F 
+ 633      7400
+ 634              	.LASF22:
+ 635 0036 4932435F 		.ascii	"I2C_Master_MasterWriteBuf\000"
+ 635      4D617374 
+ 635      65725F4D 
+ 635      61737465 
+ 635      72577269 
+ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 13
+
+
+ 636              	.LASF17:
+ 637 0050 536C6176 		.ascii	"SlaveAddr\000"
+ 637      65416464 
+ 637      7200
+ 638              	.LASF26:
+ 639 005a 433A5C55 		.ascii	"C:\\Users\\Mario\\OneDrive - HTL Anichstrasse\\Doku"
+ 639      73657273 
+ 639      5C4D6172 
+ 639      696F5C4F 
+ 639      6E654472 
+ 640 0089 6D656E74 		.ascii	"mente\\PSoC Creator\\I2C_Sens\\dic-projekt\\I2C_Sen"
+ 640      655C5053 
+ 640      6F432043 
+ 640      72656174 
+ 640      6F725C49 
+ 641 00b8 732E6379 		.ascii	"s.cydsn\000"
+ 641      64736E00 
+ 642              	.LASF12:
+ 643 00c0 666C6F61 		.ascii	"float\000"
+ 643      7400
+ 644              	.LASF1:
+ 645 00c6 756E7369 		.ascii	"unsigned char\000"
+ 645      676E6564 
+ 645      20636861 
+ 645      7200
+ 646              	.LASF24:
+ 647 00d4 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 647      43313120 
+ 647      352E342E 
+ 647      31203230 
+ 647      31363036 
+ 648 0107 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 648      20726576 
+ 648      6973696F 
+ 648      6E203233 
+ 648      37373135 
+ 649 013a 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 649      66756E63 
+ 649      74696F6E 
+ 649      2D736563 
+ 649      74696F6E 
+ 650              	.LASF5:
+ 651 0162 6C6F6E67 		.ascii	"long unsigned int\000"
+ 651      20756E73 
+ 651      69676E65 
+ 651      6420696E 
+ 651      7400
+ 652              	.LASF3:
+ 653 0174 73686F72 		.ascii	"short unsigned int\000"
+ 653      7420756E 
+ 653      7369676E 
+ 653      65642069 
+ 653      6E7400
+ 654              	.LASF30:
+ 655 0187 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 655      52784275 
+ 655      66666572 
+ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 14
+
+
+ 655      00
+ 656              	.LASF23:
+ 657 0194 4932435F 		.ascii	"I2C_Master_Start\000"
+ 657      4D617374 
+ 657      65725F53 
+ 657      74617274 
+ 657      00
+ 658              	.LASF13:
+ 659 01a5 646F7562 		.ascii	"double\000"
+ 659      6C6500
+ 660              	.LASF27:
+ 661 01ac 6D61696E 		.ascii	"main\000"
+ 661      00
+ 662              	.LASF19:
+ 663 01b1 72644461 		.ascii	"rdData\000"
+ 663      746100
+ 664              	.LASF8:
+ 665 01b8 756E7369 		.ascii	"unsigned int\000"
+ 665      676E6564 
+ 665      20696E74 
+ 665      00
+ 666              	.LASF18:
+ 667 01c5 77724461 		.ascii	"wrData\000"
+ 667      746100
+ 668              	.LASF7:
+ 669 01cc 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 669      206C6F6E 
+ 669      6720756E 
+ 669      7369676E 
+ 669      65642069 
+ 670              	.LASF21:
+ 671 01e3 436F6E74 		.ascii	"Control_Reg_1_Write\000"
+ 671      726F6C5F 
+ 671      5265675F 
+ 671      315F5772 
+ 671      69746500 
+ 672              	.LASF20:
+ 673 01f7 6D6F6465 		.ascii	"mode\000"
+ 673      00
+ 674              	.LASF10:
+ 675 01fc 696E7433 		.ascii	"int32_t\000"
+ 675      325F7400 
+ 676              	.LASF16:
+ 677 0204 73697A65 		.ascii	"sizetype\000"
+ 677      74797065 
+ 677      00
+ 678              	.LASF25:
+ 679 020d 6D61696E 		.ascii	"main.c\000"
+ 679      2E6300
+ 680              	.LASF14:
+ 681 0214 63686172 		.ascii	"char\000"
+ 681      00
+ 682              	.LASF2:
+ 683 0219 73686F72 		.ascii	"short int\000"
+ 683      7420696E 
+ 683      7400
+ 684              	.LASF11:
+ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 15
+
+
+ 685 0223 75696E74 		.ascii	"uint8\000"
+ 685      3800
+ 686              	.LASF4:
+ 687 0229 6C6F6E67 		.ascii	"long int\000"
+ 687      20696E74 
+ 687      00
+ 688              	.LASF15:
+ 689 0232 6C6F6E67 		.ascii	"long double\000"
+ 689      20646F75 
+ 689      626C6500 
+ 690              	.LASF0:
+ 691 023e 7369676E 		.ascii	"signed char\000"
+ 691      65642063 
+ 691      68617200 
+ 692              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
