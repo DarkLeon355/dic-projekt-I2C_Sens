@@ -1,5 +1,5 @@
 # I2C_Sens
-# 2025-01-21 15:08:20Z
+# 2025-02-04 14:39:48Z
 
 # IO_0@[IOP=(1)][IoId=(0)] is reserved: SWDDebugEnabled
 dont_use_io iocell 1 0
@@ -7,7 +7,7 @@ dont_use_io iocell 1 0
 dont_use_io iocell 1 1
 # IO_3@[IOP=(1)][IoId=(3)] is reserved: SWDDebugEnabled
 dont_use_io iocell 1 3
-set_io "SCL(0)" iocell 12 0
+set_io "SCL(0)" iocell 0 6
 set_io "LED_0(0)" iocell 12 2
 set_io "LED_1(0)" iocell 12 3
 set_io "LED_2(0)" iocell 2 0
@@ -16,4 +16,6 @@ set_io "LED_4(0)" iocell 2 4
 set_io "LED_5(0)" iocell 2 5
 set_io "LED_6(0)" iocell 2 6
 set_io "LED_7(0)" iocell 2 7
-set_io "SDA(0)" iocell 12 1
+set_io "SDA(0)" iocell 0 7
+set_io "Rx_1(0)" iocell 12 6
+set_io "Tx_1(0)" iocell 12 7

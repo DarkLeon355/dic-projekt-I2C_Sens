@@ -1,6 +1,6 @@
-C:\Users\Mario\OneDrive - HTL Anichstrasse\Dokumente\PSoC Creator\I2C_Sens\dic-projekt\I2C_Sens.cydsn\I2C_Sens.cyprj|ca0b3883-14a7-45fa-971e-c95bcd553a9a
-C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|d6eb6ab7-eda1-4c51-a1ad-297d177aac48
-C:\Users\Mario\OneDrive - HTL Anichstrasse\Dokumente\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|ceb64424-b8d7-4c96-95f3-05801e2dbf23
-C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|0e38f14f-fe00-4bee-b7e3-b29888144be6
-C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|a92568fd-b6f9-4b9c-b4f7-063de72db5d3
-C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|8c0e4aaa-7f20-4fe3-ad49-a90cf10b41ba
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|df536f24-35cd-47d0-a885-b137dfbdf0b3
+C:\Users\leonm\Documents\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|d7b88457-943b-4e08-83fa-531400b71c97
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|703e8caa-e6b1-40b5-9f28-68b4b4c85cde
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|6d9c4f2a-0112-4b4e-93ff-458f91ab37a6
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|1cf25a72-fb76-4b38-a20c-b58baf416a4a
+C:\Users\leonm\Documents\PSoC Creator\I2C_Sens\I2C_Sens.cydsn\I2C_Sens.cyprj|0f86b9c1-e5dd-404f-88ed-afa34f4e8c01

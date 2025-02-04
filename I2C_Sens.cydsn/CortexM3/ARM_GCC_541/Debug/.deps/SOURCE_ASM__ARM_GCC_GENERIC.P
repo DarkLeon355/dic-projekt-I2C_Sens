@@ -1,10 +1,10 @@
-C:/Users/Mario/OneDrive\ -\ HTL\ Anichstrasse/Dokumente/PSoC\ Creator/I2C_Sens/dic-projekt/I2C_Sens.cydsn/CortexM3/ARM_GCC_541/Debug/CyBootAsmGnu.o : C:/Users/Mario/OneDrive\ -\ HTL\ Anichstrasse/Dokumente/PSoC\ Creator/I2C_Sens/dic-projekt/I2C_Sens.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s C:/Users/Mario/OneDrive\ -\ HTL\ Anichstrasse/Dokumente/PSoC\ Creator/I2C_Sens/dic-projekt/I2C_Sens.cydsn/Generated_Source/PSoC5/cydevicegnu.inc C:/Users/Mario/OneDrive\ -\ HTL\ Anichstrasse/Dokumente/PSoC\ Creator/I2C_Sens/dic-projekt/I2C_Sens.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc C:/Users/Mario/OneDrive\ -\ HTL\ Anichstrasse/Dokumente/PSoC\ Creator/I2C_Sens/dic-projekt/I2C_Sens.cydsn/Generated_Source/PSoC5/cyfittergnu.inc 
+C:/Users/leonm/Documents/PSoC\ Creator/I2C_Sens/I2C_Sens.cydsn/CortexM3/ARM_GCC_541/Debug/CyBootAsmGnu.o : C:/Users/leonm/Documents/PSoC\ Creator/I2C_Sens/I2C_Sens.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s C:/Users/leonm/Documents/PSoC\ Creator/I2C_Sens/I2C_Sens.cydsn/Generated_Source/PSoC5/cydevicegnu.inc C:/Users/leonm/Documents/PSoC\ Creator/I2C_Sens/I2C_Sens.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc C:/Users/leonm/Documents/PSoC\ Creator/I2C_Sens/I2C_Sens.cydsn/Generated_Source/PSoC5/cyfittergnu.inc 
 
-C:/Users/Mario/OneDrive\ -\ HTL\ Anichstrasse/Dokumente/PSoC\ Creator/I2C_Sens/dic-projekt/I2C_Sens.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s : 
+C:/Users/leonm/Documents/PSoC\ Creator/I2C_Sens/I2C_Sens.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s : 
 
-C:/Users/Mario/OneDrive\ -\ HTL\ Anichstrasse/Dokumente/PSoC\ Creator/I2C_Sens/dic-projekt/I2C_Sens.cydsn/Generated_Source/PSoC5/cydevicegnu.inc : 
+C:/Users/leonm/Documents/PSoC\ Creator/I2C_Sens/I2C_Sens.cydsn/Generated_Source/PSoC5/cydevicegnu.inc : 
 
-C:/Users/Mario/OneDrive\ -\ HTL\ Anichstrasse/Dokumente/PSoC\ Creator/I2C_Sens/dic-projekt/I2C_Sens.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc : 
+C:/Users/leonm/Documents/PSoC\ Creator/I2C_Sens/I2C_Sens.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc : 
 
-C:/Users/Mario/OneDrive\ -\ HTL\ Anichstrasse/Dokumente/PSoC\ Creator/I2C_Sens/dic-projekt/I2C_Sens.cydsn/Generated_Source/PSoC5/cyfittergnu.inc : 
+C:/Users/leonm/Documents/PSoC\ Creator/I2C_Sens/I2C_Sens.cydsn/Generated_Source/PSoC5/cyfittergnu.inc : 
 

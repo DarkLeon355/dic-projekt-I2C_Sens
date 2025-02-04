@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 1
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 1
 
 
    1              		.syntax unified
@@ -19,840 +19,3627 @@ ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 1
   16              		.text
   17              	.Ltext0:
   18              		.cfi_sections	.debug_frame
-  19              		.section	.text.main,"ax",%progbits
+  19              		.section	.text.BMP180_WriteByte,"ax",%progbits
   20              		.align	2
-  21              		.global	main
+  21              		.global	BMP180_WriteByte
   22              		.thumb
   23              		.thumb_func
-  24              		.type	main, %function
-  25              	main:
-  26              	.LFB63:
+  24              		.type	BMP180_WriteByte, %function
+  25              	BMP180_WriteByte:
+  26              	.LFB64:
   27              		.file 1 "main.c"
    1:main.c        **** #include "project.h"
-   2:main.c        **** 
-   3:main.c        **** int main(void)
-   4:main.c        **** {
-  28              		.loc 1 4 0
+   2:main.c        **** #include <stdio.h>
+   3:main.c        **** 
+   4:main.c        **** #define BMP180_ADDR 0x77  // BMP180 I2C address
+   5:main.c        **** 
+   6:main.c        **** // Calibration coefficient variables
+   7:main.c        **** int16 AC1, AC2, AC3, B1, B2, MB, MC, MD;
+   8:main.c        **** uint16 AC4, AC5, AC6;
+   9:main.c        **** 
+  10:main.c        **** // Function prototypes
+  11:main.c        **** void BMP180_WriteByte(uint8 reg, uint8 value);
+  12:main.c        **** uint16 BMP180_ReadWord(uint8 reg);
+  13:main.c        **** void BMP180_ReadCalibrationData(void);
+  14:main.c        **** int16 BMP180_ReadRawTemperature(void);
+  15:main.c        **** int32 BMP180_ReadRawPressure(void);
+  16:main.c        **** float BMP180_CalculateTemperature(int16 ut, int32 *B5);
+  17:main.c        **** int32 BMP180_CalculatePressure(int32 up, int32 B5);
+  18:main.c        **** void BMP180_Init(void);
+  19:main.c        **** void UART_Print(const char *string);
+  20:main.c        **** 
+  21:main.c        **** //////////////////////////////////////////////////////////////////////////
+  22:main.c        **** // I2C helper functions
+  23:main.c        **** 
+  24:main.c        **** void BMP180_WriteByte(uint8 reg, uint8 value)
+  25:main.c        **** {
+  28              		.loc 1 25 0
   29              		.cfi_startproc
   30              		@ args = 0, pretend = 0, frame = 8
   31              		@ frame_needed = 0, uses_anonymous_args = 0
-  32 0000 00B5     		push	{lr}
-  33              		.cfi_def_cfa_offset 4
-  34              		.cfi_offset 14, -4
-  35 0002 83B0     		sub	sp, sp, #12
-  36              		.cfi_def_cfa_offset 16
-   5:main.c        ****     CyGlobalIntEnable; 
-  37              		.loc 1 5 0
-  38              		.syntax unified
-  39              	@ 5 "main.c" 1
-  40 0004 62B6     		CPSIE   i
-  41              	@ 0 "" 2
-  42              	.LVL0:
-   6:main.c        ****     
-   7:main.c        ****     uint8 rbuf[20];
-   8:main.c        ****     uint8 SlaveAddr = 0x77;
-   9:main.c        ****     uint8 wrData,cnt = 0x0;
-  10:main.c        ****     uint8 rdData = 0;
-  11:main.c        ****     uint8 mode = 0;
-  12:main.c        ****     
-  13:main.c        ****     I2C_Master_MasterWriteBuf(SlaveAddr, &wrData, cnt, mode);
-  43              		.loc 1 13 0
-  44              		.thumb
-ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 2
+  32              	.LVL0:
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 2
 
 
-  45              		.syntax unified
-  46 0006 0023     		movs	r3, #0
-  47 0008 1A46     		mov	r2, r3
-  48 000a 0DF10701 		add	r1, sp, #7
-  49 000e 7720     		movs	r0, #119
-  50 0010 FFF7FEFF 		bl	I2C_Master_MasterWriteBuf
-  51              	.LVL1:
-  14:main.c        ****     
-  15:main.c        ****     I2C_Master_Start();
-  52              		.loc 1 15 0
-  53 0014 FFF7FEFF 		bl	I2C_Master_Start
-  54              	.LVL2:
-  55              	.L2:
-  56              	.LBB2:
-  16:main.c        **** 
-  17:main.c        ****     for(;;)
-  18:main.c        ****     {
-  19:main.c        ****         uint8 I2C_Master_MasterReadBuf(uint8 SlaveAddr,
-  20:main.c        ****             uint8 * rdData, uint8 cnt, uint8 mode);
-  21:main.c        ****         
-  22:main.c        ****         if (&rdData < 0)
-  23:main.c        ****         {
-  24:main.c        ****             Control_Reg_1_Write(255);
-  25:main.c        ****             CyDelay(1000);
-  26:main.c        ****             Control_Reg_1_Write(0);
-  27:main.c        ****             CyDelay(1000);
-  28:main.c        ****         }
-  29:main.c        ****         else
-  30:main.c        ****         {
-  31:main.c        ****             Control_Reg_1_Write(0);
-  57              		.loc 1 31 0
-  58 0018 0020     		movs	r0, #0
-  59 001a FFF7FEFF 		bl	Control_Reg_1_Write
-  60              	.LVL3:
-  61 001e FBE7     		b	.L2
-  62              	.LBE2:
-  63              		.cfi_endproc
-  64              	.LFE63:
-  65              		.size	main, .-main
-  66              		.text
-  67              	.Letext0:
-  68              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
-  69              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
-  70              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
-  71              		.file 5 "Generated_Source\\PSoC5/Control_Reg_1.h"
-  72              		.file 6 "Generated_Source\\PSoC5/I2C_Master.h"
-  73              		.file 7 "Generated_Source\\PSoC5/core_cm3.h"
-  74              		.section	.debug_info,"",%progbits
-  75              	.Ldebug_info0:
-  76 0000 C6010000 		.4byte	0x1c6
-  77 0004 0400     		.2byte	0x4
-  78 0006 00000000 		.4byte	.Ldebug_abbrev0
-  79 000a 04       		.byte	0x4
-  80 000b 01       		.uleb128 0x1
-  81 000c D4000000 		.4byte	.LASF24
-  82 0010 0C       		.byte	0xc
-  83 0011 0D020000 		.4byte	.LASF25
-ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 3
+  33 0000 00B5     		push	{lr}
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 14, -4
+  36 0002 83B0     		sub	sp, sp, #12
+  37              		.cfi_def_cfa_offset 16
+  26:main.c        ****     uint8 data[2] = { reg, value };
+  38              		.loc 1 26 0
+  39 0004 8DF80400 		strb	r0, [sp, #4]
+  40 0008 8DF80510 		strb	r1, [sp, #5]
+  27:main.c        ****     I2C_MasterWriteBuf(BMP180_ADDR, data, 2, I2C_MODE_COMPLETE_XFER);
+  41              		.loc 1 27 0
+  42 000c 0023     		movs	r3, #0
+  43 000e 0222     		movs	r2, #2
+  44 0010 01A9     		add	r1, sp, #4
+  45              	.LVL1:
+  46 0012 7720     		movs	r0, #119
+  47              	.LVL2:
+  48 0014 FFF7FEFF 		bl	I2C_MasterWriteBuf
+  49              	.LVL3:
+  50              	.L2:
+  28:main.c        ****     while (I2C_MasterStatus() & I2C_MSTAT_XFER_INP);
+  51              		.loc 1 28 0 discriminator 1
+  52 0018 FFF7FEFF 		bl	I2C_MasterStatus
+  53              	.LVL4:
+  54 001c 10F0040F 		tst	r0, #4
+  55 0020 FAD1     		bne	.L2
+  29:main.c        **** }
+  56              		.loc 1 29 0
+  57 0022 03B0     		add	sp, sp, #12
+  58              		.cfi_def_cfa_offset 4
+  59              		@ sp needed
+  60 0024 5DF804FB 		ldr	pc, [sp], #4
+  61              		.cfi_endproc
+  62              	.LFE64:
+  63              		.size	BMP180_WriteByte, .-BMP180_WriteByte
+  64              		.section	.text.BMP180_ReadWord,"ax",%progbits
+  65              		.align	2
+  66              		.global	BMP180_ReadWord
+  67              		.thumb
+  68              		.thumb_func
+  69              		.type	BMP180_ReadWord, %function
+  70              	BMP180_ReadWord:
+  71              	.LFB65:
+  30:main.c        **** 
+  31:main.c        **** uint16 BMP180_ReadWord(uint8 reg)
+  32:main.c        **** {
+  72              		.loc 1 32 0
+  73              		.cfi_startproc
+  74              		@ args = 0, pretend = 0, frame = 16
+  75              		@ frame_needed = 0, uses_anonymous_args = 0
+  76              	.LVL5:
+  77 0000 00B5     		push	{lr}
+  78              		.cfi_def_cfa_offset 4
+  79              		.cfi_offset 14, -4
+  80 0002 85B0     		sub	sp, sp, #20
+  81              		.cfi_def_cfa_offset 24
+  82 0004 04A9     		add	r1, sp, #16
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 3
 
 
-  84 0015 5A000000 		.4byte	.LASF26
-  85 0019 00000000 		.4byte	.Ldebug_ranges0+0
-  86 001d 00000000 		.4byte	0
-  87 0021 00000000 		.4byte	.Ldebug_line0
-  88 0025 02       		.uleb128 0x2
-  89 0026 01       		.byte	0x1
-  90 0027 06       		.byte	0x6
-  91 0028 3E020000 		.4byte	.LASF0
-  92 002c 02       		.uleb128 0x2
-  93 002d 01       		.byte	0x1
-  94 002e 08       		.byte	0x8
-  95 002f C6000000 		.4byte	.LASF1
-  96 0033 02       		.uleb128 0x2
-  97 0034 02       		.byte	0x2
-  98 0035 05       		.byte	0x5
-  99 0036 19020000 		.4byte	.LASF2
- 100 003a 02       		.uleb128 0x2
- 101 003b 02       		.byte	0x2
- 102 003c 07       		.byte	0x7
- 103 003d 74010000 		.4byte	.LASF3
- 104 0041 03       		.uleb128 0x3
- 105 0042 2C000000 		.4byte	.LASF9
- 106 0046 02       		.byte	0x2
- 107 0047 3F       		.byte	0x3f
- 108 0048 4C000000 		.4byte	0x4c
- 109 004c 02       		.uleb128 0x2
- 110 004d 04       		.byte	0x4
- 111 004e 05       		.byte	0x5
- 112 004f 29020000 		.4byte	.LASF4
- 113 0053 02       		.uleb128 0x2
- 114 0054 04       		.byte	0x4
- 115 0055 07       		.byte	0x7
- 116 0056 62010000 		.4byte	.LASF5
- 117 005a 02       		.uleb128 0x2
- 118 005b 08       		.byte	0x8
- 119 005c 05       		.byte	0x5
- 120 005d 00000000 		.4byte	.LASF6
- 121 0061 02       		.uleb128 0x2
- 122 0062 08       		.byte	0x8
- 123 0063 07       		.byte	0x7
- 124 0064 CC010000 		.4byte	.LASF7
- 125 0068 04       		.uleb128 0x4
- 126 0069 04       		.byte	0x4
- 127 006a 05       		.byte	0x5
- 128 006b 696E7400 		.ascii	"int\000"
- 129 006f 02       		.uleb128 0x2
- 130 0070 04       		.byte	0x4
- 131 0071 07       		.byte	0x7
- 132 0072 B8010000 		.4byte	.LASF8
- 133 0076 03       		.uleb128 0x3
- 134 0077 FC010000 		.4byte	.LASF10
- 135 007b 03       		.byte	0x3
- 136 007c 2C       		.byte	0x2c
- 137 007d 41000000 		.4byte	0x41
- 138 0081 05       		.uleb128 0x5
- 139 0082 23020000 		.4byte	.LASF11
- 140 0086 04       		.byte	0x4
-ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 4
+  83 0006 01F8090D 		strb	r0, [r1, #-9]!
+  33:main.c        ****     uint8 data[2];
+  34:main.c        ****     I2C_MasterWriteBuf(BMP180_ADDR, &reg, 1, I2C_MODE_COMPLETE_XFER);
+  84              		.loc 1 34 0
+  85 000a 0023     		movs	r3, #0
+  86 000c 0122     		movs	r2, #1
+  87 000e 7720     		movs	r0, #119
+  88              	.LVL6:
+  89 0010 FFF7FEFF 		bl	I2C_MasterWriteBuf
+  90              	.LVL7:
+  91              	.L5:
+  35:main.c        ****     while (I2C_MasterStatus() & I2C_MSTAT_XFER_INP);
+  92              		.loc 1 35 0 discriminator 1
+  93 0014 FFF7FEFF 		bl	I2C_MasterStatus
+  94              	.LVL8:
+  95 0018 10F0040F 		tst	r0, #4
+  96 001c FAD1     		bne	.L5
+  36:main.c        **** 
+  37:main.c        ****     I2C_MasterReadBuf(BMP180_ADDR, data, 2, I2C_MODE_COMPLETE_XFER);
+  97              		.loc 1 37 0
+  98 001e 0023     		movs	r3, #0
+  99 0020 0222     		movs	r2, #2
+ 100 0022 03A9     		add	r1, sp, #12
+ 101 0024 7720     		movs	r0, #119
+ 102 0026 FFF7FEFF 		bl	I2C_MasterReadBuf
+ 103              	.LVL9:
+ 104              	.L6:
+  38:main.c        ****     while (I2C_MasterStatus() & I2C_MSTAT_XFER_INP);
+ 105              		.loc 1 38 0 discriminator 1
+ 106 002a FFF7FEFF 		bl	I2C_MasterStatus
+ 107              	.LVL10:
+ 108 002e 10F0040F 		tst	r0, #4
+ 109 0032 FAD1     		bne	.L6
+  39:main.c        **** 
+  40:main.c        ****     return ((uint16)data[0] << 8) | data[1];
+ 110              		.loc 1 40 0
+ 111 0034 9DF80C00 		ldrb	r0, [sp, #12]	@ zero_extendqisi2
+ 112 0038 9DF80D30 		ldrb	r3, [sp, #13]	@ zero_extendqisi2
+  41:main.c        **** }
+ 113              		.loc 1 41 0
+ 114 003c 43EA0020 		orr	r0, r3, r0, lsl #8
+ 115 0040 05B0     		add	sp, sp, #20
+ 116              		.cfi_def_cfa_offset 4
+ 117              		@ sp needed
+ 118 0042 5DF804FB 		ldr	pc, [sp], #4
+ 119              		.cfi_endproc
+ 120              	.LFE65:
+ 121              		.size	BMP180_ReadWord, .-BMP180_ReadWord
+ 122 0046 00BF     		.section	.text.BMP180_ReadCalibrationData,"ax",%progbits
+ 123              		.align	2
+ 124              		.global	BMP180_ReadCalibrationData
+ 125              		.thumb
+ 126              		.thumb_func
+ 127              		.type	BMP180_ReadCalibrationData, %function
+ 128              	BMP180_ReadCalibrationData:
+ 129              	.LFB66:
+  42:main.c        **** 
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 4
 
 
- 141 0087 E801     		.2byte	0x1e8
- 142 0089 2C000000 		.4byte	0x2c
- 143 008d 02       		.uleb128 0x2
- 144 008e 04       		.byte	0x4
- 145 008f 04       		.byte	0x4
- 146 0090 C0000000 		.4byte	.LASF12
- 147 0094 02       		.uleb128 0x2
- 148 0095 08       		.byte	0x8
- 149 0096 04       		.byte	0x4
- 150 0097 A5010000 		.4byte	.LASF13
- 151 009b 02       		.uleb128 0x2
- 152 009c 01       		.byte	0x1
- 153 009d 08       		.byte	0x8
- 154 009e 14020000 		.4byte	.LASF14
- 155 00a2 02       		.uleb128 0x2
- 156 00a3 08       		.byte	0x8
- 157 00a4 04       		.byte	0x4
- 158 00a5 32020000 		.4byte	.LASF15
- 159 00a9 02       		.uleb128 0x2
- 160 00aa 04       		.byte	0x4
- 161 00ab 07       		.byte	0x7
- 162 00ac 04020000 		.4byte	.LASF16
- 163 00b0 06       		.uleb128 0x6
- 164 00b1 AC010000 		.4byte	.LASF27
- 165 00b5 01       		.byte	0x1
- 166 00b6 03       		.byte	0x3
- 167 00b7 68000000 		.4byte	0x68
- 168 00bb 00000000 		.4byte	.LFB63
- 169 00bf 20000000 		.4byte	.LFE63-.LFB63
- 170 00c3 01       		.uleb128 0x1
- 171 00c4 9C       		.byte	0x9c
- 172 00c5 81010000 		.4byte	0x181
- 173 00c9 07       		.uleb128 0x7
- 174 00ca 0E000000 		.4byte	.LASF28
- 175 00ce 01       		.byte	0x1
- 176 00cf 07       		.byte	0x7
- 177 00d0 81010000 		.4byte	0x181
- 178 00d4 08       		.uleb128 0x8
- 179 00d5 50000000 		.4byte	.LASF17
- 180 00d9 01       		.byte	0x1
- 181 00da 08       		.byte	0x8
- 182 00db 81000000 		.4byte	0x81
- 183 00df 77       		.byte	0x77
- 184 00e0 09       		.uleb128 0x9
- 185 00e1 C5010000 		.4byte	.LASF18
- 186 00e5 01       		.byte	0x1
- 187 00e6 09       		.byte	0x9
- 188 00e7 81000000 		.4byte	0x81
- 189 00eb 02       		.uleb128 0x2
- 190 00ec 91       		.byte	0x91
- 191 00ed 77       		.sleb128 -9
- 192 00ee 0A       		.uleb128 0xa
- 193 00ef 636E7400 		.ascii	"cnt\000"
- 194 00f3 01       		.byte	0x1
- 195 00f4 09       		.byte	0x9
- 196 00f5 81000000 		.4byte	0x81
- 197 00f9 00       		.byte	0
-ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 5
+  43:main.c        **** //////////////////////////////////////////////////////////////////////////
+  44:main.c        **** // Calibration and Raw Data Reading
+  45:main.c        **** 
+  46:main.c        **** void BMP180_ReadCalibrationData(void)
+  47:main.c        **** {
+ 130              		.loc 1 47 0
+ 131              		.cfi_startproc
+ 132              		@ args = 0, pretend = 0, frame = 0
+ 133              		@ frame_needed = 0, uses_anonymous_args = 0
+ 134 0000 08B5     		push	{r3, lr}
+ 135              		.cfi_def_cfa_offset 8
+ 136              		.cfi_offset 3, -8
+ 137              		.cfi_offset 14, -4
+  48:main.c        ****     AC1 = (int16)BMP180_ReadWord(0xAA);
+ 138              		.loc 1 48 0
+ 139 0002 AA20     		movs	r0, #170
+ 140 0004 FFF7FEFF 		bl	BMP180_ReadWord
+ 141              	.LVL11:
+ 142 0008 1A4B     		ldr	r3, .L10
+ 143 000a 1880     		strh	r0, [r3]	@ movhi
+  49:main.c        ****     AC2 = (int16)BMP180_ReadWord(0xAC);
+ 144              		.loc 1 49 0
+ 145 000c AC20     		movs	r0, #172
+ 146 000e FFF7FEFF 		bl	BMP180_ReadWord
+ 147              	.LVL12:
+ 148 0012 194B     		ldr	r3, .L10+4
+ 149 0014 1880     		strh	r0, [r3]	@ movhi
+  50:main.c        ****     AC3 = (int16)BMP180_ReadWord(0xAE);
+ 150              		.loc 1 50 0
+ 151 0016 AE20     		movs	r0, #174
+ 152 0018 FFF7FEFF 		bl	BMP180_ReadWord
+ 153              	.LVL13:
+ 154 001c 174B     		ldr	r3, .L10+8
+ 155 001e 1880     		strh	r0, [r3]	@ movhi
+  51:main.c        ****     AC4 = BMP180_ReadWord(0xB0);
+ 156              		.loc 1 51 0
+ 157 0020 B020     		movs	r0, #176
+ 158 0022 FFF7FEFF 		bl	BMP180_ReadWord
+ 159              	.LVL14:
+ 160 0026 164B     		ldr	r3, .L10+12
+ 161 0028 1880     		strh	r0, [r3]	@ movhi
+  52:main.c        ****     AC5 = BMP180_ReadWord(0xB2);
+ 162              		.loc 1 52 0
+ 163 002a B220     		movs	r0, #178
+ 164 002c FFF7FEFF 		bl	BMP180_ReadWord
+ 165              	.LVL15:
+ 166 0030 144B     		ldr	r3, .L10+16
+ 167 0032 1880     		strh	r0, [r3]	@ movhi
+  53:main.c        ****     AC6 = BMP180_ReadWord(0xB4);
+ 168              		.loc 1 53 0
+ 169 0034 B420     		movs	r0, #180
+ 170 0036 FFF7FEFF 		bl	BMP180_ReadWord
+ 171              	.LVL16:
+ 172 003a 134B     		ldr	r3, .L10+20
+ 173 003c 1880     		strh	r0, [r3]	@ movhi
+  54:main.c        ****     B1  = (int16)BMP180_ReadWord(0xB6);
+ 174              		.loc 1 54 0
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 5
 
 
- 198 00fa 08       		.uleb128 0x8
- 199 00fb B1010000 		.4byte	.LASF19
- 200 00ff 01       		.byte	0x1
- 201 0100 0A       		.byte	0xa
- 202 0101 81000000 		.4byte	0x81
- 203 0105 00       		.byte	0
- 204 0106 08       		.uleb128 0x8
- 205 0107 F7010000 		.4byte	.LASF20
- 206 010b 01       		.byte	0x1
- 207 010c 0B       		.byte	0xb
- 208 010d 81000000 		.4byte	0x81
- 209 0111 00       		.byte	0
- 210 0112 0B       		.uleb128 0xb
- 211 0113 18000000 		.4byte	.LBB2
- 212 0117 08000000 		.4byte	.LBE2-.LBB2
- 213 011b 53010000 		.4byte	0x153
- 214 011f 0C       		.uleb128 0xc
- 215 0120 13000000 		.4byte	.LASF29
- 216 0124 01       		.byte	0x1
- 217 0125 13       		.byte	0x13
- 218 0126 81000000 		.4byte	0x81
- 219 012a 43010000 		.4byte	0x143
- 220 012e 0D       		.uleb128 0xd
- 221 012f 81000000 		.4byte	0x81
- 222 0133 0D       		.uleb128 0xd
- 223 0134 91010000 		.4byte	0x191
- 224 0138 0D       		.uleb128 0xd
- 225 0139 81000000 		.4byte	0x81
- 226 013d 0D       		.uleb128 0xd
- 227 013e 81000000 		.4byte	0x81
- 228 0142 00       		.byte	0
- 229 0143 0E       		.uleb128 0xe
- 230 0144 1E000000 		.4byte	.LVL3
- 231 0148 A8010000 		.4byte	0x1a8
- 232 014c 0F       		.uleb128 0xf
- 233 014d 01       		.uleb128 0x1
- 234 014e 50       		.byte	0x50
- 235 014f 01       		.uleb128 0x1
- 236 0150 30       		.byte	0x30
- 237 0151 00       		.byte	0
- 238 0152 00       		.byte	0
- 239 0153 10       		.uleb128 0x10
- 240 0154 14000000 		.4byte	.LVL1
- 241 0158 B3010000 		.4byte	0x1b3
- 242 015c 77010000 		.4byte	0x177
- 243 0160 0F       		.uleb128 0xf
- 244 0161 01       		.uleb128 0x1
- 245 0162 50       		.byte	0x50
- 246 0163 02       		.uleb128 0x2
- 247 0164 08       		.byte	0x8
- 248 0165 77       		.byte	0x77
- 249 0166 0F       		.uleb128 0xf
- 250 0167 01       		.uleb128 0x1
- 251 0168 51       		.byte	0x51
- 252 0169 02       		.uleb128 0x2
- 253 016a 91       		.byte	0x91
- 254 016b 77       		.sleb128 -9
-ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 6
+ 175 003e B620     		movs	r0, #182
+ 176 0040 FFF7FEFF 		bl	BMP180_ReadWord
+ 177              	.LVL17:
+ 178 0044 114B     		ldr	r3, .L10+24
+ 179 0046 1880     		strh	r0, [r3]	@ movhi
+  55:main.c        ****     B2  = (int16)BMP180_ReadWord(0xB8);
+ 180              		.loc 1 55 0
+ 181 0048 B820     		movs	r0, #184
+ 182 004a FFF7FEFF 		bl	BMP180_ReadWord
+ 183              	.LVL18:
+ 184 004e 104B     		ldr	r3, .L10+28
+ 185 0050 1880     		strh	r0, [r3]	@ movhi
+  56:main.c        ****     MB  = (int16)BMP180_ReadWord(0xBA);
+ 186              		.loc 1 56 0
+ 187 0052 BA20     		movs	r0, #186
+ 188 0054 FFF7FEFF 		bl	BMP180_ReadWord
+ 189              	.LVL19:
+ 190 0058 0E4B     		ldr	r3, .L10+32
+ 191 005a 1880     		strh	r0, [r3]	@ movhi
+  57:main.c        ****     MC  = (int16)BMP180_ReadWord(0xBC);
+ 192              		.loc 1 57 0
+ 193 005c BC20     		movs	r0, #188
+ 194 005e FFF7FEFF 		bl	BMP180_ReadWord
+ 195              	.LVL20:
+ 196 0062 0D4B     		ldr	r3, .L10+36
+ 197 0064 1880     		strh	r0, [r3]	@ movhi
+  58:main.c        ****     MD  = (int16)BMP180_ReadWord(0xBE);
+ 198              		.loc 1 58 0
+ 199 0066 BE20     		movs	r0, #190
+ 200 0068 FFF7FEFF 		bl	BMP180_ReadWord
+ 201              	.LVL21:
+ 202 006c 0B4B     		ldr	r3, .L10+40
+ 203 006e 1880     		strh	r0, [r3]	@ movhi
+ 204 0070 08BD     		pop	{r3, pc}
+ 205              	.L11:
+ 206 0072 00BF     		.align	2
+ 207              	.L10:
+ 208 0074 00000000 		.word	AC1
+ 209 0078 00000000 		.word	AC2
+ 210 007c 00000000 		.word	AC3
+ 211 0080 00000000 		.word	AC4
+ 212 0084 00000000 		.word	AC5
+ 213 0088 00000000 		.word	AC6
+ 214 008c 00000000 		.word	B1
+ 215 0090 00000000 		.word	B2
+ 216 0094 00000000 		.word	MB
+ 217 0098 00000000 		.word	MC
+ 218 009c 00000000 		.word	MD
+ 219              		.cfi_endproc
+ 220              	.LFE66:
+ 221              		.size	BMP180_ReadCalibrationData, .-BMP180_ReadCalibrationData
+ 222              		.section	.text.BMP180_ReadRawTemperature,"ax",%progbits
+ 223              		.align	2
+ 224              		.global	BMP180_ReadRawTemperature
+ 225              		.thumb
+ 226              		.thumb_func
+ 227              		.type	BMP180_ReadRawTemperature, %function
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 6
 
 
- 255 016c 0F       		.uleb128 0xf
- 256 016d 01       		.uleb128 0x1
- 257 016e 52       		.byte	0x52
- 258 016f 01       		.uleb128 0x1
- 259 0170 30       		.byte	0x30
- 260 0171 0F       		.uleb128 0xf
- 261 0172 01       		.uleb128 0x1
- 262 0173 53       		.byte	0x53
- 263 0174 01       		.uleb128 0x1
- 264 0175 30       		.byte	0x30
- 265 0176 00       		.byte	0
- 266 0177 11       		.uleb128 0x11
- 267 0178 18000000 		.4byte	.LVL2
- 268 017c BE010000 		.4byte	0x1be
- 269 0180 00       		.byte	0
- 270 0181 12       		.uleb128 0x12
- 271 0182 81000000 		.4byte	0x81
- 272 0186 91010000 		.4byte	0x191
- 273 018a 13       		.uleb128 0x13
- 274 018b A9000000 		.4byte	0xa9
- 275 018f 13       		.byte	0x13
- 276 0190 00       		.byte	0
- 277 0191 14       		.uleb128 0x14
- 278 0192 04       		.byte	0x4
- 279 0193 81000000 		.4byte	0x81
- 280 0197 15       		.uleb128 0x15
- 281 0198 87010000 		.4byte	.LASF30
- 282 019c 07       		.byte	0x7
- 283 019d 1207     		.2byte	0x712
- 284 019f A3010000 		.4byte	0x1a3
- 285 01a3 16       		.uleb128 0x16
- 286 01a4 76000000 		.4byte	0x76
- 287 01a8 17       		.uleb128 0x17
- 288 01a9 E3010000 		.4byte	.LASF21
- 289 01ad E3010000 		.4byte	.LASF21
- 290 01b1 05       		.byte	0x5
- 291 01b2 2F       		.byte	0x2f
- 292 01b3 17       		.uleb128 0x17
- 293 01b4 36000000 		.4byte	.LASF22
- 294 01b8 36000000 		.4byte	.LASF22
- 295 01bc 06       		.byte	0x6
- 296 01bd A7       		.byte	0xa7
- 297 01be 17       		.uleb128 0x17
- 298 01bf 94010000 		.4byte	.LASF23
- 299 01c3 94010000 		.4byte	.LASF23
- 300 01c7 06       		.byte	0x6
- 301 01c8 93       		.byte	0x93
- 302 01c9 00       		.byte	0
- 303              		.section	.debug_abbrev,"",%progbits
- 304              	.Ldebug_abbrev0:
- 305 0000 01       		.uleb128 0x1
- 306 0001 11       		.uleb128 0x11
- 307 0002 01       		.byte	0x1
- 308 0003 25       		.uleb128 0x25
- 309 0004 0E       		.uleb128 0xe
- 310 0005 13       		.uleb128 0x13
- 311 0006 0B       		.uleb128 0xb
-ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 7
+ 228              	BMP180_ReadRawTemperature:
+ 229              	.LFB67:
+  59:main.c        **** }
+  60:main.c        **** 
+  61:main.c        **** int16 BMP180_ReadRawTemperature(void)
+  62:main.c        **** {
+ 230              		.loc 1 62 0
+ 231              		.cfi_startproc
+ 232              		@ args = 0, pretend = 0, frame = 0
+ 233              		@ frame_needed = 0, uses_anonymous_args = 0
+ 234 0000 08B5     		push	{r3, lr}
+ 235              		.cfi_def_cfa_offset 8
+ 236              		.cfi_offset 3, -8
+ 237              		.cfi_offset 14, -4
+  63:main.c        ****     // Command for temperature conversion: write 0x2E to control register 0xF4
+  64:main.c        ****     BMP180_WriteByte(0xF4, 0x2E);
+ 238              		.loc 1 64 0
+ 239 0002 2E21     		movs	r1, #46
+ 240 0004 F420     		movs	r0, #244
+ 241 0006 FFF7FEFF 		bl	BMP180_WriteByte
+ 242              	.LVL22:
+  65:main.c        ****     CyDelay(5);  // Wait at least 4.5ms for conversion
+ 243              		.loc 1 65 0
+ 244 000a 0520     		movs	r0, #5
+ 245 000c FFF7FEFF 		bl	CyDelay
+ 246              	.LVL23:
+  66:main.c        ****     return BMP180_ReadWord(0xF6);
+ 247              		.loc 1 66 0
+ 248 0010 F620     		movs	r0, #246
+ 249 0012 FFF7FEFF 		bl	BMP180_ReadWord
+ 250              	.LVL24:
+  67:main.c        **** }
+ 251              		.loc 1 67 0
+ 252 0016 00B2     		sxth	r0, r0
+ 253 0018 08BD     		pop	{r3, pc}
+ 254              		.cfi_endproc
+ 255              	.LFE67:
+ 256              		.size	BMP180_ReadRawTemperature, .-BMP180_ReadRawTemperature
+ 257 001a 00BF     		.section	.text.BMP180_ReadRawPressure,"ax",%progbits
+ 258              		.align	2
+ 259              		.global	BMP180_ReadRawPressure
+ 260              		.thumb
+ 261              		.thumb_func
+ 262              		.type	BMP180_ReadRawPressure, %function
+ 263              	BMP180_ReadRawPressure:
+ 264              	.LFB68:
+  68:main.c        **** 
+  69:main.c        **** int32 BMP180_ReadRawPressure(void)
+  70:main.c        **** {
+ 265              		.loc 1 70 0
+ 266              		.cfi_startproc
+ 267              		@ args = 0, pretend = 0, frame = 0
+ 268              		@ frame_needed = 0, uses_anonymous_args = 0
+ 269 0000 08B5     		push	{r3, lr}
+ 270              		.cfi_def_cfa_offset 8
+ 271              		.cfi_offset 3, -8
+ 272              		.cfi_offset 14, -4
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 7
 
 
- 312 0007 03       		.uleb128 0x3
- 313 0008 0E       		.uleb128 0xe
- 314 0009 1B       		.uleb128 0x1b
- 315 000a 0E       		.uleb128 0xe
- 316 000b 55       		.uleb128 0x55
- 317 000c 17       		.uleb128 0x17
- 318 000d 11       		.uleb128 0x11
- 319 000e 01       		.uleb128 0x1
- 320 000f 10       		.uleb128 0x10
- 321 0010 17       		.uleb128 0x17
- 322 0011 00       		.byte	0
- 323 0012 00       		.byte	0
- 324 0013 02       		.uleb128 0x2
- 325 0014 24       		.uleb128 0x24
- 326 0015 00       		.byte	0
- 327 0016 0B       		.uleb128 0xb
- 328 0017 0B       		.uleb128 0xb
- 329 0018 3E       		.uleb128 0x3e
- 330 0019 0B       		.uleb128 0xb
- 331 001a 03       		.uleb128 0x3
- 332 001b 0E       		.uleb128 0xe
- 333 001c 00       		.byte	0
- 334 001d 00       		.byte	0
- 335 001e 03       		.uleb128 0x3
- 336 001f 16       		.uleb128 0x16
- 337 0020 00       		.byte	0
- 338 0021 03       		.uleb128 0x3
- 339 0022 0E       		.uleb128 0xe
- 340 0023 3A       		.uleb128 0x3a
- 341 0024 0B       		.uleb128 0xb
- 342 0025 3B       		.uleb128 0x3b
- 343 0026 0B       		.uleb128 0xb
- 344 0027 49       		.uleb128 0x49
- 345 0028 13       		.uleb128 0x13
- 346 0029 00       		.byte	0
- 347 002a 00       		.byte	0
- 348 002b 04       		.uleb128 0x4
- 349 002c 24       		.uleb128 0x24
- 350 002d 00       		.byte	0
- 351 002e 0B       		.uleb128 0xb
- 352 002f 0B       		.uleb128 0xb
- 353 0030 3E       		.uleb128 0x3e
- 354 0031 0B       		.uleb128 0xb
- 355 0032 03       		.uleb128 0x3
- 356 0033 08       		.uleb128 0x8
- 357 0034 00       		.byte	0
- 358 0035 00       		.byte	0
- 359 0036 05       		.uleb128 0x5
- 360 0037 16       		.uleb128 0x16
- 361 0038 00       		.byte	0
- 362 0039 03       		.uleb128 0x3
- 363 003a 0E       		.uleb128 0xe
- 364 003b 3A       		.uleb128 0x3a
- 365 003c 0B       		.uleb128 0xb
- 366 003d 3B       		.uleb128 0x3b
- 367 003e 05       		.uleb128 0x5
- 368 003f 49       		.uleb128 0x49
-ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 8
+  71:main.c        ****     // Command for pressure conversion (oversampling=0): write 0x34 to control register 0xF4
+  72:main.c        ****     BMP180_WriteByte(0xF4, 0x34);
+ 273              		.loc 1 72 0
+ 274 0002 3421     		movs	r1, #52
+ 275 0004 F420     		movs	r0, #244
+ 276 0006 FFF7FEFF 		bl	BMP180_WriteByte
+ 277              	.LVL25:
+  73:main.c        ****     CyDelay(8);  // Wait for conversion (depends on oversampling)
+ 278              		.loc 1 73 0
+ 279 000a 0820     		movs	r0, #8
+ 280 000c FFF7FEFF 		bl	CyDelay
+ 281              	.LVL26:
+  74:main.c        ****     // For oversampling=0, the pressure is 2 bytes (MSB and LSB)
+  75:main.c        ****     return (int32)BMP180_ReadWord(0xF6);
+ 282              		.loc 1 75 0
+ 283 0010 F620     		movs	r0, #246
+ 284 0012 FFF7FEFF 		bl	BMP180_ReadWord
+ 285              	.LVL27:
+  76:main.c        **** }
+ 286              		.loc 1 76 0
+ 287 0016 08BD     		pop	{r3, pc}
+ 288              		.cfi_endproc
+ 289              	.LFE68:
+ 290              		.size	BMP180_ReadRawPressure, .-BMP180_ReadRawPressure
+ 291              		.global	__aeabi_i2d
+ 292              		.global	__aeabi_ddiv
+ 293              		.global	__aeabi_d2f
+ 294              		.section	.text.BMP180_CalculateTemperature,"ax",%progbits
+ 295              		.align	2
+ 296              		.global	BMP180_CalculateTemperature
+ 297              		.thumb
+ 298              		.thumb_func
+ 299              		.type	BMP180_CalculateTemperature, %function
+ 300              	BMP180_CalculateTemperature:
+ 301              	.LFB69:
+  77:main.c        **** 
+  78:main.c        **** //////////////////////////////////////////////////////////////////////////
+  79:main.c        **** // Calibration Calculations
+  80:main.c        **** 
+  81:main.c        **** /*
+  82:main.c        ****    Temperature Calculation (from datasheet):
+  83:main.c        **** 
+  84:main.c        ****        X1 = ((UT - AC6) * AC5) >> 15;
+  85:main.c        ****        X2 = (MC << 11) / (X1 + MD);
+  86:main.c        ****        B5 = X1 + X2;
+  87:main.c        ****        T = ((B5 + 8) >> 4) / 10.0;
+  88:main.c        **** 
+  89:main.c        ****    Pressure Calculation (for oversampling=0):
+  90:main.c        **** 
+  91:main.c        ****        B6 = B5 - 4000;
+  92:main.c        ****        X1 = (B2 * ((B6 * B6) >> 12)) >> 11;
+  93:main.c        ****        X2 = (AC2 * B6) >> 11;
+  94:main.c        ****        X3 = X1 + X2;
+  95:main.c        ****        B3 = (((AC1 * 4 + X3) + 2) / 4);
+  96:main.c        ****        X1 = (AC3 * B6) >> 13;
+  97:main.c        ****        X2 = (B1 * ((B6 * B6) >> 12)) >> 16;
+  98:main.c        ****        X3 = ((X1 + X2) + 2) >> 2;
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 8
 
 
- 369 0040 13       		.uleb128 0x13
- 370 0041 00       		.byte	0
- 371 0042 00       		.byte	0
- 372 0043 06       		.uleb128 0x6
- 373 0044 2E       		.uleb128 0x2e
- 374 0045 01       		.byte	0x1
- 375 0046 3F       		.uleb128 0x3f
- 376 0047 19       		.uleb128 0x19
- 377 0048 03       		.uleb128 0x3
- 378 0049 0E       		.uleb128 0xe
- 379 004a 3A       		.uleb128 0x3a
- 380 004b 0B       		.uleb128 0xb
- 381 004c 3B       		.uleb128 0x3b
- 382 004d 0B       		.uleb128 0xb
- 383 004e 27       		.uleb128 0x27
- 384 004f 19       		.uleb128 0x19
- 385 0050 49       		.uleb128 0x49
- 386 0051 13       		.uleb128 0x13
- 387 0052 8701     		.uleb128 0x87
- 388 0054 19       		.uleb128 0x19
- 389 0055 11       		.uleb128 0x11
- 390 0056 01       		.uleb128 0x1
- 391 0057 12       		.uleb128 0x12
- 392 0058 06       		.uleb128 0x6
- 393 0059 40       		.uleb128 0x40
- 394 005a 18       		.uleb128 0x18
- 395 005b 9742     		.uleb128 0x2117
- 396 005d 19       		.uleb128 0x19
- 397 005e 01       		.uleb128 0x1
- 398 005f 13       		.uleb128 0x13
- 399 0060 00       		.byte	0
- 400 0061 00       		.byte	0
- 401 0062 07       		.uleb128 0x7
- 402 0063 34       		.uleb128 0x34
- 403 0064 00       		.byte	0
- 404 0065 03       		.uleb128 0x3
- 405 0066 0E       		.uleb128 0xe
- 406 0067 3A       		.uleb128 0x3a
- 407 0068 0B       		.uleb128 0xb
- 408 0069 3B       		.uleb128 0x3b
- 409 006a 0B       		.uleb128 0xb
- 410 006b 49       		.uleb128 0x49
- 411 006c 13       		.uleb128 0x13
- 412 006d 00       		.byte	0
- 413 006e 00       		.byte	0
- 414 006f 08       		.uleb128 0x8
- 415 0070 34       		.uleb128 0x34
- 416 0071 00       		.byte	0
- 417 0072 03       		.uleb128 0x3
- 418 0073 0E       		.uleb128 0xe
- 419 0074 3A       		.uleb128 0x3a
- 420 0075 0B       		.uleb128 0xb
- 421 0076 3B       		.uleb128 0x3b
- 422 0077 0B       		.uleb128 0xb
- 423 0078 49       		.uleb128 0x49
- 424 0079 13       		.uleb128 0x13
- 425 007a 1C       		.uleb128 0x1c
-ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 9
+  99:main.c        ****        B4 = (AC4 * (X3 + 32768)) >> 15;
+ 100:main.c        ****        B7 = ((uint32)UP - B3) * 50000;
+ 101:main.c        ****        If (B7 < 0x80000000)
+ 102:main.c        ****            P = (B7 << 1) / B4;
+ 103:main.c        ****        Else
+ 104:main.c        ****            P = (B7 / B4) << 1;
+ 105:main.c        ****        X1 = (P >> 8) * (P >> 8);
+ 106:main.c        ****        X1 = (X1 * 3038) >> 16;
+ 107:main.c        ****        X2 = (-7357 * P) >> 16;
+ 108:main.c        ****        P = P + ((X1 + X2 + 3791) >> 4);
+ 109:main.c        **** */
+ 110:main.c        **** float BMP180_CalculateTemperature(int16 ut, int32 *B5)
+ 111:main.c        **** {
+ 302              		.loc 1 111 0
+ 303              		.cfi_startproc
+ 304              		@ args = 0, pretend = 0, frame = 0
+ 305              		@ frame_needed = 0, uses_anonymous_args = 0
+ 306              	.LVL28:
+ 307 0000 10B5     		push	{r4, lr}
+ 308              		.cfi_def_cfa_offset 8
+ 309              		.cfi_offset 4, -8
+ 310              		.cfi_offset 14, -4
+ 112:main.c        ****     int32 X1 = (((int32)ut - AC6) * AC5) >> 15;
+ 311              		.loc 1 112 0
+ 312 0002 0F4B     		ldr	r3, .L18
+ 313 0004 1C88     		ldrh	r4, [r3]
+ 314 0006 001B     		subs	r0, r0, r4
+ 315              	.LVL29:
+ 316 0008 0E4B     		ldr	r3, .L18+4
+ 317 000a 1C88     		ldrh	r4, [r3]
+ 318 000c 00FB04F0 		mul	r0, r0, r4
+ 319 0010 C413     		asrs	r4, r0, #15
+ 320              	.LVL30:
+ 113:main.c        ****     int32 X2 = ((int32)MC << 11) / (X1 + MD);
+ 321              		.loc 1 113 0
+ 322 0012 0D4B     		ldr	r3, .L18+8
+ 323 0014 B3F90030 		ldrsh	r3, [r3]
+ 324 0018 DA02     		lsls	r2, r3, #11
+ 325 001a 0C4B     		ldr	r3, .L18+12
+ 326 001c B3F90000 		ldrsh	r0, [r3]
+ 327 0020 2044     		add	r0, r0, r4
+ 328 0022 92FBF0F3 		sdiv	r3, r2, r0
+ 329              	.LVL31:
+ 114:main.c        ****     *B5 = X1 + X2;
+ 330              		.loc 1 114 0
+ 331 0026 E018     		adds	r0, r4, r3
+ 332 0028 0860     		str	r0, [r1]
+ 115:main.c        ****     float T = (((*B5 + 8) >> 4)) / 10.0;  // Temperature in °C
+ 333              		.loc 1 115 0
+ 334 002a 0830     		adds	r0, r0, #8
+ 335 002c 0011     		asrs	r0, r0, #4
+ 336 002e FFF7FEFF 		bl	__aeabi_i2d
+ 337              	.LVL32:
+ 338 0032 0022     		movs	r2, #0
+ 339 0034 064B     		ldr	r3, .L18+16
+ 340 0036 FFF7FEFF 		bl	__aeabi_ddiv
+ 341              	.LVL33:
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 9
 
 
- 426 007b 0B       		.uleb128 0xb
- 427 007c 00       		.byte	0
- 428 007d 00       		.byte	0
- 429 007e 09       		.uleb128 0x9
- 430 007f 34       		.uleb128 0x34
- 431 0080 00       		.byte	0
- 432 0081 03       		.uleb128 0x3
- 433 0082 0E       		.uleb128 0xe
- 434 0083 3A       		.uleb128 0x3a
- 435 0084 0B       		.uleb128 0xb
- 436 0085 3B       		.uleb128 0x3b
- 437 0086 0B       		.uleb128 0xb
- 438 0087 49       		.uleb128 0x49
- 439 0088 13       		.uleb128 0x13
- 440 0089 02       		.uleb128 0x2
- 441 008a 18       		.uleb128 0x18
- 442 008b 00       		.byte	0
- 443 008c 00       		.byte	0
- 444 008d 0A       		.uleb128 0xa
- 445 008e 34       		.uleb128 0x34
- 446 008f 00       		.byte	0
- 447 0090 03       		.uleb128 0x3
- 448 0091 08       		.uleb128 0x8
- 449 0092 3A       		.uleb128 0x3a
- 450 0093 0B       		.uleb128 0xb
- 451 0094 3B       		.uleb128 0x3b
- 452 0095 0B       		.uleb128 0xb
- 453 0096 49       		.uleb128 0x49
- 454 0097 13       		.uleb128 0x13
- 455 0098 1C       		.uleb128 0x1c
- 456 0099 0B       		.uleb128 0xb
- 457 009a 00       		.byte	0
- 458 009b 00       		.byte	0
- 459 009c 0B       		.uleb128 0xb
- 460 009d 0B       		.uleb128 0xb
- 461 009e 01       		.byte	0x1
- 462 009f 11       		.uleb128 0x11
- 463 00a0 01       		.uleb128 0x1
- 464 00a1 12       		.uleb128 0x12
- 465 00a2 06       		.uleb128 0x6
- 466 00a3 01       		.uleb128 0x1
- 467 00a4 13       		.uleb128 0x13
- 468 00a5 00       		.byte	0
- 469 00a6 00       		.byte	0
- 470 00a7 0C       		.uleb128 0xc
- 471 00a8 2E       		.uleb128 0x2e
- 472 00a9 01       		.byte	0x1
- 473 00aa 3F       		.uleb128 0x3f
- 474 00ab 19       		.uleb128 0x19
- 475 00ac 03       		.uleb128 0x3
- 476 00ad 0E       		.uleb128 0xe
- 477 00ae 3A       		.uleb128 0x3a
- 478 00af 0B       		.uleb128 0xb
- 479 00b0 3B       		.uleb128 0x3b
- 480 00b1 0B       		.uleb128 0xb
- 481 00b2 27       		.uleb128 0x27
- 482 00b3 19       		.uleb128 0x19
-ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 10
+ 342 003a FFF7FEFF 		bl	__aeabi_d2f
+ 343              	.LVL34:
+ 116:main.c        ****     return T;
+ 117:main.c        **** }
+ 344              		.loc 1 117 0
+ 345 003e 10BD     		pop	{r4, pc}
+ 346              	.LVL35:
+ 347              	.L19:
+ 348              		.align	2
+ 349              	.L18:
+ 350 0040 00000000 		.word	AC6
+ 351 0044 00000000 		.word	AC5
+ 352 0048 00000000 		.word	MC
+ 353 004c 00000000 		.word	MD
+ 354 0050 00002440 		.word	1076101120
+ 355              		.cfi_endproc
+ 356              	.LFE69:
+ 357              		.size	BMP180_CalculateTemperature, .-BMP180_CalculateTemperature
+ 358              		.section	.text.BMP180_CalculatePressure,"ax",%progbits
+ 359              		.align	2
+ 360              		.global	BMP180_CalculatePressure
+ 361              		.thumb
+ 362              		.thumb_func
+ 363              		.type	BMP180_CalculatePressure, %function
+ 364              	BMP180_CalculatePressure:
+ 365              	.LFB70:
+ 118:main.c        **** 
+ 119:main.c        **** int32 BMP180_CalculatePressure(int32 up, int32 B5)
+ 120:main.c        **** {
+ 366              		.loc 1 120 0
+ 367              		.cfi_startproc
+ 368              		@ args = 0, pretend = 0, frame = 0
+ 369              		@ frame_needed = 0, uses_anonymous_args = 0
+ 370              		@ link register save eliminated.
+ 371              	.LVL36:
+ 372 0000 10B4     		push	{r4}
+ 373              		.cfi_def_cfa_offset 4
+ 374              		.cfi_offset 4, -4
+ 121:main.c        ****     int32 B6 = B5 - 4000;
+ 375              		.loc 1 121 0
+ 376 0002 A1F57A61 		sub	r1, r1, #4000
+ 377              	.LVL37:
+ 122:main.c        ****     int32 X1 = (B2 * ((B6 * B6) >> 12)) >> 11;
+ 378              		.loc 1 122 0
+ 379 0006 01FB01F3 		mul	r3, r1, r1
+ 380 000a 1B13     		asrs	r3, r3, #12
+ 381 000c 264A     		ldr	r2, .L25
+ 382 000e B2F90040 		ldrsh	r4, [r2]
+ 383 0012 03FB04F4 		mul	r4, r3, r4
+ 384              	.LVL38:
+ 123:main.c        ****     int32 X2 = (AC2 * B6) >> 11;
+ 385              		.loc 1 123 0
+ 386 0016 254A     		ldr	r2, .L25+4
+ 387 0018 B2F90020 		ldrsh	r2, [r2]
+ 388 001c 01FB02F2 		mul	r2, r1, r2
+ 389 0020 D212     		asrs	r2, r2, #11
+ 390              	.LVL39:
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 10
 
 
- 483 00b4 49       		.uleb128 0x49
- 484 00b5 13       		.uleb128 0x13
- 485 00b6 3C       		.uleb128 0x3c
- 486 00b7 19       		.uleb128 0x19
- 487 00b8 01       		.uleb128 0x1
- 488 00b9 13       		.uleb128 0x13
- 489 00ba 00       		.byte	0
- 490 00bb 00       		.byte	0
- 491 00bc 0D       		.uleb128 0xd
- 492 00bd 05       		.uleb128 0x5
- 493 00be 00       		.byte	0
- 494 00bf 49       		.uleb128 0x49
- 495 00c0 13       		.uleb128 0x13
- 496 00c1 00       		.byte	0
- 497 00c2 00       		.byte	0
- 498 00c3 0E       		.uleb128 0xe
- 499 00c4 898201   		.uleb128 0x4109
- 500 00c7 01       		.byte	0x1
- 501 00c8 11       		.uleb128 0x11
- 502 00c9 01       		.uleb128 0x1
- 503 00ca 31       		.uleb128 0x31
- 504 00cb 13       		.uleb128 0x13
- 505 00cc 00       		.byte	0
- 506 00cd 00       		.byte	0
- 507 00ce 0F       		.uleb128 0xf
- 508 00cf 8A8201   		.uleb128 0x410a
- 509 00d2 00       		.byte	0
- 510 00d3 02       		.uleb128 0x2
- 511 00d4 18       		.uleb128 0x18
- 512 00d5 9142     		.uleb128 0x2111
- 513 00d7 18       		.uleb128 0x18
- 514 00d8 00       		.byte	0
- 515 00d9 00       		.byte	0
- 516 00da 10       		.uleb128 0x10
- 517 00db 898201   		.uleb128 0x4109
- 518 00de 01       		.byte	0x1
- 519 00df 11       		.uleb128 0x11
- 520 00e0 01       		.uleb128 0x1
- 521 00e1 31       		.uleb128 0x31
- 522 00e2 13       		.uleb128 0x13
- 523 00e3 01       		.uleb128 0x1
- 524 00e4 13       		.uleb128 0x13
- 525 00e5 00       		.byte	0
- 526 00e6 00       		.byte	0
- 527 00e7 11       		.uleb128 0x11
- 528 00e8 898201   		.uleb128 0x4109
- 529 00eb 00       		.byte	0
- 530 00ec 11       		.uleb128 0x11
- 531 00ed 01       		.uleb128 0x1
- 532 00ee 31       		.uleb128 0x31
- 533 00ef 13       		.uleb128 0x13
- 534 00f0 00       		.byte	0
- 535 00f1 00       		.byte	0
- 536 00f2 12       		.uleb128 0x12
- 537 00f3 01       		.uleb128 0x1
- 538 00f4 01       		.byte	0x1
- 539 00f5 49       		.uleb128 0x49
-ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 11
+ 124:main.c        ****     int32 X3 = X1 + X2;
+ 391              		.loc 1 124 0
+ 392 0022 02EBE424 		add	r4, r2, r4, asr #11
+ 393              	.LVL40:
+ 125:main.c        ****     int32 B3 = (((((int32)AC1) * 4 + X3) + 2) / 4);
+ 394              		.loc 1 125 0
+ 395 0026 224A     		ldr	r2, .L25+8
+ 396              	.LVL41:
+ 397 0028 B2F90020 		ldrsh	r2, [r2]
+ 398 002c 04EB8202 		add	r2, r4, r2, lsl #2
+ 399 0030 0232     		adds	r2, r2, #2
+ 400 0032 00D5     		bpl	.L21
+ 401 0034 0332     		adds	r2, r2, #3
+ 402              	.L21:
+ 403              	.LVL42:
+ 126:main.c        ****     X1 = (AC3 * B6) >> 13;
+ 404              		.loc 1 126 0
+ 405 0036 1F4C     		ldr	r4, .L25+12
+ 406              	.LVL43:
+ 407 0038 B4F90040 		ldrsh	r4, [r4]
+ 408 003c 01FB04F1 		mul	r1, r1, r4
+ 409              	.LVL44:
+ 127:main.c        ****     X2 = (B1 * ((B6 * B6) >> 12)) >> 16;
+ 410              		.loc 1 127 0
+ 411 0040 1D4C     		ldr	r4, .L25+16
+ 412 0042 B4F90040 		ldrsh	r4, [r4]
+ 413 0046 03FB04F3 		mul	r3, r3, r4
+ 414              	.LVL45:
+ 415 004a 1B14     		asrs	r3, r3, #16
+ 416              	.LVL46:
+ 128:main.c        ****     X3 = ((X1 + X2) + 2) >> 2;
+ 417              		.loc 1 128 0
+ 418 004c 03EB6133 		add	r3, r3, r1, asr #13
+ 419              	.LVL47:
+ 420 0050 0233     		adds	r3, r3, #2
+ 421 0052 9B10     		asrs	r3, r3, #2
+ 422              	.LVL48:
+ 129:main.c        ****     uint32 B4 = (AC4 * (uint32)(X3 + 32768)) >> 15;
+ 423              		.loc 1 129 0
+ 424 0054 03F50043 		add	r3, r3, #32768
+ 425              	.LVL49:
+ 426 0058 1849     		ldr	r1, .L25+20
+ 427              	.LVL50:
+ 428 005a 0988     		ldrh	r1, [r1]
+ 429 005c 03FB01F3 		mul	r3, r3, r1
+ 430              	.LVL51:
+ 431 0060 DB0B     		lsrs	r3, r3, #15
+ 432              	.LVL52:
+ 130:main.c        ****     uint32 B7 = ((uint32)up - B3) * 50000;
+ 433              		.loc 1 130 0
+ 434 0062 A0EBA202 		sub	r2, r0, r2, asr #2
+ 435              	.LVL53:
+ 436 0066 4CF25031 		movw	r1, #50000
+ 437 006a 01FB02F2 		mul	r2, r1, r2
+ 438              	.LVL54:
+ 131:main.c        ****     int32 P;
+ 132:main.c        ****     if (B7 < 0x80000000)
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 11
 
 
- 540 00f6 13       		.uleb128 0x13
- 541 00f7 01       		.uleb128 0x1
- 542 00f8 13       		.uleb128 0x13
- 543 00f9 00       		.byte	0
- 544 00fa 00       		.byte	0
- 545 00fb 13       		.uleb128 0x13
- 546 00fc 21       		.uleb128 0x21
- 547 00fd 00       		.byte	0
- 548 00fe 49       		.uleb128 0x49
- 549 00ff 13       		.uleb128 0x13
- 550 0100 2F       		.uleb128 0x2f
- 551 0101 0B       		.uleb128 0xb
- 552 0102 00       		.byte	0
- 553 0103 00       		.byte	0
- 554 0104 14       		.uleb128 0x14
- 555 0105 0F       		.uleb128 0xf
- 556 0106 00       		.byte	0
- 557 0107 0B       		.uleb128 0xb
- 558 0108 0B       		.uleb128 0xb
- 559 0109 49       		.uleb128 0x49
- 560 010a 13       		.uleb128 0x13
- 561 010b 00       		.byte	0
- 562 010c 00       		.byte	0
- 563 010d 15       		.uleb128 0x15
- 564 010e 34       		.uleb128 0x34
- 565 010f 00       		.byte	0
- 566 0110 03       		.uleb128 0x3
- 567 0111 0E       		.uleb128 0xe
- 568 0112 3A       		.uleb128 0x3a
- 569 0113 0B       		.uleb128 0xb
- 570 0114 3B       		.uleb128 0x3b
- 571 0115 05       		.uleb128 0x5
- 572 0116 49       		.uleb128 0x49
- 573 0117 13       		.uleb128 0x13
- 574 0118 3F       		.uleb128 0x3f
- 575 0119 19       		.uleb128 0x19
- 576 011a 3C       		.uleb128 0x3c
- 577 011b 19       		.uleb128 0x19
- 578 011c 00       		.byte	0
- 579 011d 00       		.byte	0
- 580 011e 16       		.uleb128 0x16
- 581 011f 35       		.uleb128 0x35
- 582 0120 00       		.byte	0
- 583 0121 49       		.uleb128 0x49
- 584 0122 13       		.uleb128 0x13
- 585 0123 00       		.byte	0
- 586 0124 00       		.byte	0
- 587 0125 17       		.uleb128 0x17
- 588 0126 2E       		.uleb128 0x2e
- 589 0127 00       		.byte	0
- 590 0128 3F       		.uleb128 0x3f
- 591 0129 19       		.uleb128 0x19
- 592 012a 3C       		.uleb128 0x3c
- 593 012b 19       		.uleb128 0x19
- 594 012c 6E       		.uleb128 0x6e
- 595 012d 0E       		.uleb128 0xe
- 596 012e 03       		.uleb128 0x3
-ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 12
+ 439              		.loc 1 132 0
+ 440 006e 002A     		cmp	r2, #0
+ 441 0070 03DB     		blt	.L22
+ 133:main.c        ****     {
+ 134:main.c        ****         P = (B7 << 1) / B4;
+ 442              		.loc 1 134 0
+ 443 0072 5200     		lsls	r2, r2, #1
+ 444              	.LVL55:
+ 445 0074 B2FBF3F3 		udiv	r3, r2, r3
+ 446              	.LVL56:
+ 447 0078 02E0     		b	.L23
+ 448              	.LVL57:
+ 449              	.L22:
+ 135:main.c        ****     }
+ 136:main.c        ****     else
+ 137:main.c        ****     {
+ 138:main.c        ****         P = (B7 / B4) << 1;
+ 450              		.loc 1 138 0
+ 451 007a B2FBF3F3 		udiv	r3, r2, r3
+ 452              	.LVL58:
+ 453 007e 5B00     		lsls	r3, r3, #1
+ 454              	.LVL59:
+ 455              	.L23:
+ 139:main.c        ****     }
+ 140:main.c        ****     X1 = (P >> 8) * (P >> 8);
+ 456              		.loc 1 140 0
+ 457 0080 1812     		asrs	r0, r3, #8
+ 458              	.LVL60:
+ 459 0082 00FB00F0 		mul	r0, r0, r0
+ 460              	.LVL61:
+ 141:main.c        ****     X1 = (X1 * 3038) >> 16;
+ 461              		.loc 1 141 0
+ 462 0086 40F6DE32 		movw	r2, #3038
+ 463 008a 02FB00F0 		mul	r0, r2, r0
+ 464              	.LVL62:
+ 142:main.c        ****     X2 = (-7357 * P) >> 16;
+ 465              		.loc 1 142 0
+ 466 008e 0C4A     		ldr	r2, .L25+24
+ 467 0090 02FB03F2 		mul	r2, r2, r3
+ 468 0094 1214     		asrs	r2, r2, #16
+ 469              	.LVL63:
+ 143:main.c        ****     P = P + ((X1 + X2 + 3791) >> 4);
+ 470              		.loc 1 143 0
+ 471 0096 02EB2040 		add	r0, r2, r0, asr #16
+ 472              	.LVL64:
+ 473 009a 00F6CF60 		addw	r0, r0, #3791
+ 474              	.LVL65:
+ 144:main.c        ****     return P; // Pressure in Pa
+ 145:main.c        **** }
+ 475              		.loc 1 145 0
+ 476 009e 03EB2010 		add	r0, r3, r0, asr #4
+ 477              	.LVL66:
+ 478 00a2 10BC     		pop	{r4}
+ 479              		.cfi_restore 4
+ 480              		.cfi_def_cfa_offset 0
+ 481              	.LVL67:
+ 482 00a4 7047     		bx	lr
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 12
 
 
- 597 012f 0E       		.uleb128 0xe
- 598 0130 3A       		.uleb128 0x3a
- 599 0131 0B       		.uleb128 0xb
- 600 0132 3B       		.uleb128 0x3b
- 601 0133 0B       		.uleb128 0xb
- 602 0134 00       		.byte	0
- 603 0135 00       		.byte	0
- 604 0136 00       		.byte	0
- 605              		.section	.debug_aranges,"",%progbits
- 606 0000 1C000000 		.4byte	0x1c
- 607 0004 0200     		.2byte	0x2
- 608 0006 00000000 		.4byte	.Ldebug_info0
- 609 000a 04       		.byte	0x4
- 610 000b 00       		.byte	0
- 611 000c 0000     		.2byte	0
- 612 000e 0000     		.2byte	0
- 613 0010 00000000 		.4byte	.LFB63
- 614 0014 20000000 		.4byte	.LFE63-.LFB63
- 615 0018 00000000 		.4byte	0
- 616 001c 00000000 		.4byte	0
- 617              		.section	.debug_ranges,"",%progbits
- 618              	.Ldebug_ranges0:
- 619 0000 00000000 		.4byte	.LFB63
- 620 0004 20000000 		.4byte	.LFE63
- 621 0008 00000000 		.4byte	0
- 622 000c 00000000 		.4byte	0
- 623              		.section	.debug_line,"",%progbits
- 624              	.Ldebug_line0:
- 625 0000 88010000 		.section	.debug_str,"MS",%progbits,1
- 625      02006F01 
- 625      00000201 
- 625      FB0E0D00 
- 625      01010101 
- 626              	.LASF6:
- 627 0000 6C6F6E67 		.ascii	"long long int\000"
- 627      206C6F6E 
- 627      6720696E 
- 627      7400
- 628              	.LASF28:
- 629 000e 72627566 		.ascii	"rbuf\000"
- 629      00
- 630              	.LASF29:
- 631 0013 4932435F 		.ascii	"I2C_Master_MasterReadBuf\000"
- 631      4D617374 
- 631      65725F4D 
- 631      61737465 
- 631      72526561 
- 632              	.LASF9:
- 633 002c 5F5F696E 		.ascii	"__int32_t\000"
- 633      7433325F 
- 633      7400
- 634              	.LASF22:
- 635 0036 4932435F 		.ascii	"I2C_Master_MasterWriteBuf\000"
- 635      4D617374 
- 635      65725F4D 
- 635      61737465 
- 635      72577269 
-ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 13
+ 483              	.L26:
+ 484 00a6 00BF     		.align	2
+ 485              	.L25:
+ 486 00a8 00000000 		.word	B2
+ 487 00ac 00000000 		.word	AC2
+ 488 00b0 00000000 		.word	AC1
+ 489 00b4 00000000 		.word	AC3
+ 490 00b8 00000000 		.word	B1
+ 491 00bc 00000000 		.word	AC4
+ 492 00c0 43E3FFFF 		.word	-7357
+ 493              		.cfi_endproc
+ 494              	.LFE70:
+ 495              		.size	BMP180_CalculatePressure, .-BMP180_CalculatePressure
+ 496              		.section	.text.UART_Print,"ax",%progbits
+ 497              		.align	2
+ 498              		.global	UART_Print
+ 499              		.thumb
+ 500              		.thumb_func
+ 501              		.type	UART_Print, %function
+ 502              	UART_Print:
+ 503              	.LFB72:
+ 146:main.c        **** 
+ 147:main.c        **** //////////////////////////////////////////////////////////////////////////
+ 148:main.c        **** // Initialization and UART helper
+ 149:main.c        **** 
+ 150:main.c        **** void BMP180_Init(void)
+ 151:main.c        **** {
+ 152:main.c        ****     I2C_Start();
+ 153:main.c        ****     UART_Start();
+ 154:main.c        ****     BMP180_ReadCalibrationData();
+ 155:main.c        ****     UART_Print("BMP180 Initialized!\r\n");
+ 156:main.c        **** }
+ 157:main.c        **** 
+ 158:main.c        **** void UART_Print(const char *string)
+ 159:main.c        **** {
+ 504              		.loc 1 159 0
+ 505              		.cfi_startproc
+ 506              		@ args = 0, pretend = 0, frame = 0
+ 507              		@ frame_needed = 0, uses_anonymous_args = 0
+ 508              	.LVL68:
+ 509 0000 08B5     		push	{r3, lr}
+ 510              		.cfi_def_cfa_offset 8
+ 511              		.cfi_offset 3, -8
+ 512              		.cfi_offset 14, -4
+ 160:main.c        ****     UART_PutString(string);
+ 513              		.loc 1 160 0
+ 514 0002 FFF7FEFF 		bl	UART_PutString
+ 515              	.LVL69:
+ 516 0006 08BD     		pop	{r3, pc}
+ 517              		.cfi_endproc
+ 518              	.LFE72:
+ 519              		.size	UART_Print, .-UART_Print
+ 520              		.section	.text.BMP180_Init,"ax",%progbits
+ 521              		.align	2
+ 522              		.global	BMP180_Init
+ 523              		.thumb
+ 524              		.thumb_func
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 13
 
 
- 636              	.LASF17:
- 637 0050 536C6176 		.ascii	"SlaveAddr\000"
- 637      65416464 
- 637      7200
- 638              	.LASF26:
- 639 005a 433A5C55 		.ascii	"C:\\Users\\Mario\\OneDrive - HTL Anichstrasse\\Doku"
- 639      73657273 
- 639      5C4D6172 
- 639      696F5C4F 
- 639      6E654472 
- 640 0089 6D656E74 		.ascii	"mente\\PSoC Creator\\I2C_Sens\\dic-projekt\\I2C_Sen"
- 640      655C5053 
- 640      6F432043 
- 640      72656174 
- 640      6F725C49 
- 641 00b8 732E6379 		.ascii	"s.cydsn\000"
- 641      64736E00 
- 642              	.LASF12:
- 643 00c0 666C6F61 		.ascii	"float\000"
- 643      7400
- 644              	.LASF1:
- 645 00c6 756E7369 		.ascii	"unsigned char\000"
- 645      676E6564 
- 645      20636861 
- 645      7200
- 646              	.LASF24:
- 647 00d4 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
- 647      43313120 
- 647      352E342E 
- 647      31203230 
- 647      31363036 
- 648 0107 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
- 648      20726576 
- 648      6973696F 
- 648      6E203233 
- 648      37373135 
- 649 013a 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
- 649      66756E63 
- 649      74696F6E 
- 649      2D736563 
- 649      74696F6E 
- 650              	.LASF5:
- 651 0162 6C6F6E67 		.ascii	"long unsigned int\000"
- 651      20756E73 
- 651      69676E65 
- 651      6420696E 
- 651      7400
- 652              	.LASF3:
- 653 0174 73686F72 		.ascii	"short unsigned int\000"
- 653      7420756E 
- 653      7369676E 
- 653      65642069 
- 653      6E7400
- 654              	.LASF30:
- 655 0187 49544D5F 		.ascii	"ITM_RxBuffer\000"
- 655      52784275 
- 655      66666572 
-ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 14
+ 525              		.type	BMP180_Init, %function
+ 526              	BMP180_Init:
+ 527              	.LFB71:
+ 151:main.c        ****     I2C_Start();
+ 528              		.loc 1 151 0
+ 529              		.cfi_startproc
+ 530              		@ args = 0, pretend = 0, frame = 0
+ 531              		@ frame_needed = 0, uses_anonymous_args = 0
+ 532 0000 08B5     		push	{r3, lr}
+ 533              		.cfi_def_cfa_offset 8
+ 534              		.cfi_offset 3, -8
+ 535              		.cfi_offset 14, -4
+ 152:main.c        ****     UART_Start();
+ 536              		.loc 1 152 0
+ 537 0002 FFF7FEFF 		bl	I2C_Start
+ 538              	.LVL70:
+ 153:main.c        ****     BMP180_ReadCalibrationData();
+ 539              		.loc 1 153 0
+ 540 0006 FFF7FEFF 		bl	UART_Start
+ 541              	.LVL71:
+ 154:main.c        ****     UART_Print("BMP180 Initialized!\r\n");
+ 542              		.loc 1 154 0
+ 543 000a FFF7FEFF 		bl	BMP180_ReadCalibrationData
+ 544              	.LVL72:
+ 155:main.c        **** }
+ 545              		.loc 1 155 0
+ 546 000e 0248     		ldr	r0, .L31
+ 547 0010 FFF7FEFF 		bl	UART_Print
+ 548              	.LVL73:
+ 549 0014 08BD     		pop	{r3, pc}
+ 550              	.L32:
+ 551 0016 00BF     		.align	2
+ 552              	.L31:
+ 553 0018 00000000 		.word	.LC0
+ 554              		.cfi_endproc
+ 555              	.LFE71:
+ 556              		.size	BMP180_Init, .-BMP180_Init
+ 557              		.global	__aeabi_f2iz
+ 558              		.global	__aeabi_i2f
+ 559              		.global	__aeabi_fsub
+ 560              		.global	__aeabi_fmul
+ 561              		.section	.text.main,"ax",%progbits
+ 562              		.align	2
+ 563              		.global	main
+ 564              		.thumb
+ 565              		.thumb_func
+ 566              		.type	main, %function
+ 567              	main:
+ 568              	.LFB73:
+ 161:main.c        **** }
+ 162:main.c        **** 
+ 163:main.c        **** //////////////////////////////////////////////////////////////////////////
+ 164:main.c        **** // Main
+ 165:main.c        **** 
+ 166:main.c        **** int main(void)
+ 167:main.c        **** {
+ 569              		.loc 1 167 0
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 14
 
 
- 655      00
- 656              	.LASF23:
- 657 0194 4932435F 		.ascii	"I2C_Master_Start\000"
- 657      4D617374 
- 657      65725F53 
- 657      74617274 
- 657      00
- 658              	.LASF13:
- 659 01a5 646F7562 		.ascii	"double\000"
- 659      6C6500
- 660              	.LASF27:
- 661 01ac 6D61696E 		.ascii	"main\000"
- 661      00
- 662              	.LASF19:
- 663 01b1 72644461 		.ascii	"rdData\000"
- 663      746100
- 664              	.LASF8:
- 665 01b8 756E7369 		.ascii	"unsigned int\000"
- 665      676E6564 
- 665      20696E74 
- 665      00
- 666              	.LASF18:
- 667 01c5 77724461 		.ascii	"wrData\000"
- 667      746100
- 668              	.LASF7:
- 669 01cc 6C6F6E67 		.ascii	"long long unsigned int\000"
- 669      206C6F6E 
- 669      6720756E 
- 669      7369676E 
- 669      65642069 
- 670              	.LASF21:
- 671 01e3 436F6E74 		.ascii	"Control_Reg_1_Write\000"
- 671      726F6C5F 
- 671      5265675F 
- 671      315F5772 
- 671      69746500 
- 672              	.LASF20:
- 673 01f7 6D6F6465 		.ascii	"mode\000"
- 673      00
- 674              	.LASF10:
- 675 01fc 696E7433 		.ascii	"int32_t\000"
- 675      325F7400 
- 676              	.LASF16:
- 677 0204 73697A65 		.ascii	"sizetype\000"
- 677      74797065 
- 677      00
- 678              	.LASF25:
- 679 020d 6D61696E 		.ascii	"main.c\000"
- 679      2E6300
- 680              	.LASF14:
- 681 0214 63686172 		.ascii	"char\000"
- 681      00
- 682              	.LASF2:
- 683 0219 73686F72 		.ascii	"short int\000"
- 683      7420696E 
- 683      7400
- 684              	.LASF11:
-ARM GAS  C:\Users\Mario\AppData\Local\Temp\cc7NfPap.s 			page 15
+ 570              		.cfi_startproc
+ 571              		@ args = 0, pretend = 0, frame = 56
+ 572              		@ frame_needed = 0, uses_anonymous_args = 0
+ 573 0000 70B5     		push	{r4, r5, r6, lr}
+ 574              		.cfi_def_cfa_offset 16
+ 575              		.cfi_offset 4, -16
+ 576              		.cfi_offset 5, -12
+ 577              		.cfi_offset 6, -8
+ 578              		.cfi_offset 14, -4
+ 579 0002 8EB0     		sub	sp, sp, #56
+ 580              		.cfi_def_cfa_offset 72
+ 168:main.c        ****     CyGlobalIntEnable;
+ 581              		.loc 1 168 0
+ 582              		.syntax unified
+ 583              	@ 168 "main.c" 1
+ 584 0004 62B6     		CPSIE   i
+ 585              	@ 0 "" 2
+ 169:main.c        ****     char buffer[50];
+ 170:main.c        **** 
+ 171:main.c        ****     BMP180_Init();
+ 586              		.loc 1 171 0
+ 587              		.thumb
+ 588              		.syntax unified
+ 589 0006 FFF7FEFF 		bl	BMP180_Init
+ 590              	.LVL74:
+ 591              	.L34:
+ 592              	.LBB2:
+ 172:main.c        **** 
+ 173:main.c        ****     for (;;)
+ 174:main.c        ****     {
+ 175:main.c        ****         int16 ut = BMP180_ReadRawTemperature();
+ 593              		.loc 1 175 0 discriminator 1
+ 594 000a FFF7FEFF 		bl	BMP180_ReadRawTemperature
+ 595              	.LVL75:
+ 596 000e 0546     		mov	r5, r0
+ 597              	.LVL76:
+ 176:main.c        ****         int32 up = BMP180_ReadRawPressure();
+ 598              		.loc 1 176 0 discriminator 1
+ 599 0010 FFF7FEFF 		bl	BMP180_ReadRawPressure
+ 600              	.LVL77:
+ 601 0014 0446     		mov	r4, r0
+ 602              	.LVL78:
+ 177:main.c        ****         int32 B5;
+ 178:main.c        ****         float temperature = BMP180_CalculateTemperature(ut, &B5);
+ 603              		.loc 1 178 0 discriminator 1
+ 604 0016 6946     		mov	r1, sp
+ 605 0018 2846     		mov	r0, r5
+ 606              	.LVL79:
+ 607 001a FFF7FEFF 		bl	BMP180_CalculateTemperature
+ 608              	.LVL80:
+ 609 001e 0546     		mov	r5, r0
+ 610              	.LVL81:
+ 179:main.c        ****         int32 pressure = BMP180_CalculatePressure(up, B5);
+ 611              		.loc 1 179 0 discriminator 1
+ 612 0020 0099     		ldr	r1, [sp]
+ 613 0022 2046     		mov	r0, r4
+ 614              	.LVL82:
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 15
 
 
- 685 0223 75696E74 		.ascii	"uint8\000"
- 685      3800
- 686              	.LASF4:
- 687 0229 6C6F6E67 		.ascii	"long int\000"
- 687      20696E74 
- 687      00
- 688              	.LASF15:
- 689 0232 6C6F6E67 		.ascii	"long double\000"
- 689      20646F75 
- 689      626C6500 
- 690              	.LASF0:
- 691 023e 7369676E 		.ascii	"signed char\000"
- 691      65642063 
- 691      68617200 
- 692              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ 615 0024 FFF7FEFF 		bl	BMP180_CalculatePressure
+ 616              	.LVL83:
+ 617 0028 0646     		mov	r6, r0
+ 618              	.LVL84:
+ 180:main.c        **** 
+ 181:main.c        ****         // Manually format temperature as integer and fractional parts
+ 182:main.c        ****         int16 temp_int = (int16)temperature;
+ 619              		.loc 1 182 0 discriminator 1
+ 620 002a 2846     		mov	r0, r5
+ 621              	.LVL85:
+ 622 002c FFF7FEFF 		bl	__aeabi_f2iz
+ 623              	.LVL86:
+ 624 0030 04B2     		sxth	r4, r0
+ 625              	.LVL87:
+ 183:main.c        ****         int16 temp_frac = (int16)((temperature - temp_int) * 100);
+ 626              		.loc 1 183 0 discriminator 1
+ 627 0032 2046     		mov	r0, r4
+ 628 0034 FFF7FEFF 		bl	__aeabi_i2f
+ 629              	.LVL88:
+ 630 0038 0146     		mov	r1, r0
+ 631 003a 2846     		mov	r0, r5
+ 632 003c FFF7FEFF 		bl	__aeabi_fsub
+ 633              	.LVL89:
+ 634 0040 0E49     		ldr	r1, .L36
+ 635 0042 FFF7FEFF 		bl	__aeabi_fmul
+ 636              	.LVL90:
+ 637 0046 FFF7FEFF 		bl	__aeabi_f2iz
+ 638              	.LVL91:
+ 639 004a 03B2     		sxth	r3, r0
+ 640              	.LVL92:
+ 184:main.c        ****         sprintf(buffer, "Temperature: %d.%02d C\r\n", temp_int, (temp_frac < 0 ? -temp_frac : temp_
+ 641              		.loc 1 184 0 discriminator 1
+ 642 004c 002B     		cmp	r3, #0
+ 643 004e B8BF     		it	lt
+ 644 0050 5B42     		rsblt	r3, r3, #0
+ 645              	.LVL93:
+ 646 0052 2246     		mov	r2, r4
+ 647 0054 0A49     		ldr	r1, .L36+4
+ 648 0056 01A8     		add	r0, sp, #4
+ 649              	.LVL94:
+ 650 0058 FFF7FEFF 		bl	sprintf
+ 651              	.LVL95:
+ 185:main.c        ****         UART_Print(buffer);
+ 652              		.loc 1 185 0 discriminator 1
+ 653 005c 01A8     		add	r0, sp, #4
+ 654 005e FFF7FEFF 		bl	UART_Print
+ 655              	.LVL96:
+ 186:main.c        **** 
+ 187:main.c        ****         sprintf(buffer, "Pressure: %ld Pa\r\n", pressure);
+ 656              		.loc 1 187 0 discriminator 1
+ 657 0062 3246     		mov	r2, r6
+ 658 0064 0749     		ldr	r1, .L36+8
+ 659 0066 01A8     		add	r0, sp, #4
+ 660 0068 FFF7FEFF 		bl	sprintf
+ 661              	.LVL97:
+ 188:main.c        ****         UART_Print(buffer);
+ 662              		.loc 1 188 0 discriminator 1
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 16
+
+
+ 663 006c 01A8     		add	r0, sp, #4
+ 664 006e FFF7FEFF 		bl	UART_Print
+ 665              	.LVL98:
+ 189:main.c        **** 
+ 190:main.c        ****         CyDelay(2000);
+ 666              		.loc 1 190 0 discriminator 1
+ 667 0072 4FF4FA60 		mov	r0, #2000
+ 668 0076 FFF7FEFF 		bl	CyDelay
+ 669              	.LVL99:
+ 670 007a C6E7     		b	.L34
+ 671              	.L37:
+ 672              		.align	2
+ 673              	.L36:
+ 674 007c 0000C842 		.word	1120403456
+ 675 0080 18000000 		.word	.LC1
+ 676 0084 34000000 		.word	.LC2
+ 677              	.LBE2:
+ 678              		.cfi_endproc
+ 679              	.LFE73:
+ 680              		.size	main, .-main
+ 681              		.comm	AC6,2,2
+ 682              		.comm	AC5,2,2
+ 683              		.comm	AC4,2,2
+ 684              		.comm	MD,2,2
+ 685              		.comm	MC,2,2
+ 686              		.comm	MB,2,2
+ 687              		.comm	B2,2,2
+ 688              		.comm	B1,2,2
+ 689              		.comm	AC3,2,2
+ 690              		.comm	AC2,2,2
+ 691              		.comm	AC1,2,2
+ 692              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 693              		.align	2
+ 694              	.LC0:
+ 695 0000 424D5031 		.ascii	"BMP180 Initialized!\015\012\000"
+ 695      38302049 
+ 695      6E697469 
+ 695      616C697A 
+ 695      6564210D 
+ 696 0016 0000     		.space	2
+ 697              	.LC1:
+ 698 0018 54656D70 		.ascii	"Temperature: %d.%02d C\015\012\000"
+ 698      65726174 
+ 698      7572653A 
+ 698      2025642E 
+ 698      25303264 
+ 699 0031 000000   		.space	3
+ 700              	.LC2:
+ 701 0034 50726573 		.ascii	"Pressure: %ld Pa\015\012\000"
+ 701      73757265 
+ 701      3A20256C 
+ 701      64205061 
+ 701      0D0A00
+ 702              		.text
+ 703              	.Letext0:
+ 704              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 705              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 17
+
+
+ 706              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 707              		.file 5 "Generated_Source\\PSoC5/I2C.h"
+ 708              		.file 6 "Generated_Source\\PSoC5/CyLib.h"
+ 709              		.file 7 "Generated_Source\\PSoC5/UART.h"
+ 710              		.file 8 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 711              		.file 9 "Generated_Source\\PSoC5/core_cm3.h"
+ 712              		.section	.debug_info,"",%progbits
+ 713              	.Ldebug_info0:
+ 714 0000 AC070000 		.4byte	0x7ac
+ 715 0004 0400     		.2byte	0x4
+ 716 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 717 000a 04       		.byte	0x4
+ 718 000b 01       		.uleb128 0x1
+ 719 000c 86020000 		.4byte	.LASF47
+ 720 0010 0C       		.byte	0xc
+ 721 0011 24020000 		.4byte	.LASF48
+ 722 0015 1E000000 		.4byte	.LASF49
+ 723 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 724 001d 00000000 		.4byte	0
+ 725 0021 00000000 		.4byte	.Ldebug_line0
+ 726 0025 02       		.uleb128 0x2
+ 727 0026 01       		.byte	0x1
+ 728 0027 06       		.byte	0x6
+ 729 0028 41010000 		.4byte	.LASF0
+ 730 002c 02       		.uleb128 0x2
+ 731 002d 01       		.byte	0x1
+ 732 002e 08       		.byte	0x8
+ 733 002f 2B010000 		.4byte	.LASF1
+ 734 0033 02       		.uleb128 0x2
+ 735 0034 02       		.byte	0x2
+ 736 0035 05       		.byte	0x5
+ 737 0036 0B000000 		.4byte	.LASF2
+ 738 003a 02       		.uleb128 0x2
+ 739 003b 02       		.byte	0x2
+ 740 003c 07       		.byte	0x7
+ 741 003d 0A020000 		.4byte	.LASF3
+ 742 0041 03       		.uleb128 0x3
+ 743 0042 6F020000 		.4byte	.LASF9
+ 744 0046 02       		.byte	0x2
+ 745 0047 3F       		.byte	0x3f
+ 746 0048 4C000000 		.4byte	0x4c
+ 747 004c 02       		.uleb128 0x2
+ 748 004d 04       		.byte	0x4
+ 749 004e 05       		.byte	0x5
+ 750 004f E7000000 		.4byte	.LASF4
+ 751 0053 02       		.uleb128 0x2
+ 752 0054 04       		.byte	0x4
+ 753 0055 07       		.byte	0x7
+ 754 0056 2B020000 		.4byte	.LASF5
+ 755 005a 02       		.uleb128 0x2
+ 756 005b 08       		.byte	0x8
+ 757 005c 05       		.byte	0x5
+ 758 005d C2000000 		.4byte	.LASF6
+ 759 0061 02       		.uleb128 0x2
+ 760 0062 08       		.byte	0x8
+ 761 0063 07       		.byte	0x7
+ 762 0064 D0000000 		.4byte	.LASF7
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 18
+
+
+ 763 0068 04       		.uleb128 0x4
+ 764 0069 04       		.byte	0x4
+ 765 006a 05       		.byte	0x5
+ 766 006b 696E7400 		.ascii	"int\000"
+ 767 006f 02       		.uleb128 0x2
+ 768 0070 04       		.byte	0x4
+ 769 0071 07       		.byte	0x7
+ 770 0072 68010000 		.4byte	.LASF8
+ 771 0076 03       		.uleb128 0x3
+ 772 0077 4D010000 		.4byte	.LASF10
+ 773 007b 03       		.byte	0x3
+ 774 007c 2C       		.byte	0x2c
+ 775 007d 41000000 		.4byte	0x41
+ 776 0081 05       		.uleb128 0x5
+ 777 0082 93000000 		.4byte	.LASF11
+ 778 0086 04       		.byte	0x4
+ 779 0087 E801     		.2byte	0x1e8
+ 780 0089 2C000000 		.4byte	0x2c
+ 781 008d 05       		.uleb128 0x5
+ 782 008e 86000000 		.4byte	.LASF12
+ 783 0092 04       		.byte	0x4
+ 784 0093 E901     		.2byte	0x1e9
+ 785 0095 3A000000 		.4byte	0x3a
+ 786 0099 05       		.uleb128 0x5
+ 787 009a 1D020000 		.4byte	.LASF13
+ 788 009e 04       		.byte	0x4
+ 789 009f EA01     		.2byte	0x1ea
+ 790 00a1 53000000 		.4byte	0x53
+ 791 00a5 05       		.uleb128 0x5
+ 792 00a6 8D000000 		.4byte	.LASF14
+ 793 00aa 04       		.byte	0x4
+ 794 00ab EC01     		.2byte	0x1ec
+ 795 00ad 33000000 		.4byte	0x33
+ 796 00b1 05       		.uleb128 0x5
+ 797 00b2 3D020000 		.4byte	.LASF15
+ 798 00b6 04       		.byte	0x4
+ 799 00b7 ED01     		.2byte	0x1ed
+ 800 00b9 4C000000 		.4byte	0x4c
+ 801 00bd 02       		.uleb128 0x2
+ 802 00be 04       		.byte	0x4
+ 803 00bf 04       		.byte	0x4
+ 804 00c0 BC000000 		.4byte	.LASF16
+ 805 00c4 02       		.uleb128 0x2
+ 806 00c5 08       		.byte	0x8
+ 807 00c6 04       		.byte	0x4
+ 808 00c7 43020000 		.4byte	.LASF17
+ 809 00cb 02       		.uleb128 0x2
+ 810 00cc 01       		.byte	0x1
+ 811 00cd 08       		.byte	0x8
+ 812 00ce B8010000 		.4byte	.LASF18
+ 813 00d2 02       		.uleb128 0x2
+ 814 00d3 08       		.byte	0x8
+ 815 00d4 04       		.byte	0x4
+ 816 00d5 0D010000 		.4byte	.LASF19
+ 817 00d9 02       		.uleb128 0x2
+ 818 00da 04       		.byte	0x4
+ 819 00db 07       		.byte	0x7
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 19
+
+
+ 820 00dc 15000000 		.4byte	.LASF20
+ 821 00e0 06       		.uleb128 0x6
+ 822 00e1 04       		.byte	0x4
+ 823 00e2 E6000000 		.4byte	0xe6
+ 824 00e6 07       		.uleb128 0x7
+ 825 00e7 CB000000 		.4byte	0xcb
+ 826 00eb 08       		.uleb128 0x8
+ 827 00ec F0000000 		.4byte	.LASF23
+ 828 00f0 01       		.byte	0x1
+ 829 00f1 18       		.byte	0x18
+ 830 00f2 00000000 		.4byte	.LFB64
+ 831 00f6 28000000 		.4byte	.LFE64-.LFB64
+ 832 00fa 01       		.uleb128 0x1
+ 833 00fb 9C       		.byte	0x9c
+ 834 00fc 5A010000 		.4byte	0x15a
+ 835 0100 09       		.uleb128 0x9
+ 836 0101 72656700 		.ascii	"reg\000"
+ 837 0105 01       		.byte	0x1
+ 838 0106 18       		.byte	0x18
+ 839 0107 81000000 		.4byte	0x81
+ 840 010b 00000000 		.4byte	.LLST0
+ 841 010f 0A       		.uleb128 0xa
+ 842 0110 EC010000 		.4byte	.LASF21
+ 843 0114 01       		.byte	0x1
+ 844 0115 18       		.byte	0x18
+ 845 0116 81000000 		.4byte	0x81
+ 846 011a 2D000000 		.4byte	.LLST1
+ 847 011e 0B       		.uleb128 0xb
+ 848 011f 68000000 		.4byte	.LASF22
+ 849 0123 01       		.byte	0x1
+ 850 0124 1A       		.byte	0x1a
+ 851 0125 5A010000 		.4byte	0x15a
+ 852 0129 02       		.uleb128 0x2
+ 853 012a 91       		.byte	0x91
+ 854 012b 74       		.sleb128 -12
+ 855 012c 0C       		.uleb128 0xc
+ 856 012d 18000000 		.4byte	.LVL3
+ 857 0131 57070000 		.4byte	0x757
+ 858 0135 50010000 		.4byte	0x150
+ 859 0139 0D       		.uleb128 0xd
+ 860 013a 01       		.uleb128 0x1
+ 861 013b 50       		.byte	0x50
+ 862 013c 02       		.uleb128 0x2
+ 863 013d 08       		.byte	0x8
+ 864 013e 77       		.byte	0x77
+ 865 013f 0D       		.uleb128 0xd
+ 866 0140 01       		.uleb128 0x1
+ 867 0141 51       		.byte	0x51
+ 868 0142 02       		.uleb128 0x2
+ 869 0143 91       		.byte	0x91
+ 870 0144 74       		.sleb128 -12
+ 871 0145 0D       		.uleb128 0xd
+ 872 0146 01       		.uleb128 0x1
+ 873 0147 52       		.byte	0x52
+ 874 0148 01       		.uleb128 0x1
+ 875 0149 32       		.byte	0x32
+ 876 014a 0D       		.uleb128 0xd
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 20
+
+
+ 877 014b 01       		.uleb128 0x1
+ 878 014c 53       		.byte	0x53
+ 879 014d 01       		.uleb128 0x1
+ 880 014e 30       		.byte	0x30
+ 881 014f 00       		.byte	0
+ 882 0150 0E       		.uleb128 0xe
+ 883 0151 1C000000 		.4byte	.LVL4
+ 884 0155 62070000 		.4byte	0x762
+ 885 0159 00       		.byte	0
+ 886 015a 0F       		.uleb128 0xf
+ 887 015b 81000000 		.4byte	0x81
+ 888 015f 6A010000 		.4byte	0x16a
+ 889 0163 10       		.uleb128 0x10
+ 890 0164 D9000000 		.4byte	0xd9
+ 891 0168 01       		.byte	0x1
+ 892 0169 00       		.byte	0
+ 893 016a 11       		.uleb128 0x11
+ 894 016b A8010000 		.4byte	.LASF25
+ 895 016f 01       		.byte	0x1
+ 896 0170 1F       		.byte	0x1f
+ 897 0171 8D000000 		.4byte	0x8d
+ 898 0175 00000000 		.4byte	.LFB65
+ 899 0179 46000000 		.4byte	.LFE65-.LFB65
+ 900 017d 01       		.uleb128 0x1
+ 901 017e 9C       		.byte	0x9c
+ 902 017f FB010000 		.4byte	0x1fb
+ 903 0183 09       		.uleb128 0x9
+ 904 0184 72656700 		.ascii	"reg\000"
+ 905 0188 01       		.byte	0x1
+ 906 0189 1F       		.byte	0x1f
+ 907 018a 81000000 		.4byte	0x81
+ 908 018e 5A000000 		.4byte	.LLST2
+ 909 0192 0B       		.uleb128 0xb
+ 910 0193 68000000 		.4byte	.LASF22
+ 911 0197 01       		.byte	0x1
+ 912 0198 21       		.byte	0x21
+ 913 0199 5A010000 		.4byte	0x15a
+ 914 019d 02       		.uleb128 0x2
+ 915 019e 91       		.byte	0x91
+ 916 019f 74       		.sleb128 -12
+ 917 01a0 0C       		.uleb128 0xc
+ 918 01a1 14000000 		.4byte	.LVL7
+ 919 01a5 57070000 		.4byte	0x757
+ 920 01a9 C4010000 		.4byte	0x1c4
+ 921 01ad 0D       		.uleb128 0xd
+ 922 01ae 01       		.uleb128 0x1
+ 923 01af 50       		.byte	0x50
+ 924 01b0 02       		.uleb128 0x2
+ 925 01b1 08       		.byte	0x8
+ 926 01b2 77       		.byte	0x77
+ 927 01b3 0D       		.uleb128 0xd
+ 928 01b4 01       		.uleb128 0x1
+ 929 01b5 51       		.byte	0x51
+ 930 01b6 02       		.uleb128 0x2
+ 931 01b7 91       		.byte	0x91
+ 932 01b8 6F       		.sleb128 -17
+ 933 01b9 0D       		.uleb128 0xd
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 21
+
+
+ 934 01ba 01       		.uleb128 0x1
+ 935 01bb 52       		.byte	0x52
+ 936 01bc 01       		.uleb128 0x1
+ 937 01bd 31       		.byte	0x31
+ 938 01be 0D       		.uleb128 0xd
+ 939 01bf 01       		.uleb128 0x1
+ 940 01c0 53       		.byte	0x53
+ 941 01c1 01       		.uleb128 0x1
+ 942 01c2 30       		.byte	0x30
+ 943 01c3 00       		.byte	0
+ 944 01c4 0E       		.uleb128 0xe
+ 945 01c5 18000000 		.4byte	.LVL8
+ 946 01c9 62070000 		.4byte	0x762
+ 947 01cd 0C       		.uleb128 0xc
+ 948 01ce 2A000000 		.4byte	.LVL9
+ 949 01d2 6D070000 		.4byte	0x76d
+ 950 01d6 F1010000 		.4byte	0x1f1
+ 951 01da 0D       		.uleb128 0xd
+ 952 01db 01       		.uleb128 0x1
+ 953 01dc 50       		.byte	0x50
+ 954 01dd 02       		.uleb128 0x2
+ 955 01de 08       		.byte	0x8
+ 956 01df 77       		.byte	0x77
+ 957 01e0 0D       		.uleb128 0xd
+ 958 01e1 01       		.uleb128 0x1
+ 959 01e2 51       		.byte	0x51
+ 960 01e3 02       		.uleb128 0x2
+ 961 01e4 91       		.byte	0x91
+ 962 01e5 74       		.sleb128 -12
+ 963 01e6 0D       		.uleb128 0xd
+ 964 01e7 01       		.uleb128 0x1
+ 965 01e8 52       		.byte	0x52
+ 966 01e9 01       		.uleb128 0x1
+ 967 01ea 32       		.byte	0x32
+ 968 01eb 0D       		.uleb128 0xd
+ 969 01ec 01       		.uleb128 0x1
+ 970 01ed 53       		.byte	0x53
+ 971 01ee 01       		.uleb128 0x1
+ 972 01ef 30       		.byte	0x30
+ 973 01f0 00       		.byte	0
+ 974 01f1 0E       		.uleb128 0xe
+ 975 01f2 2E000000 		.4byte	.LVL10
+ 976 01f6 62070000 		.4byte	0x762
+ 977 01fa 00       		.byte	0
+ 978 01fb 08       		.uleb128 0x8
+ 979 01fc C8010000 		.4byte	.LASF24
+ 980 0200 01       		.byte	0x1
+ 981 0201 2E       		.byte	0x2e
+ 982 0202 00000000 		.4byte	.LFB66
+ 983 0206 A0000000 		.4byte	.LFE66-.LFB66
+ 984 020a 01       		.uleb128 0x1
+ 985 020b 9C       		.byte	0x9c
+ 986 020c E9020000 		.4byte	0x2e9
+ 987 0210 0C       		.uleb128 0xc
+ 988 0211 08000000 		.4byte	.LVL11
+ 989 0215 6A010000 		.4byte	0x16a
+ 990 0219 24020000 		.4byte	0x224
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 22
+
+
+ 991 021d 0D       		.uleb128 0xd
+ 992 021e 01       		.uleb128 0x1
+ 993 021f 50       		.byte	0x50
+ 994 0220 02       		.uleb128 0x2
+ 995 0221 09       		.byte	0x9
+ 996 0222 AA       		.byte	0xaa
+ 997 0223 00       		.byte	0
+ 998 0224 0C       		.uleb128 0xc
+ 999 0225 12000000 		.4byte	.LVL12
+ 1000 0229 6A010000 		.4byte	0x16a
+ 1001 022d 38020000 		.4byte	0x238
+ 1002 0231 0D       		.uleb128 0xd
+ 1003 0232 01       		.uleb128 0x1
+ 1004 0233 50       		.byte	0x50
+ 1005 0234 02       		.uleb128 0x2
+ 1006 0235 09       		.byte	0x9
+ 1007 0236 AC       		.byte	0xac
+ 1008 0237 00       		.byte	0
+ 1009 0238 0C       		.uleb128 0xc
+ 1010 0239 1C000000 		.4byte	.LVL13
+ 1011 023d 6A010000 		.4byte	0x16a
+ 1012 0241 4C020000 		.4byte	0x24c
+ 1013 0245 0D       		.uleb128 0xd
+ 1014 0246 01       		.uleb128 0x1
+ 1015 0247 50       		.byte	0x50
+ 1016 0248 02       		.uleb128 0x2
+ 1017 0249 09       		.byte	0x9
+ 1018 024a AE       		.byte	0xae
+ 1019 024b 00       		.byte	0
+ 1020 024c 0C       		.uleb128 0xc
+ 1021 024d 26000000 		.4byte	.LVL14
+ 1022 0251 6A010000 		.4byte	0x16a
+ 1023 0255 60020000 		.4byte	0x260
+ 1024 0259 0D       		.uleb128 0xd
+ 1025 025a 01       		.uleb128 0x1
+ 1026 025b 50       		.byte	0x50
+ 1027 025c 02       		.uleb128 0x2
+ 1028 025d 09       		.byte	0x9
+ 1029 025e B0       		.byte	0xb0
+ 1030 025f 00       		.byte	0
+ 1031 0260 0C       		.uleb128 0xc
+ 1032 0261 30000000 		.4byte	.LVL15
+ 1033 0265 6A010000 		.4byte	0x16a
+ 1034 0269 74020000 		.4byte	0x274
+ 1035 026d 0D       		.uleb128 0xd
+ 1036 026e 01       		.uleb128 0x1
+ 1037 026f 50       		.byte	0x50
+ 1038 0270 02       		.uleb128 0x2
+ 1039 0271 09       		.byte	0x9
+ 1040 0272 B2       		.byte	0xb2
+ 1041 0273 00       		.byte	0
+ 1042 0274 0C       		.uleb128 0xc
+ 1043 0275 3A000000 		.4byte	.LVL16
+ 1044 0279 6A010000 		.4byte	0x16a
+ 1045 027d 88020000 		.4byte	0x288
+ 1046 0281 0D       		.uleb128 0xd
+ 1047 0282 01       		.uleb128 0x1
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 23
+
+
+ 1048 0283 50       		.byte	0x50
+ 1049 0284 02       		.uleb128 0x2
+ 1050 0285 09       		.byte	0x9
+ 1051 0286 B4       		.byte	0xb4
+ 1052 0287 00       		.byte	0
+ 1053 0288 0C       		.uleb128 0xc
+ 1054 0289 44000000 		.4byte	.LVL17
+ 1055 028d 6A010000 		.4byte	0x16a
+ 1056 0291 9C020000 		.4byte	0x29c
+ 1057 0295 0D       		.uleb128 0xd
+ 1058 0296 01       		.uleb128 0x1
+ 1059 0297 50       		.byte	0x50
+ 1060 0298 02       		.uleb128 0x2
+ 1061 0299 09       		.byte	0x9
+ 1062 029a B6       		.byte	0xb6
+ 1063 029b 00       		.byte	0
+ 1064 029c 0C       		.uleb128 0xc
+ 1065 029d 4E000000 		.4byte	.LVL18
+ 1066 02a1 6A010000 		.4byte	0x16a
+ 1067 02a5 B0020000 		.4byte	0x2b0
+ 1068 02a9 0D       		.uleb128 0xd
+ 1069 02aa 01       		.uleb128 0x1
+ 1070 02ab 50       		.byte	0x50
+ 1071 02ac 02       		.uleb128 0x2
+ 1072 02ad 09       		.byte	0x9
+ 1073 02ae B8       		.byte	0xb8
+ 1074 02af 00       		.byte	0
+ 1075 02b0 0C       		.uleb128 0xc
+ 1076 02b1 58000000 		.4byte	.LVL19
+ 1077 02b5 6A010000 		.4byte	0x16a
+ 1078 02b9 C4020000 		.4byte	0x2c4
+ 1079 02bd 0D       		.uleb128 0xd
+ 1080 02be 01       		.uleb128 0x1
+ 1081 02bf 50       		.byte	0x50
+ 1082 02c0 02       		.uleb128 0x2
+ 1083 02c1 09       		.byte	0x9
+ 1084 02c2 BA       		.byte	0xba
+ 1085 02c3 00       		.byte	0
+ 1086 02c4 0C       		.uleb128 0xc
+ 1087 02c5 62000000 		.4byte	.LVL20
+ 1088 02c9 6A010000 		.4byte	0x16a
+ 1089 02cd D8020000 		.4byte	0x2d8
+ 1090 02d1 0D       		.uleb128 0xd
+ 1091 02d2 01       		.uleb128 0x1
+ 1092 02d3 50       		.byte	0x50
+ 1093 02d4 02       		.uleb128 0x2
+ 1094 02d5 09       		.byte	0x9
+ 1095 02d6 BC       		.byte	0xbc
+ 1096 02d7 00       		.byte	0
+ 1097 02d8 12       		.uleb128 0x12
+ 1098 02d9 6C000000 		.4byte	.LVL21
+ 1099 02dd 6A010000 		.4byte	0x16a
+ 1100 02e1 0D       		.uleb128 0xd
+ 1101 02e2 01       		.uleb128 0x1
+ 1102 02e3 50       		.byte	0x50
+ 1103 02e4 02       		.uleb128 0x2
+ 1104 02e5 09       		.byte	0x9
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 24
+
+
+ 1105 02e6 BE       		.byte	0xbe
+ 1106 02e7 00       		.byte	0
+ 1107 02e8 00       		.byte	0
+ 1108 02e9 11       		.uleb128 0x11
+ 1109 02ea A2000000 		.4byte	.LASF26
+ 1110 02ee 01       		.byte	0x1
+ 1111 02ef 3D       		.byte	0x3d
+ 1112 02f0 A5000000 		.4byte	0xa5
+ 1113 02f4 00000000 		.4byte	.LFB67
+ 1114 02f8 1A000000 		.4byte	.LFE67-.LFB67
+ 1115 02fc 01       		.uleb128 0x1
+ 1116 02fd 9C       		.byte	0x9c
+ 1117 02fe 40030000 		.4byte	0x340
+ 1118 0302 0C       		.uleb128 0xc
+ 1119 0303 0A000000 		.4byte	.LVL22
+ 1120 0307 EB000000 		.4byte	0xeb
+ 1121 030b 1C030000 		.4byte	0x31c
+ 1122 030f 0D       		.uleb128 0xd
+ 1123 0310 01       		.uleb128 0x1
+ 1124 0311 50       		.byte	0x50
+ 1125 0312 02       		.uleb128 0x2
+ 1126 0313 09       		.byte	0x9
+ 1127 0314 F4       		.byte	0xf4
+ 1128 0315 0D       		.uleb128 0xd
+ 1129 0316 01       		.uleb128 0x1
+ 1130 0317 51       		.byte	0x51
+ 1131 0318 02       		.uleb128 0x2
+ 1132 0319 08       		.byte	0x8
+ 1133 031a 2E       		.byte	0x2e
+ 1134 031b 00       		.byte	0
+ 1135 031c 0C       		.uleb128 0xc
+ 1136 031d 10000000 		.4byte	.LVL23
+ 1137 0321 78070000 		.4byte	0x778
+ 1138 0325 2F030000 		.4byte	0x32f
+ 1139 0329 0D       		.uleb128 0xd
+ 1140 032a 01       		.uleb128 0x1
+ 1141 032b 50       		.byte	0x50
+ 1142 032c 01       		.uleb128 0x1
+ 1143 032d 35       		.byte	0x35
+ 1144 032e 00       		.byte	0
+ 1145 032f 12       		.uleb128 0x12
+ 1146 0330 16000000 		.4byte	.LVL24
+ 1147 0334 6A010000 		.4byte	0x16a
+ 1148 0338 0D       		.uleb128 0xd
+ 1149 0339 01       		.uleb128 0x1
+ 1150 033a 50       		.byte	0x50
+ 1151 033b 02       		.uleb128 0x2
+ 1152 033c 09       		.byte	0x9
+ 1153 033d F6       		.byte	0xf6
+ 1154 033e 00       		.byte	0
+ 1155 033f 00       		.byte	0
+ 1156 0340 11       		.uleb128 0x11
+ 1157 0341 75010000 		.4byte	.LASF27
+ 1158 0345 01       		.byte	0x1
+ 1159 0346 45       		.byte	0x45
+ 1160 0347 B1000000 		.4byte	0xb1
+ 1161 034b 00000000 		.4byte	.LFB68
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 25
+
+
+ 1162 034f 18000000 		.4byte	.LFE68-.LFB68
+ 1163 0353 01       		.uleb128 0x1
+ 1164 0354 9C       		.byte	0x9c
+ 1165 0355 97030000 		.4byte	0x397
+ 1166 0359 0C       		.uleb128 0xc
+ 1167 035a 0A000000 		.4byte	.LVL25
+ 1168 035e EB000000 		.4byte	0xeb
+ 1169 0362 73030000 		.4byte	0x373
+ 1170 0366 0D       		.uleb128 0xd
+ 1171 0367 01       		.uleb128 0x1
+ 1172 0368 50       		.byte	0x50
+ 1173 0369 02       		.uleb128 0x2
+ 1174 036a 09       		.byte	0x9
+ 1175 036b F4       		.byte	0xf4
+ 1176 036c 0D       		.uleb128 0xd
+ 1177 036d 01       		.uleb128 0x1
+ 1178 036e 51       		.byte	0x51
+ 1179 036f 02       		.uleb128 0x2
+ 1180 0370 08       		.byte	0x8
+ 1181 0371 34       		.byte	0x34
+ 1182 0372 00       		.byte	0
+ 1183 0373 0C       		.uleb128 0xc
+ 1184 0374 10000000 		.4byte	.LVL26
+ 1185 0378 78070000 		.4byte	0x778
+ 1186 037c 86030000 		.4byte	0x386
+ 1187 0380 0D       		.uleb128 0xd
+ 1188 0381 01       		.uleb128 0x1
+ 1189 0382 50       		.byte	0x50
+ 1190 0383 01       		.uleb128 0x1
+ 1191 0384 38       		.byte	0x38
+ 1192 0385 00       		.byte	0
+ 1193 0386 12       		.uleb128 0x12
+ 1194 0387 16000000 		.4byte	.LVL27
+ 1195 038b 6A010000 		.4byte	0x16a
+ 1196 038f 0D       		.uleb128 0xd
+ 1197 0390 01       		.uleb128 0x1
+ 1198 0391 50       		.byte	0x50
+ 1199 0392 02       		.uleb128 0x2
+ 1200 0393 09       		.byte	0x9
+ 1201 0394 F6       		.byte	0xf6
+ 1202 0395 00       		.byte	0
+ 1203 0396 00       		.byte	0
+ 1204 0397 13       		.uleb128 0x13
+ 1205 0398 8C010000 		.4byte	.LASF28
+ 1206 039c 01       		.byte	0x1
+ 1207 039d 6E       		.byte	0x6e
+ 1208 039e BD000000 		.4byte	0xbd
+ 1209 03a2 00000000 		.4byte	.LFB69
+ 1210 03a6 54000000 		.4byte	.LFE69-.LFB69
+ 1211 03aa 01       		.uleb128 0x1
+ 1212 03ab 9C       		.byte	0x9c
+ 1213 03ac F4030000 		.4byte	0x3f4
+ 1214 03b0 09       		.uleb128 0x9
+ 1215 03b1 757400   		.ascii	"ut\000"
+ 1216 03b4 01       		.byte	0x1
+ 1217 03b5 6E       		.byte	0x6e
+ 1218 03b6 A5000000 		.4byte	0xa5
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 26
+
+
+ 1219 03ba 85000000 		.4byte	.LLST3
+ 1220 03be 09       		.uleb128 0x9
+ 1221 03bf 423500   		.ascii	"B5\000"
+ 1222 03c2 01       		.byte	0x1
+ 1223 03c3 6E       		.byte	0x6e
+ 1224 03c4 F4030000 		.4byte	0x3f4
+ 1225 03c8 A6000000 		.4byte	.LLST4
+ 1226 03cc 14       		.uleb128 0x14
+ 1227 03cd 583100   		.ascii	"X1\000"
+ 1228 03d0 01       		.byte	0x1
+ 1229 03d1 70       		.byte	0x70
+ 1230 03d2 B1000000 		.4byte	0xb1
+ 1231 03d6 C7000000 		.4byte	.LLST5
+ 1232 03da 14       		.uleb128 0x14
+ 1233 03db 583200   		.ascii	"X2\000"
+ 1234 03de 01       		.byte	0x1
+ 1235 03df 71       		.byte	0x71
+ 1236 03e0 B1000000 		.4byte	0xb1
+ 1237 03e4 DA000000 		.4byte	.LLST6
+ 1238 03e8 15       		.uleb128 0x15
+ 1239 03e9 5400     		.ascii	"T\000"
+ 1240 03eb 01       		.byte	0x1
+ 1241 03ec 73       		.byte	0x73
+ 1242 03ed BD000000 		.4byte	0xbd
+ 1243 03f1 01       		.uleb128 0x1
+ 1244 03f2 50       		.byte	0x50
+ 1245 03f3 00       		.byte	0
+ 1246 03f4 06       		.uleb128 0x6
+ 1247 03f5 04       		.byte	0x4
+ 1248 03f6 B1000000 		.4byte	0xb1
+ 1249 03fa 11       		.uleb128 0x11
+ 1250 03fb 4A020000 		.4byte	.LASF29
+ 1251 03ff 01       		.byte	0x1
+ 1252 0400 77       		.byte	0x77
+ 1253 0401 B1000000 		.4byte	0xb1
+ 1254 0405 00000000 		.4byte	.LFB70
+ 1255 0409 C4000000 		.4byte	.LFE70-.LFB70
+ 1256 040d 01       		.uleb128 0x1
+ 1257 040e 9C       		.byte	0x9c
+ 1258 040f 9F040000 		.4byte	0x49f
+ 1259 0413 09       		.uleb128 0x9
+ 1260 0414 757000   		.ascii	"up\000"
+ 1261 0417 01       		.byte	0x1
+ 1262 0418 77       		.byte	0x77
+ 1263 0419 B1000000 		.4byte	0xb1
+ 1264 041d ED000000 		.4byte	.LLST7
+ 1265 0421 09       		.uleb128 0x9
+ 1266 0422 423500   		.ascii	"B5\000"
+ 1267 0425 01       		.byte	0x1
+ 1268 0426 77       		.byte	0x77
+ 1269 0427 B1000000 		.4byte	0xb1
+ 1270 042b 0E010000 		.4byte	.LLST8
+ 1271 042f 14       		.uleb128 0x14
+ 1272 0430 423600   		.ascii	"B6\000"
+ 1273 0433 01       		.byte	0x1
+ 1274 0434 79       		.byte	0x79
+ 1275 0435 B1000000 		.4byte	0xb1
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 27
+
+
+ 1276 0439 3D010000 		.4byte	.LLST9
+ 1277 043d 14       		.uleb128 0x14
+ 1278 043e 583100   		.ascii	"X1\000"
+ 1279 0441 01       		.byte	0x1
+ 1280 0442 7A       		.byte	0x7a
+ 1281 0443 B1000000 		.4byte	0xb1
+ 1282 0447 62010000 		.4byte	.LLST10
+ 1283 044b 14       		.uleb128 0x14
+ 1284 044c 583200   		.ascii	"X2\000"
+ 1285 044f 01       		.byte	0x1
+ 1286 0450 7B       		.byte	0x7b
+ 1287 0451 B1000000 		.4byte	0xb1
+ 1288 0455 F7010000 		.4byte	.LLST11
+ 1289 0459 14       		.uleb128 0x14
+ 1290 045a 583300   		.ascii	"X3\000"
+ 1291 045d 01       		.byte	0x1
+ 1292 045e 7C       		.byte	0x7c
+ 1293 045f B1000000 		.4byte	0xb1
+ 1294 0463 7C020000 		.4byte	.LLST12
+ 1295 0467 14       		.uleb128 0x14
+ 1296 0468 423300   		.ascii	"B3\000"
+ 1297 046b 01       		.byte	0x1
+ 1298 046c 7D       		.byte	0x7d
+ 1299 046d B1000000 		.4byte	0xb1
+ 1300 0471 C5030000 		.4byte	.LLST13
+ 1301 0475 14       		.uleb128 0x14
+ 1302 0476 423400   		.ascii	"B4\000"
+ 1303 0479 01       		.byte	0x1
+ 1304 047a 81       		.byte	0x81
+ 1305 047b 99000000 		.4byte	0x99
+ 1306 047f DC030000 		.4byte	.LLST14
+ 1307 0483 14       		.uleb128 0x14
+ 1308 0484 423700   		.ascii	"B7\000"
+ 1309 0487 01       		.byte	0x1
+ 1310 0488 82       		.byte	0x82
+ 1311 0489 99000000 		.4byte	0x99
+ 1312 048d EA040000 		.4byte	.LLST15
+ 1313 0491 14       		.uleb128 0x14
+ 1314 0492 5000     		.ascii	"P\000"
+ 1315 0494 01       		.byte	0x1
+ 1316 0495 83       		.byte	0x83
+ 1317 0496 B1000000 		.4byte	0xb1
+ 1318 049a 08050000 		.4byte	.LLST16
+ 1319 049e 00       		.byte	0
+ 1320 049f 08       		.uleb128 0x8
+ 1321 04a0 00000000 		.4byte	.LASF30
+ 1322 04a4 01       		.byte	0x1
+ 1323 04a5 9E       		.byte	0x9e
+ 1324 04a6 00000000 		.4byte	.LFB72
+ 1325 04aa 08000000 		.4byte	.LFE72-.LFB72
+ 1326 04ae 01       		.uleb128 0x1
+ 1327 04af 9C       		.byte	0x9c
+ 1328 04b0 D5040000 		.4byte	0x4d5
+ 1329 04b4 0A       		.uleb128 0xa
+ 1330 04b5 5C000000 		.4byte	.LASF31
+ 1331 04b9 01       		.byte	0x1
+ 1332 04ba 9E       		.byte	0x9e
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 28
+
+
+ 1333 04bb E0000000 		.4byte	0xe0
+ 1334 04bf 43050000 		.4byte	.LLST17
+ 1335 04c3 12       		.uleb128 0x12
+ 1336 04c4 06000000 		.4byte	.LVL69
+ 1337 04c8 83070000 		.4byte	0x783
+ 1338 04cc 0D       		.uleb128 0xd
+ 1339 04cd 01       		.uleb128 0x1
+ 1340 04ce 50       		.byte	0x50
+ 1341 04cf 03       		.uleb128 0x3
+ 1342 04d0 F3       		.byte	0xf3
+ 1343 04d1 01       		.uleb128 0x1
+ 1344 04d2 50       		.byte	0x50
+ 1345 04d3 00       		.byte	0
+ 1346 04d4 00       		.byte	0
+ 1347 04d5 08       		.uleb128 0x8
+ 1348 04d6 01010000 		.4byte	.LASF32
+ 1349 04da 01       		.byte	0x1
+ 1350 04db 96       		.byte	0x96
+ 1351 04dc 00000000 		.4byte	.LFB71
+ 1352 04e0 1C000000 		.4byte	.LFE71-.LFB71
+ 1353 04e4 01       		.uleb128 0x1
+ 1354 04e5 9C       		.byte	0x9c
+ 1355 04e6 19050000 		.4byte	0x519
+ 1356 04ea 0E       		.uleb128 0xe
+ 1357 04eb 06000000 		.4byte	.LVL70
+ 1358 04ef 8E070000 		.4byte	0x78e
+ 1359 04f3 0E       		.uleb128 0xe
+ 1360 04f4 0A000000 		.4byte	.LVL71
+ 1361 04f8 99070000 		.4byte	0x799
+ 1362 04fc 0E       		.uleb128 0xe
+ 1363 04fd 0E000000 		.4byte	.LVL72
+ 1364 0501 FB010000 		.4byte	0x1fb
+ 1365 0505 12       		.uleb128 0x12
+ 1366 0506 14000000 		.4byte	.LVL73
+ 1367 050a 9F040000 		.4byte	0x49f
+ 1368 050e 0D       		.uleb128 0xd
+ 1369 050f 01       		.uleb128 0x1
+ 1370 0510 50       		.byte	0x50
+ 1371 0511 05       		.uleb128 0x5
+ 1372 0512 03       		.byte	0x3
+ 1373 0513 00000000 		.4byte	.LC0
+ 1374 0517 00       		.byte	0
+ 1375 0518 00       		.byte	0
+ 1376 0519 16       		.uleb128 0x16
+ 1377 051a 63000000 		.4byte	.LASF50
+ 1378 051e 01       		.byte	0x1
+ 1379 051f A6       		.byte	0xa6
+ 1380 0520 68000000 		.4byte	0x68
+ 1381 0524 00000000 		.4byte	.LFB73
+ 1382 0528 88000000 		.4byte	.LFE73-.LFB73
+ 1383 052c 01       		.uleb128 0x1
+ 1384 052d 9C       		.byte	0x9c
+ 1385 052e 80060000 		.4byte	0x680
+ 1386 0532 0B       		.uleb128 0xb
+ 1387 0533 03020000 		.4byte	.LASF33
+ 1388 0537 01       		.byte	0x1
+ 1389 0538 A9       		.byte	0xa9
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 29
+
+
+ 1390 0539 80060000 		.4byte	0x680
+ 1391 053d 03       		.uleb128 0x3
+ 1392 053e 91       		.byte	0x91
+ 1393 053f BC7F     		.sleb128 -68
+ 1394 0541 17       		.uleb128 0x17
+ 1395 0542 0A000000 		.4byte	.LBB2
+ 1396 0546 7E000000 		.4byte	.LBE2-.LBB2
+ 1397 054a 76060000 		.4byte	0x676
+ 1398 054e 14       		.uleb128 0x14
+ 1399 054f 757400   		.ascii	"ut\000"
+ 1400 0552 01       		.byte	0x1
+ 1401 0553 AF       		.byte	0xaf
+ 1402 0554 A5000000 		.4byte	0xa5
+ 1403 0558 64050000 		.4byte	.LLST18
+ 1404 055c 14       		.uleb128 0x14
+ 1405 055d 757000   		.ascii	"up\000"
+ 1406 0560 01       		.byte	0x1
+ 1407 0561 B0       		.byte	0xb0
+ 1408 0562 B1000000 		.4byte	0xb1
+ 1409 0566 77050000 		.4byte	.LLST19
+ 1410 056a 15       		.uleb128 0x15
+ 1411 056b 423500   		.ascii	"B5\000"
+ 1412 056e 01       		.byte	0x1
+ 1413 056f B1       		.byte	0xb1
+ 1414 0570 B1000000 		.4byte	0xb1
+ 1415 0574 03       		.uleb128 0x3
+ 1416 0575 91       		.byte	0x91
+ 1417 0576 B87F     		.sleb128 -72
+ 1418 0578 18       		.uleb128 0x18
+ 1419 0579 63020000 		.4byte	.LASF34
+ 1420 057d 01       		.byte	0x1
+ 1421 057e B2       		.byte	0xb2
+ 1422 057f BD000000 		.4byte	0xbd
+ 1423 0583 95050000 		.4byte	.LLST20
+ 1424 0587 18       		.uleb128 0x18
+ 1425 0588 99000000 		.4byte	.LASF35
+ 1426 058c 01       		.byte	0x1
+ 1427 058d B3       		.byte	0xb3
+ 1428 058e B1000000 		.4byte	0xb1
+ 1429 0592 B3050000 		.4byte	.LLST21
+ 1430 0596 0B       		.uleb128 0xb
+ 1431 0597 E3010000 		.4byte	.LASF36
+ 1432 059b 01       		.byte	0x1
+ 1433 059c B6       		.byte	0xb6
+ 1434 059d A5000000 		.4byte	0xa5
+ 1435 05a1 01       		.uleb128 0x1
+ 1436 05a2 54       		.byte	0x54
+ 1437 05a3 18       		.uleb128 0x18
+ 1438 05a4 6D000000 		.4byte	.LASF37
+ 1439 05a8 01       		.byte	0x1
+ 1440 05a9 B7       		.byte	0xb7
+ 1441 05aa A5000000 		.4byte	0xa5
+ 1442 05ae D1050000 		.4byte	.LLST22
+ 1443 05b2 0E       		.uleb128 0xe
+ 1444 05b3 0E000000 		.4byte	.LVL75
+ 1445 05b7 E9020000 		.4byte	0x2e9
+ 1446 05bb 0E       		.uleb128 0xe
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 30
+
+
+ 1447 05bc 14000000 		.4byte	.LVL77
+ 1448 05c0 40030000 		.4byte	0x340
+ 1449 05c4 0C       		.uleb128 0xc
+ 1450 05c5 1E000000 		.4byte	.LVL80
+ 1451 05c9 97030000 		.4byte	0x397
+ 1452 05cd DE050000 		.4byte	0x5de
+ 1453 05d1 0D       		.uleb128 0xd
+ 1454 05d2 01       		.uleb128 0x1
+ 1455 05d3 50       		.byte	0x50
+ 1456 05d4 02       		.uleb128 0x2
+ 1457 05d5 75       		.byte	0x75
+ 1458 05d6 00       		.sleb128 0
+ 1459 05d7 0D       		.uleb128 0xd
+ 1460 05d8 01       		.uleb128 0x1
+ 1461 05d9 51       		.byte	0x51
+ 1462 05da 02       		.uleb128 0x2
+ 1463 05db 7D       		.byte	0x7d
+ 1464 05dc 00       		.sleb128 0
+ 1465 05dd 00       		.byte	0
+ 1466 05de 0C       		.uleb128 0xc
+ 1467 05df 28000000 		.4byte	.LVL83
+ 1468 05e3 FA030000 		.4byte	0x3fa
+ 1469 05e7 F2050000 		.4byte	0x5f2
+ 1470 05eb 0D       		.uleb128 0xd
+ 1471 05ec 01       		.uleb128 0x1
+ 1472 05ed 50       		.byte	0x50
+ 1473 05ee 02       		.uleb128 0x2
+ 1474 05ef 74       		.byte	0x74
+ 1475 05f0 00       		.sleb128 0
+ 1476 05f1 00       		.byte	0
+ 1477 05f2 0C       		.uleb128 0xc
+ 1478 05f3 5C000000 		.4byte	.LVL95
+ 1479 05f7 A4070000 		.4byte	0x7a4
+ 1480 05fb 16060000 		.4byte	0x616
+ 1481 05ff 0D       		.uleb128 0xd
+ 1482 0600 01       		.uleb128 0x1
+ 1483 0601 50       		.byte	0x50
+ 1484 0602 03       		.uleb128 0x3
+ 1485 0603 91       		.byte	0x91
+ 1486 0604 BC7F     		.sleb128 -68
+ 1487 0606 0D       		.uleb128 0xd
+ 1488 0607 01       		.uleb128 0x1
+ 1489 0608 51       		.byte	0x51
+ 1490 0609 05       		.uleb128 0x5
+ 1491 060a 03       		.byte	0x3
+ 1492 060b 18000000 		.4byte	.LC1
+ 1493 060f 0D       		.uleb128 0xd
+ 1494 0610 01       		.uleb128 0x1
+ 1495 0611 52       		.byte	0x52
+ 1496 0612 02       		.uleb128 0x2
+ 1497 0613 74       		.byte	0x74
+ 1498 0614 00       		.sleb128 0
+ 1499 0615 00       		.byte	0
+ 1500 0616 0C       		.uleb128 0xc
+ 1501 0617 62000000 		.4byte	.LVL96
+ 1502 061b 9F040000 		.4byte	0x49f
+ 1503 061f 2B060000 		.4byte	0x62b
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 31
+
+
+ 1504 0623 0D       		.uleb128 0xd
+ 1505 0624 01       		.uleb128 0x1
+ 1506 0625 50       		.byte	0x50
+ 1507 0626 03       		.uleb128 0x3
+ 1508 0627 91       		.byte	0x91
+ 1509 0628 BC7F     		.sleb128 -68
+ 1510 062a 00       		.byte	0
+ 1511 062b 0C       		.uleb128 0xc
+ 1512 062c 6C000000 		.4byte	.LVL97
+ 1513 0630 A4070000 		.4byte	0x7a4
+ 1514 0634 4F060000 		.4byte	0x64f
+ 1515 0638 0D       		.uleb128 0xd
+ 1516 0639 01       		.uleb128 0x1
+ 1517 063a 50       		.byte	0x50
+ 1518 063b 03       		.uleb128 0x3
+ 1519 063c 91       		.byte	0x91
+ 1520 063d BC7F     		.sleb128 -68
+ 1521 063f 0D       		.uleb128 0xd
+ 1522 0640 01       		.uleb128 0x1
+ 1523 0641 51       		.byte	0x51
+ 1524 0642 05       		.uleb128 0x5
+ 1525 0643 03       		.byte	0x3
+ 1526 0644 34000000 		.4byte	.LC2
+ 1527 0648 0D       		.uleb128 0xd
+ 1528 0649 01       		.uleb128 0x1
+ 1529 064a 52       		.byte	0x52
+ 1530 064b 02       		.uleb128 0x2
+ 1531 064c 76       		.byte	0x76
+ 1532 064d 00       		.sleb128 0
+ 1533 064e 00       		.byte	0
+ 1534 064f 0C       		.uleb128 0xc
+ 1535 0650 72000000 		.4byte	.LVL98
+ 1536 0654 9F040000 		.4byte	0x49f
+ 1537 0658 64060000 		.4byte	0x664
+ 1538 065c 0D       		.uleb128 0xd
+ 1539 065d 01       		.uleb128 0x1
+ 1540 065e 50       		.byte	0x50
+ 1541 065f 03       		.uleb128 0x3
+ 1542 0660 91       		.byte	0x91
+ 1543 0661 BC7F     		.sleb128 -68
+ 1544 0663 00       		.byte	0
+ 1545 0664 12       		.uleb128 0x12
+ 1546 0665 7A000000 		.4byte	.LVL99
+ 1547 0669 78070000 		.4byte	0x778
+ 1548 066d 0D       		.uleb128 0xd
+ 1549 066e 01       		.uleb128 0x1
+ 1550 066f 50       		.byte	0x50
+ 1551 0670 03       		.uleb128 0x3
+ 1552 0671 0A       		.byte	0xa
+ 1553 0672 D007     		.2byte	0x7d0
+ 1554 0674 00       		.byte	0
+ 1555 0675 00       		.byte	0
+ 1556 0676 0E       		.uleb128 0xe
+ 1557 0677 0A000000 		.4byte	.LVL74
+ 1558 067b D5040000 		.4byte	0x4d5
+ 1559 067f 00       		.byte	0
+ 1560 0680 0F       		.uleb128 0xf
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 32
+
+
+ 1561 0681 CB000000 		.4byte	0xcb
+ 1562 0685 90060000 		.4byte	0x690
+ 1563 0689 10       		.uleb128 0x10
+ 1564 068a D9000000 		.4byte	0xd9
+ 1565 068e 31       		.byte	0x31
+ 1566 068f 00       		.byte	0
+ 1567 0690 19       		.uleb128 0x19
+ 1568 0691 79020000 		.4byte	.LASF38
+ 1569 0695 09       		.byte	0x9
+ 1570 0696 1207     		.2byte	0x712
+ 1571 0698 9C060000 		.4byte	0x69c
+ 1572 069c 1A       		.uleb128 0x1a
+ 1573 069d 76000000 		.4byte	0x76
+ 1574 06a1 1B       		.uleb128 0x1b
+ 1575 06a2 41433100 		.ascii	"AC1\000"
+ 1576 06a6 01       		.byte	0x1
+ 1577 06a7 07       		.byte	0x7
+ 1578 06a8 A5000000 		.4byte	0xa5
+ 1579 06ac 05       		.uleb128 0x5
+ 1580 06ad 03       		.byte	0x3
+ 1581 06ae 00000000 		.4byte	AC1
+ 1582 06b2 1B       		.uleb128 0x1b
+ 1583 06b3 41433200 		.ascii	"AC2\000"
+ 1584 06b7 01       		.byte	0x1
+ 1585 06b8 07       		.byte	0x7
+ 1586 06b9 A5000000 		.4byte	0xa5
+ 1587 06bd 05       		.uleb128 0x5
+ 1588 06be 03       		.byte	0x3
+ 1589 06bf 00000000 		.4byte	AC2
+ 1590 06c3 1B       		.uleb128 0x1b
+ 1591 06c4 41433300 		.ascii	"AC3\000"
+ 1592 06c8 01       		.byte	0x1
+ 1593 06c9 07       		.byte	0x7
+ 1594 06ca A5000000 		.4byte	0xa5
+ 1595 06ce 05       		.uleb128 0x5
+ 1596 06cf 03       		.byte	0x3
+ 1597 06d0 00000000 		.4byte	AC3
+ 1598 06d4 1B       		.uleb128 0x1b
+ 1599 06d5 423100   		.ascii	"B1\000"
+ 1600 06d8 01       		.byte	0x1
+ 1601 06d9 07       		.byte	0x7
+ 1602 06da A5000000 		.4byte	0xa5
+ 1603 06de 05       		.uleb128 0x5
+ 1604 06df 03       		.byte	0x3
+ 1605 06e0 00000000 		.4byte	B1
+ 1606 06e4 1B       		.uleb128 0x1b
+ 1607 06e5 423200   		.ascii	"B2\000"
+ 1608 06e8 01       		.byte	0x1
+ 1609 06e9 07       		.byte	0x7
+ 1610 06ea A5000000 		.4byte	0xa5
+ 1611 06ee 05       		.uleb128 0x5
+ 1612 06ef 03       		.byte	0x3
+ 1613 06f0 00000000 		.4byte	B2
+ 1614 06f4 1B       		.uleb128 0x1b
+ 1615 06f5 4D4200   		.ascii	"MB\000"
+ 1616 06f8 01       		.byte	0x1
+ 1617 06f9 07       		.byte	0x7
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 33
+
+
+ 1618 06fa A5000000 		.4byte	0xa5
+ 1619 06fe 05       		.uleb128 0x5
+ 1620 06ff 03       		.byte	0x3
+ 1621 0700 00000000 		.4byte	MB
+ 1622 0704 1B       		.uleb128 0x1b
+ 1623 0705 4D4300   		.ascii	"MC\000"
+ 1624 0708 01       		.byte	0x1
+ 1625 0709 07       		.byte	0x7
+ 1626 070a A5000000 		.4byte	0xa5
+ 1627 070e 05       		.uleb128 0x5
+ 1628 070f 03       		.byte	0x3
+ 1629 0710 00000000 		.4byte	MC
+ 1630 0714 1B       		.uleb128 0x1b
+ 1631 0715 4D4400   		.ascii	"MD\000"
+ 1632 0718 01       		.byte	0x1
+ 1633 0719 07       		.byte	0x7
+ 1634 071a A5000000 		.4byte	0xa5
+ 1635 071e 05       		.uleb128 0x5
+ 1636 071f 03       		.byte	0x3
+ 1637 0720 00000000 		.4byte	MD
+ 1638 0724 1B       		.uleb128 0x1b
+ 1639 0725 41433400 		.ascii	"AC4\000"
+ 1640 0729 01       		.byte	0x1
+ 1641 072a 08       		.byte	0x8
+ 1642 072b 8D000000 		.4byte	0x8d
+ 1643 072f 05       		.uleb128 0x5
+ 1644 0730 03       		.byte	0x3
+ 1645 0731 00000000 		.4byte	AC4
+ 1646 0735 1B       		.uleb128 0x1b
+ 1647 0736 41433500 		.ascii	"AC5\000"
+ 1648 073a 01       		.byte	0x1
+ 1649 073b 08       		.byte	0x8
+ 1650 073c 8D000000 		.4byte	0x8d
+ 1651 0740 05       		.uleb128 0x5
+ 1652 0741 03       		.byte	0x3
+ 1653 0742 00000000 		.4byte	AC5
+ 1654 0746 1B       		.uleb128 0x1b
+ 1655 0747 41433600 		.ascii	"AC6\000"
+ 1656 074b 01       		.byte	0x1
+ 1657 074c 08       		.byte	0x8
+ 1658 074d 8D000000 		.4byte	0x8d
+ 1659 0751 05       		.uleb128 0x5
+ 1660 0752 03       		.byte	0x3
+ 1661 0753 00000000 		.4byte	AC6
+ 1662 0757 1C       		.uleb128 0x1c
+ 1663 0758 55010000 		.4byte	.LASF39
+ 1664 075c 55010000 		.4byte	.LASF39
+ 1665 0760 05       		.byte	0x5
+ 1666 0761 A7       		.byte	0xa7
+ 1667 0762 1C       		.uleb128 0x1c
+ 1668 0763 F2010000 		.4byte	.LASF40
+ 1669 0767 F2010000 		.4byte	.LASF40
+ 1670 076b 05       		.byte	0x5
+ 1671 076c A3       		.byte	0xa3
+ 1672 076d 1C       		.uleb128 0x1c
+ 1673 076e 19010000 		.4byte	.LASF41
+ 1674 0772 19010000 		.4byte	.LASF41
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 34
+
+
+ 1675 0776 05       		.byte	0x5
+ 1676 0777 A9       		.byte	0xa9
+ 1677 0778 1C       		.uleb128 0x1c
+ 1678 0779 14030000 		.4byte	.LASF42
+ 1679 077d 14030000 		.4byte	.LASF42
+ 1680 0781 06       		.byte	0x6
+ 1681 0782 76       		.byte	0x76
+ 1682 0783 1C       		.uleb128 0x1c
+ 1683 0784 77000000 		.4byte	.LASF43
+ 1684 0788 77000000 		.4byte	.LASF43
+ 1685 078c 07       		.byte	0x7
+ 1686 078d 8B       		.byte	0x8b
+ 1687 078e 1C       		.uleb128 0x1c
+ 1688 078f 1C030000 		.4byte	.LASF44
+ 1689 0793 1C030000 		.4byte	.LASF44
+ 1690 0797 05       		.byte	0x5
+ 1691 0798 93       		.byte	0x93
+ 1692 0799 1C       		.uleb128 0x1c
+ 1693 079a BD010000 		.4byte	.LASF45
+ 1694 079e BD010000 		.4byte	.LASF45
+ 1695 07a2 07       		.byte	0x7
+ 1696 07a3 54       		.byte	0x54
+ 1697 07a4 1C       		.uleb128 0x1c
+ 1698 07a5 39010000 		.4byte	.LASF46
+ 1699 07a9 39010000 		.4byte	.LASF46
+ 1700 07ad 08       		.byte	0x8
+ 1701 07ae E7       		.byte	0xe7
+ 1702 07af 00       		.byte	0
+ 1703              		.section	.debug_abbrev,"",%progbits
+ 1704              	.Ldebug_abbrev0:
+ 1705 0000 01       		.uleb128 0x1
+ 1706 0001 11       		.uleb128 0x11
+ 1707 0002 01       		.byte	0x1
+ 1708 0003 25       		.uleb128 0x25
+ 1709 0004 0E       		.uleb128 0xe
+ 1710 0005 13       		.uleb128 0x13
+ 1711 0006 0B       		.uleb128 0xb
+ 1712 0007 03       		.uleb128 0x3
+ 1713 0008 0E       		.uleb128 0xe
+ 1714 0009 1B       		.uleb128 0x1b
+ 1715 000a 0E       		.uleb128 0xe
+ 1716 000b 55       		.uleb128 0x55
+ 1717 000c 17       		.uleb128 0x17
+ 1718 000d 11       		.uleb128 0x11
+ 1719 000e 01       		.uleb128 0x1
+ 1720 000f 10       		.uleb128 0x10
+ 1721 0010 17       		.uleb128 0x17
+ 1722 0011 00       		.byte	0
+ 1723 0012 00       		.byte	0
+ 1724 0013 02       		.uleb128 0x2
+ 1725 0014 24       		.uleb128 0x24
+ 1726 0015 00       		.byte	0
+ 1727 0016 0B       		.uleb128 0xb
+ 1728 0017 0B       		.uleb128 0xb
+ 1729 0018 3E       		.uleb128 0x3e
+ 1730 0019 0B       		.uleb128 0xb
+ 1731 001a 03       		.uleb128 0x3
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 35
+
+
+ 1732 001b 0E       		.uleb128 0xe
+ 1733 001c 00       		.byte	0
+ 1734 001d 00       		.byte	0
+ 1735 001e 03       		.uleb128 0x3
+ 1736 001f 16       		.uleb128 0x16
+ 1737 0020 00       		.byte	0
+ 1738 0021 03       		.uleb128 0x3
+ 1739 0022 0E       		.uleb128 0xe
+ 1740 0023 3A       		.uleb128 0x3a
+ 1741 0024 0B       		.uleb128 0xb
+ 1742 0025 3B       		.uleb128 0x3b
+ 1743 0026 0B       		.uleb128 0xb
+ 1744 0027 49       		.uleb128 0x49
+ 1745 0028 13       		.uleb128 0x13
+ 1746 0029 00       		.byte	0
+ 1747 002a 00       		.byte	0
+ 1748 002b 04       		.uleb128 0x4
+ 1749 002c 24       		.uleb128 0x24
+ 1750 002d 00       		.byte	0
+ 1751 002e 0B       		.uleb128 0xb
+ 1752 002f 0B       		.uleb128 0xb
+ 1753 0030 3E       		.uleb128 0x3e
+ 1754 0031 0B       		.uleb128 0xb
+ 1755 0032 03       		.uleb128 0x3
+ 1756 0033 08       		.uleb128 0x8
+ 1757 0034 00       		.byte	0
+ 1758 0035 00       		.byte	0
+ 1759 0036 05       		.uleb128 0x5
+ 1760 0037 16       		.uleb128 0x16
+ 1761 0038 00       		.byte	0
+ 1762 0039 03       		.uleb128 0x3
+ 1763 003a 0E       		.uleb128 0xe
+ 1764 003b 3A       		.uleb128 0x3a
+ 1765 003c 0B       		.uleb128 0xb
+ 1766 003d 3B       		.uleb128 0x3b
+ 1767 003e 05       		.uleb128 0x5
+ 1768 003f 49       		.uleb128 0x49
+ 1769 0040 13       		.uleb128 0x13
+ 1770 0041 00       		.byte	0
+ 1771 0042 00       		.byte	0
+ 1772 0043 06       		.uleb128 0x6
+ 1773 0044 0F       		.uleb128 0xf
+ 1774 0045 00       		.byte	0
+ 1775 0046 0B       		.uleb128 0xb
+ 1776 0047 0B       		.uleb128 0xb
+ 1777 0048 49       		.uleb128 0x49
+ 1778 0049 13       		.uleb128 0x13
+ 1779 004a 00       		.byte	0
+ 1780 004b 00       		.byte	0
+ 1781 004c 07       		.uleb128 0x7
+ 1782 004d 26       		.uleb128 0x26
+ 1783 004e 00       		.byte	0
+ 1784 004f 49       		.uleb128 0x49
+ 1785 0050 13       		.uleb128 0x13
+ 1786 0051 00       		.byte	0
+ 1787 0052 00       		.byte	0
+ 1788 0053 08       		.uleb128 0x8
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 36
+
+
+ 1789 0054 2E       		.uleb128 0x2e
+ 1790 0055 01       		.byte	0x1
+ 1791 0056 3F       		.uleb128 0x3f
+ 1792 0057 19       		.uleb128 0x19
+ 1793 0058 03       		.uleb128 0x3
+ 1794 0059 0E       		.uleb128 0xe
+ 1795 005a 3A       		.uleb128 0x3a
+ 1796 005b 0B       		.uleb128 0xb
+ 1797 005c 3B       		.uleb128 0x3b
+ 1798 005d 0B       		.uleb128 0xb
+ 1799 005e 27       		.uleb128 0x27
+ 1800 005f 19       		.uleb128 0x19
+ 1801 0060 11       		.uleb128 0x11
+ 1802 0061 01       		.uleb128 0x1
+ 1803 0062 12       		.uleb128 0x12
+ 1804 0063 06       		.uleb128 0x6
+ 1805 0064 40       		.uleb128 0x40
+ 1806 0065 18       		.uleb128 0x18
+ 1807 0066 9742     		.uleb128 0x2117
+ 1808 0068 19       		.uleb128 0x19
+ 1809 0069 01       		.uleb128 0x1
+ 1810 006a 13       		.uleb128 0x13
+ 1811 006b 00       		.byte	0
+ 1812 006c 00       		.byte	0
+ 1813 006d 09       		.uleb128 0x9
+ 1814 006e 05       		.uleb128 0x5
+ 1815 006f 00       		.byte	0
+ 1816 0070 03       		.uleb128 0x3
+ 1817 0071 08       		.uleb128 0x8
+ 1818 0072 3A       		.uleb128 0x3a
+ 1819 0073 0B       		.uleb128 0xb
+ 1820 0074 3B       		.uleb128 0x3b
+ 1821 0075 0B       		.uleb128 0xb
+ 1822 0076 49       		.uleb128 0x49
+ 1823 0077 13       		.uleb128 0x13
+ 1824 0078 02       		.uleb128 0x2
+ 1825 0079 17       		.uleb128 0x17
+ 1826 007a 00       		.byte	0
+ 1827 007b 00       		.byte	0
+ 1828 007c 0A       		.uleb128 0xa
+ 1829 007d 05       		.uleb128 0x5
+ 1830 007e 00       		.byte	0
+ 1831 007f 03       		.uleb128 0x3
+ 1832 0080 0E       		.uleb128 0xe
+ 1833 0081 3A       		.uleb128 0x3a
+ 1834 0082 0B       		.uleb128 0xb
+ 1835 0083 3B       		.uleb128 0x3b
+ 1836 0084 0B       		.uleb128 0xb
+ 1837 0085 49       		.uleb128 0x49
+ 1838 0086 13       		.uleb128 0x13
+ 1839 0087 02       		.uleb128 0x2
+ 1840 0088 17       		.uleb128 0x17
+ 1841 0089 00       		.byte	0
+ 1842 008a 00       		.byte	0
+ 1843 008b 0B       		.uleb128 0xb
+ 1844 008c 34       		.uleb128 0x34
+ 1845 008d 00       		.byte	0
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 37
+
+
+ 1846 008e 03       		.uleb128 0x3
+ 1847 008f 0E       		.uleb128 0xe
+ 1848 0090 3A       		.uleb128 0x3a
+ 1849 0091 0B       		.uleb128 0xb
+ 1850 0092 3B       		.uleb128 0x3b
+ 1851 0093 0B       		.uleb128 0xb
+ 1852 0094 49       		.uleb128 0x49
+ 1853 0095 13       		.uleb128 0x13
+ 1854 0096 02       		.uleb128 0x2
+ 1855 0097 18       		.uleb128 0x18
+ 1856 0098 00       		.byte	0
+ 1857 0099 00       		.byte	0
+ 1858 009a 0C       		.uleb128 0xc
+ 1859 009b 898201   		.uleb128 0x4109
+ 1860 009e 01       		.byte	0x1
+ 1861 009f 11       		.uleb128 0x11
+ 1862 00a0 01       		.uleb128 0x1
+ 1863 00a1 31       		.uleb128 0x31
+ 1864 00a2 13       		.uleb128 0x13
+ 1865 00a3 01       		.uleb128 0x1
+ 1866 00a4 13       		.uleb128 0x13
+ 1867 00a5 00       		.byte	0
+ 1868 00a6 00       		.byte	0
+ 1869 00a7 0D       		.uleb128 0xd
+ 1870 00a8 8A8201   		.uleb128 0x410a
+ 1871 00ab 00       		.byte	0
+ 1872 00ac 02       		.uleb128 0x2
+ 1873 00ad 18       		.uleb128 0x18
+ 1874 00ae 9142     		.uleb128 0x2111
+ 1875 00b0 18       		.uleb128 0x18
+ 1876 00b1 00       		.byte	0
+ 1877 00b2 00       		.byte	0
+ 1878 00b3 0E       		.uleb128 0xe
+ 1879 00b4 898201   		.uleb128 0x4109
+ 1880 00b7 00       		.byte	0
+ 1881 00b8 11       		.uleb128 0x11
+ 1882 00b9 01       		.uleb128 0x1
+ 1883 00ba 31       		.uleb128 0x31
+ 1884 00bb 13       		.uleb128 0x13
+ 1885 00bc 00       		.byte	0
+ 1886 00bd 00       		.byte	0
+ 1887 00be 0F       		.uleb128 0xf
+ 1888 00bf 01       		.uleb128 0x1
+ 1889 00c0 01       		.byte	0x1
+ 1890 00c1 49       		.uleb128 0x49
+ 1891 00c2 13       		.uleb128 0x13
+ 1892 00c3 01       		.uleb128 0x1
+ 1893 00c4 13       		.uleb128 0x13
+ 1894 00c5 00       		.byte	0
+ 1895 00c6 00       		.byte	0
+ 1896 00c7 10       		.uleb128 0x10
+ 1897 00c8 21       		.uleb128 0x21
+ 1898 00c9 00       		.byte	0
+ 1899 00ca 49       		.uleb128 0x49
+ 1900 00cb 13       		.uleb128 0x13
+ 1901 00cc 2F       		.uleb128 0x2f
+ 1902 00cd 0B       		.uleb128 0xb
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 38
+
+
+ 1903 00ce 00       		.byte	0
+ 1904 00cf 00       		.byte	0
+ 1905 00d0 11       		.uleb128 0x11
+ 1906 00d1 2E       		.uleb128 0x2e
+ 1907 00d2 01       		.byte	0x1
+ 1908 00d3 3F       		.uleb128 0x3f
+ 1909 00d4 19       		.uleb128 0x19
+ 1910 00d5 03       		.uleb128 0x3
+ 1911 00d6 0E       		.uleb128 0xe
+ 1912 00d7 3A       		.uleb128 0x3a
+ 1913 00d8 0B       		.uleb128 0xb
+ 1914 00d9 3B       		.uleb128 0x3b
+ 1915 00da 0B       		.uleb128 0xb
+ 1916 00db 27       		.uleb128 0x27
+ 1917 00dc 19       		.uleb128 0x19
+ 1918 00dd 49       		.uleb128 0x49
+ 1919 00de 13       		.uleb128 0x13
+ 1920 00df 11       		.uleb128 0x11
+ 1921 00e0 01       		.uleb128 0x1
+ 1922 00e1 12       		.uleb128 0x12
+ 1923 00e2 06       		.uleb128 0x6
+ 1924 00e3 40       		.uleb128 0x40
+ 1925 00e4 18       		.uleb128 0x18
+ 1926 00e5 9742     		.uleb128 0x2117
+ 1927 00e7 19       		.uleb128 0x19
+ 1928 00e8 01       		.uleb128 0x1
+ 1929 00e9 13       		.uleb128 0x13
+ 1930 00ea 00       		.byte	0
+ 1931 00eb 00       		.byte	0
+ 1932 00ec 12       		.uleb128 0x12
+ 1933 00ed 898201   		.uleb128 0x4109
+ 1934 00f0 01       		.byte	0x1
+ 1935 00f1 11       		.uleb128 0x11
+ 1936 00f2 01       		.uleb128 0x1
+ 1937 00f3 31       		.uleb128 0x31
+ 1938 00f4 13       		.uleb128 0x13
+ 1939 00f5 00       		.byte	0
+ 1940 00f6 00       		.byte	0
+ 1941 00f7 13       		.uleb128 0x13
+ 1942 00f8 2E       		.uleb128 0x2e
+ 1943 00f9 01       		.byte	0x1
+ 1944 00fa 3F       		.uleb128 0x3f
+ 1945 00fb 19       		.uleb128 0x19
+ 1946 00fc 03       		.uleb128 0x3
+ 1947 00fd 0E       		.uleb128 0xe
+ 1948 00fe 3A       		.uleb128 0x3a
+ 1949 00ff 0B       		.uleb128 0xb
+ 1950 0100 3B       		.uleb128 0x3b
+ 1951 0101 0B       		.uleb128 0xb
+ 1952 0102 27       		.uleb128 0x27
+ 1953 0103 19       		.uleb128 0x19
+ 1954 0104 49       		.uleb128 0x49
+ 1955 0105 13       		.uleb128 0x13
+ 1956 0106 11       		.uleb128 0x11
+ 1957 0107 01       		.uleb128 0x1
+ 1958 0108 12       		.uleb128 0x12
+ 1959 0109 06       		.uleb128 0x6
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 39
+
+
+ 1960 010a 40       		.uleb128 0x40
+ 1961 010b 18       		.uleb128 0x18
+ 1962 010c 9642     		.uleb128 0x2116
+ 1963 010e 19       		.uleb128 0x19
+ 1964 010f 01       		.uleb128 0x1
+ 1965 0110 13       		.uleb128 0x13
+ 1966 0111 00       		.byte	0
+ 1967 0112 00       		.byte	0
+ 1968 0113 14       		.uleb128 0x14
+ 1969 0114 34       		.uleb128 0x34
+ 1970 0115 00       		.byte	0
+ 1971 0116 03       		.uleb128 0x3
+ 1972 0117 08       		.uleb128 0x8
+ 1973 0118 3A       		.uleb128 0x3a
+ 1974 0119 0B       		.uleb128 0xb
+ 1975 011a 3B       		.uleb128 0x3b
+ 1976 011b 0B       		.uleb128 0xb
+ 1977 011c 49       		.uleb128 0x49
+ 1978 011d 13       		.uleb128 0x13
+ 1979 011e 02       		.uleb128 0x2
+ 1980 011f 17       		.uleb128 0x17
+ 1981 0120 00       		.byte	0
+ 1982 0121 00       		.byte	0
+ 1983 0122 15       		.uleb128 0x15
+ 1984 0123 34       		.uleb128 0x34
+ 1985 0124 00       		.byte	0
+ 1986 0125 03       		.uleb128 0x3
+ 1987 0126 08       		.uleb128 0x8
+ 1988 0127 3A       		.uleb128 0x3a
+ 1989 0128 0B       		.uleb128 0xb
+ 1990 0129 3B       		.uleb128 0x3b
+ 1991 012a 0B       		.uleb128 0xb
+ 1992 012b 49       		.uleb128 0x49
+ 1993 012c 13       		.uleb128 0x13
+ 1994 012d 02       		.uleb128 0x2
+ 1995 012e 18       		.uleb128 0x18
+ 1996 012f 00       		.byte	0
+ 1997 0130 00       		.byte	0
+ 1998 0131 16       		.uleb128 0x16
+ 1999 0132 2E       		.uleb128 0x2e
+ 2000 0133 01       		.byte	0x1
+ 2001 0134 3F       		.uleb128 0x3f
+ 2002 0135 19       		.uleb128 0x19
+ 2003 0136 03       		.uleb128 0x3
+ 2004 0137 0E       		.uleb128 0xe
+ 2005 0138 3A       		.uleb128 0x3a
+ 2006 0139 0B       		.uleb128 0xb
+ 2007 013a 3B       		.uleb128 0x3b
+ 2008 013b 0B       		.uleb128 0xb
+ 2009 013c 27       		.uleb128 0x27
+ 2010 013d 19       		.uleb128 0x19
+ 2011 013e 49       		.uleb128 0x49
+ 2012 013f 13       		.uleb128 0x13
+ 2013 0140 8701     		.uleb128 0x87
+ 2014 0142 19       		.uleb128 0x19
+ 2015 0143 11       		.uleb128 0x11
+ 2016 0144 01       		.uleb128 0x1
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 40
+
+
+ 2017 0145 12       		.uleb128 0x12
+ 2018 0146 06       		.uleb128 0x6
+ 2019 0147 40       		.uleb128 0x40
+ 2020 0148 18       		.uleb128 0x18
+ 2021 0149 9642     		.uleb128 0x2116
+ 2022 014b 19       		.uleb128 0x19
+ 2023 014c 01       		.uleb128 0x1
+ 2024 014d 13       		.uleb128 0x13
+ 2025 014e 00       		.byte	0
+ 2026 014f 00       		.byte	0
+ 2027 0150 17       		.uleb128 0x17
+ 2028 0151 0B       		.uleb128 0xb
+ 2029 0152 01       		.byte	0x1
+ 2030 0153 11       		.uleb128 0x11
+ 2031 0154 01       		.uleb128 0x1
+ 2032 0155 12       		.uleb128 0x12
+ 2033 0156 06       		.uleb128 0x6
+ 2034 0157 01       		.uleb128 0x1
+ 2035 0158 13       		.uleb128 0x13
+ 2036 0159 00       		.byte	0
+ 2037 015a 00       		.byte	0
+ 2038 015b 18       		.uleb128 0x18
+ 2039 015c 34       		.uleb128 0x34
+ 2040 015d 00       		.byte	0
+ 2041 015e 03       		.uleb128 0x3
+ 2042 015f 0E       		.uleb128 0xe
+ 2043 0160 3A       		.uleb128 0x3a
+ 2044 0161 0B       		.uleb128 0xb
+ 2045 0162 3B       		.uleb128 0x3b
+ 2046 0163 0B       		.uleb128 0xb
+ 2047 0164 49       		.uleb128 0x49
+ 2048 0165 13       		.uleb128 0x13
+ 2049 0166 02       		.uleb128 0x2
+ 2050 0167 17       		.uleb128 0x17
+ 2051 0168 00       		.byte	0
+ 2052 0169 00       		.byte	0
+ 2053 016a 19       		.uleb128 0x19
+ 2054 016b 34       		.uleb128 0x34
+ 2055 016c 00       		.byte	0
+ 2056 016d 03       		.uleb128 0x3
+ 2057 016e 0E       		.uleb128 0xe
+ 2058 016f 3A       		.uleb128 0x3a
+ 2059 0170 0B       		.uleb128 0xb
+ 2060 0171 3B       		.uleb128 0x3b
+ 2061 0172 05       		.uleb128 0x5
+ 2062 0173 49       		.uleb128 0x49
+ 2063 0174 13       		.uleb128 0x13
+ 2064 0175 3F       		.uleb128 0x3f
+ 2065 0176 19       		.uleb128 0x19
+ 2066 0177 3C       		.uleb128 0x3c
+ 2067 0178 19       		.uleb128 0x19
+ 2068 0179 00       		.byte	0
+ 2069 017a 00       		.byte	0
+ 2070 017b 1A       		.uleb128 0x1a
+ 2071 017c 35       		.uleb128 0x35
+ 2072 017d 00       		.byte	0
+ 2073 017e 49       		.uleb128 0x49
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 41
+
+
+ 2074 017f 13       		.uleb128 0x13
+ 2075 0180 00       		.byte	0
+ 2076 0181 00       		.byte	0
+ 2077 0182 1B       		.uleb128 0x1b
+ 2078 0183 34       		.uleb128 0x34
+ 2079 0184 00       		.byte	0
+ 2080 0185 03       		.uleb128 0x3
+ 2081 0186 08       		.uleb128 0x8
+ 2082 0187 3A       		.uleb128 0x3a
+ 2083 0188 0B       		.uleb128 0xb
+ 2084 0189 3B       		.uleb128 0x3b
+ 2085 018a 0B       		.uleb128 0xb
+ 2086 018b 49       		.uleb128 0x49
+ 2087 018c 13       		.uleb128 0x13
+ 2088 018d 3F       		.uleb128 0x3f
+ 2089 018e 19       		.uleb128 0x19
+ 2090 018f 02       		.uleb128 0x2
+ 2091 0190 18       		.uleb128 0x18
+ 2092 0191 00       		.byte	0
+ 2093 0192 00       		.byte	0
+ 2094 0193 1C       		.uleb128 0x1c
+ 2095 0194 2E       		.uleb128 0x2e
+ 2096 0195 00       		.byte	0
+ 2097 0196 3F       		.uleb128 0x3f
+ 2098 0197 19       		.uleb128 0x19
+ 2099 0198 3C       		.uleb128 0x3c
+ 2100 0199 19       		.uleb128 0x19
+ 2101 019a 6E       		.uleb128 0x6e
+ 2102 019b 0E       		.uleb128 0xe
+ 2103 019c 03       		.uleb128 0x3
+ 2104 019d 0E       		.uleb128 0xe
+ 2105 019e 3A       		.uleb128 0x3a
+ 2106 019f 0B       		.uleb128 0xb
+ 2107 01a0 3B       		.uleb128 0x3b
+ 2108 01a1 0B       		.uleb128 0xb
+ 2109 01a2 00       		.byte	0
+ 2110 01a3 00       		.byte	0
+ 2111 01a4 00       		.byte	0
+ 2112              		.section	.debug_loc,"",%progbits
+ 2113              	.Ldebug_loc0:
+ 2114              	.LLST0:
+ 2115 0000 00000000 		.4byte	.LVL0
+ 2116 0004 14000000 		.4byte	.LVL2
+ 2117 0008 0100     		.2byte	0x1
+ 2118 000a 50       		.byte	0x50
+ 2119 000b 14000000 		.4byte	.LVL2
+ 2120 000f 17000000 		.4byte	.LVL3-1
+ 2121 0013 0200     		.2byte	0x2
+ 2122 0015 71       		.byte	0x71
+ 2123 0016 00       		.sleb128 0
+ 2124 0017 17000000 		.4byte	.LVL3-1
+ 2125 001b 28000000 		.4byte	.LFE64
+ 2126 001f 0400     		.2byte	0x4
+ 2127 0021 F3       		.byte	0xf3
+ 2128 0022 01       		.uleb128 0x1
+ 2129 0023 50       		.byte	0x50
+ 2130 0024 9F       		.byte	0x9f
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 42
+
+
+ 2131 0025 00000000 		.4byte	0
+ 2132 0029 00000000 		.4byte	0
+ 2133              	.LLST1:
+ 2134 002d 00000000 		.4byte	.LVL0
+ 2135 0031 12000000 		.4byte	.LVL1
+ 2136 0035 0100     		.2byte	0x1
+ 2137 0037 51       		.byte	0x51
+ 2138 0038 12000000 		.4byte	.LVL1
+ 2139 003c 17000000 		.4byte	.LVL3-1
+ 2140 0040 0200     		.2byte	0x2
+ 2141 0042 91       		.byte	0x91
+ 2142 0043 75       		.sleb128 -11
+ 2143 0044 17000000 		.4byte	.LVL3-1
+ 2144 0048 28000000 		.4byte	.LFE64
+ 2145 004c 0400     		.2byte	0x4
+ 2146 004e F3       		.byte	0xf3
+ 2147 004f 01       		.uleb128 0x1
+ 2148 0050 51       		.byte	0x51
+ 2149 0051 9F       		.byte	0x9f
+ 2150 0052 00000000 		.4byte	0
+ 2151 0056 00000000 		.4byte	0
+ 2152              	.LLST2:
+ 2153 005a 00000000 		.4byte	.LVL5
+ 2154 005e 10000000 		.4byte	.LVL6
+ 2155 0062 0100     		.2byte	0x1
+ 2156 0064 50       		.byte	0x50
+ 2157 0065 10000000 		.4byte	.LVL6
+ 2158 0069 13000000 		.4byte	.LVL7-1
+ 2159 006d 0200     		.2byte	0x2
+ 2160 006f 71       		.byte	0x71
+ 2161 0070 00       		.sleb128 0
+ 2162 0071 13000000 		.4byte	.LVL7-1
+ 2163 0075 46000000 		.4byte	.LFE65
+ 2164 0079 0200     		.2byte	0x2
+ 2165 007b 91       		.byte	0x91
+ 2166 007c 6F       		.sleb128 -17
+ 2167 007d 00000000 		.4byte	0
+ 2168 0081 00000000 		.4byte	0
+ 2169              	.LLST3:
+ 2170 0085 00000000 		.4byte	.LVL28
+ 2171 0089 08000000 		.4byte	.LVL29
+ 2172 008d 0100     		.2byte	0x1
+ 2173 008f 50       		.byte	0x50
+ 2174 0090 08000000 		.4byte	.LVL29
+ 2175 0094 54000000 		.4byte	.LFE69
+ 2176 0098 0400     		.2byte	0x4
+ 2177 009a F3       		.byte	0xf3
+ 2178 009b 01       		.uleb128 0x1
+ 2179 009c 50       		.byte	0x50
+ 2180 009d 9F       		.byte	0x9f
+ 2181 009e 00000000 		.4byte	0
+ 2182 00a2 00000000 		.4byte	0
+ 2183              	.LLST4:
+ 2184 00a6 00000000 		.4byte	.LVL28
+ 2185 00aa 31000000 		.4byte	.LVL32-1
+ 2186 00ae 0100     		.2byte	0x1
+ 2187 00b0 51       		.byte	0x51
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 43
+
+
+ 2188 00b1 31000000 		.4byte	.LVL32-1
+ 2189 00b5 54000000 		.4byte	.LFE69
+ 2190 00b9 0400     		.2byte	0x4
+ 2191 00bb F3       		.byte	0xf3
+ 2192 00bc 01       		.uleb128 0x1
+ 2193 00bd 51       		.byte	0x51
+ 2194 00be 9F       		.byte	0x9f
+ 2195 00bf 00000000 		.4byte	0
+ 2196 00c3 00000000 		.4byte	0
+ 2197              	.LLST5:
+ 2198 00c7 12000000 		.4byte	.LVL30
+ 2199 00cb 40000000 		.4byte	.LVL35
+ 2200 00cf 0100     		.2byte	0x1
+ 2201 00d1 54       		.byte	0x54
+ 2202 00d2 00000000 		.4byte	0
+ 2203 00d6 00000000 		.4byte	0
+ 2204              	.LLST6:
+ 2205 00da 26000000 		.4byte	.LVL31
+ 2206 00de 31000000 		.4byte	.LVL32-1
+ 2207 00e2 0100     		.2byte	0x1
+ 2208 00e4 53       		.byte	0x53
+ 2209 00e5 00000000 		.4byte	0
+ 2210 00e9 00000000 		.4byte	0
+ 2211              	.LLST7:
+ 2212 00ed 00000000 		.4byte	.LVL36
+ 2213 00f1 82000000 		.4byte	.LVL60
+ 2214 00f5 0100     		.2byte	0x1
+ 2215 00f7 50       		.byte	0x50
+ 2216 00f8 82000000 		.4byte	.LVL60
+ 2217 00fc C4000000 		.4byte	.LFE70
+ 2218 0100 0400     		.2byte	0x4
+ 2219 0102 F3       		.byte	0xf3
+ 2220 0103 01       		.uleb128 0x1
+ 2221 0104 50       		.byte	0x50
+ 2222 0105 9F       		.byte	0x9f
+ 2223 0106 00000000 		.4byte	0
+ 2224 010a 00000000 		.4byte	0
+ 2225              	.LLST8:
+ 2226 010e 00000000 		.4byte	.LVL36
+ 2227 0112 06000000 		.4byte	.LVL37
+ 2228 0116 0100     		.2byte	0x1
+ 2229 0118 51       		.byte	0x51
+ 2230 0119 06000000 		.4byte	.LVL37
+ 2231 011d 40000000 		.4byte	.LVL44
+ 2232 0121 0400     		.2byte	0x4
+ 2233 0123 71       		.byte	0x71
+ 2234 0124 A01F     		.sleb128 4000
+ 2235 0126 9F       		.byte	0x9f
+ 2236 0127 40000000 		.4byte	.LVL44
+ 2237 012b C4000000 		.4byte	.LFE70
+ 2238 012f 0400     		.2byte	0x4
+ 2239 0131 F3       		.byte	0xf3
+ 2240 0132 01       		.uleb128 0x1
+ 2241 0133 51       		.byte	0x51
+ 2242 0134 9F       		.byte	0x9f
+ 2243 0135 00000000 		.4byte	0
+ 2244 0139 00000000 		.4byte	0
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 44
+
+
+ 2245              	.LLST9:
+ 2246 013d 06000000 		.4byte	.LVL37
+ 2247 0141 40000000 		.4byte	.LVL44
+ 2248 0145 0100     		.2byte	0x1
+ 2249 0147 51       		.byte	0x51
+ 2250 0148 40000000 		.4byte	.LVL44
+ 2251 014c C4000000 		.4byte	.LFE70
+ 2252 0150 0800     		.2byte	0x8
+ 2253 0152 F3       		.byte	0xf3
+ 2254 0153 01       		.uleb128 0x1
+ 2255 0154 51       		.byte	0x51
+ 2256 0155 0A       		.byte	0xa
+ 2257 0156 A00F     		.2byte	0xfa0
+ 2258 0158 1C       		.byte	0x1c
+ 2259 0159 9F       		.byte	0x9f
+ 2260 015a 00000000 		.4byte	0
+ 2261 015e 00000000 		.4byte	0
+ 2262              	.LLST10:
+ 2263 0162 16000000 		.4byte	.LVL38
+ 2264 0166 26000000 		.4byte	.LVL40
+ 2265 016a 0500     		.2byte	0x5
+ 2266 016c 74       		.byte	0x74
+ 2267 016d 00       		.sleb128 0
+ 2268 016e 3B       		.byte	0x3b
+ 2269 016f 26       		.byte	0x26
+ 2270 0170 9F       		.byte	0x9f
+ 2271 0171 26000000 		.4byte	.LVL40
+ 2272 0175 40000000 		.4byte	.LVL44
+ 2273 0179 1100     		.2byte	0x11
+ 2274 017b 03       		.byte	0x3
+ 2275 017c 00000000 		.4byte	B2
+ 2276 0180 94       		.byte	0x94
+ 2277 0181 02       		.byte	0x2
+ 2278 0182 40       		.byte	0x40
+ 2279 0183 24       		.byte	0x24
+ 2280 0184 40       		.byte	0x40
+ 2281 0185 26       		.byte	0x26
+ 2282 0186 73       		.byte	0x73
+ 2283 0187 00       		.sleb128 0
+ 2284 0188 1E       		.byte	0x1e
+ 2285 0189 3B       		.byte	0x3b
+ 2286 018a 26       		.byte	0x26
+ 2287 018b 9F       		.byte	0x9f
+ 2288 018c 40000000 		.4byte	.LVL44
+ 2289 0190 5A000000 		.4byte	.LVL50
+ 2290 0194 0500     		.2byte	0x5
+ 2291 0196 71       		.byte	0x71
+ 2292 0197 00       		.sleb128 0
+ 2293 0198 3D       		.byte	0x3d
+ 2294 0199 26       		.byte	0x26
+ 2295 019a 9F       		.byte	0x9f
+ 2296 019b 5A000000 		.4byte	.LVL50
+ 2297 019f 86000000 		.4byte	.LVL61
+ 2298 01a3 1600     		.2byte	0x16
+ 2299 01a5 F3       		.byte	0xf3
+ 2300 01a6 01       		.uleb128 0x1
+ 2301 01a7 51       		.byte	0x51
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 45
+
+
+ 2302 01a8 0A       		.byte	0xa
+ 2303 01a9 A00F     		.2byte	0xfa0
+ 2304 01ab 1C       		.byte	0x1c
+ 2305 01ac 03       		.byte	0x3
+ 2306 01ad 00000000 		.4byte	AC3
+ 2307 01b1 94       		.byte	0x94
+ 2308 01b2 02       		.byte	0x2
+ 2309 01b3 40       		.byte	0x40
+ 2310 01b4 24       		.byte	0x24
+ 2311 01b5 40       		.byte	0x40
+ 2312 01b6 26       		.byte	0x26
+ 2313 01b7 1E       		.byte	0x1e
+ 2314 01b8 3D       		.byte	0x3d
+ 2315 01b9 26       		.byte	0x26
+ 2316 01ba 9F       		.byte	0x9f
+ 2317 01bb 86000000 		.4byte	.LVL61
+ 2318 01bf 8E000000 		.4byte	.LVL62
+ 2319 01c3 0100     		.2byte	0x1
+ 2320 01c5 50       		.byte	0x50
+ 2321 01c6 8E000000 		.4byte	.LVL62
+ 2322 01ca 9A000000 		.4byte	.LVL64
+ 2323 01ce 0500     		.2byte	0x5
+ 2324 01d0 70       		.byte	0x70
+ 2325 01d1 00       		.sleb128 0
+ 2326 01d2 40       		.byte	0x40
+ 2327 01d3 26       		.byte	0x26
+ 2328 01d4 9F       		.byte	0x9f
+ 2329 01d5 9A000000 		.4byte	.LVL64
+ 2330 01d9 C4000000 		.4byte	.LFE70
+ 2331 01dd 1000     		.2byte	0x10
+ 2332 01df 73       		.byte	0x73
+ 2333 01e0 00       		.sleb128 0
+ 2334 01e1 38       		.byte	0x38
+ 2335 01e2 26       		.byte	0x26
+ 2336 01e3 73       		.byte	0x73
+ 2337 01e4 00       		.sleb128 0
+ 2338 01e5 38       		.byte	0x38
+ 2339 01e6 26       		.byte	0x26
+ 2340 01e7 1E       		.byte	0x1e
+ 2341 01e8 0A       		.byte	0xa
+ 2342 01e9 DE0B     		.2byte	0xbde
+ 2343 01eb 1E       		.byte	0x1e
+ 2344 01ec 40       		.byte	0x40
+ 2345 01ed 26       		.byte	0x26
+ 2346 01ee 9F       		.byte	0x9f
+ 2347 01ef 00000000 		.4byte	0
+ 2348 01f3 00000000 		.4byte	0
+ 2349              	.LLST11:
+ 2350 01f7 22000000 		.4byte	.LVL39
+ 2351 01fb 28000000 		.4byte	.LVL41
+ 2352 01ff 0100     		.2byte	0x1
+ 2353 0201 52       		.byte	0x52
+ 2354 0202 28000000 		.4byte	.LVL41
+ 2355 0206 40000000 		.4byte	.LVL44
+ 2356 020a 1100     		.2byte	0x11
+ 2357 020c 03       		.byte	0x3
+ 2358 020d 00000000 		.4byte	AC2
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 46
+
+
+ 2359 0211 94       		.byte	0x94
+ 2360 0212 02       		.byte	0x2
+ 2361 0213 40       		.byte	0x40
+ 2362 0214 24       		.byte	0x24
+ 2363 0215 40       		.byte	0x40
+ 2364 0216 26       		.byte	0x26
+ 2365 0217 71       		.byte	0x71
+ 2366 0218 00       		.sleb128 0
+ 2367 0219 1E       		.byte	0x1e
+ 2368 021a 3B       		.byte	0x3b
+ 2369 021b 26       		.byte	0x26
+ 2370 021c 9F       		.byte	0x9f
+ 2371 021d 40000000 		.4byte	.LVL44
+ 2372 0221 4C000000 		.4byte	.LVL46
+ 2373 0225 1600     		.2byte	0x16
+ 2374 0227 F3       		.byte	0xf3
+ 2375 0228 01       		.uleb128 0x1
+ 2376 0229 51       		.byte	0x51
+ 2377 022a 0A       		.byte	0xa
+ 2378 022b A00F     		.2byte	0xfa0
+ 2379 022d 1C       		.byte	0x1c
+ 2380 022e 03       		.byte	0x3
+ 2381 022f 00000000 		.4byte	AC2
+ 2382 0233 94       		.byte	0x94
+ 2383 0234 02       		.byte	0x2
+ 2384 0235 40       		.byte	0x40
+ 2385 0236 24       		.byte	0x24
+ 2386 0237 40       		.byte	0x40
+ 2387 0238 26       		.byte	0x26
+ 2388 0239 1E       		.byte	0x1e
+ 2389 023a 3B       		.byte	0x3b
+ 2390 023b 26       		.byte	0x26
+ 2391 023c 9F       		.byte	0x9f
+ 2392 023d 4C000000 		.4byte	.LVL46
+ 2393 0241 50000000 		.4byte	.LVL47
+ 2394 0245 0100     		.2byte	0x1
+ 2395 0247 53       		.byte	0x53
+ 2396 0248 50000000 		.4byte	.LVL47
+ 2397 024c 96000000 		.4byte	.LVL63
+ 2398 0250 1700     		.2byte	0x17
+ 2399 0252 F3       		.byte	0xf3
+ 2400 0253 01       		.uleb128 0x1
+ 2401 0254 51       		.byte	0x51
+ 2402 0255 0A       		.byte	0xa
+ 2403 0256 A00F     		.2byte	0xfa0
+ 2404 0258 1C       		.byte	0x1c
+ 2405 0259 F3       		.byte	0xf3
+ 2406 025a 01       		.uleb128 0x1
+ 2407 025b 51       		.byte	0x51
+ 2408 025c 0A       		.byte	0xa
+ 2409 025d A00F     		.2byte	0xfa0
+ 2410 025f 1C       		.byte	0x1c
+ 2411 0260 1E       		.byte	0x1e
+ 2412 0261 3C       		.byte	0x3c
+ 2413 0262 26       		.byte	0x26
+ 2414 0263 74       		.byte	0x74
+ 2415 0264 00       		.sleb128 0
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 47
+
+
+ 2416 0265 1E       		.byte	0x1e
+ 2417 0266 40       		.byte	0x40
+ 2418 0267 26       		.byte	0x26
+ 2419 0268 9F       		.byte	0x9f
+ 2420 0269 96000000 		.4byte	.LVL63
+ 2421 026d C4000000 		.4byte	.LFE70
+ 2422 0271 0100     		.2byte	0x1
+ 2423 0273 52       		.byte	0x52
+ 2424 0274 00000000 		.4byte	0
+ 2425 0278 00000000 		.4byte	0
+ 2426              	.LLST12:
+ 2427 027c 26000000 		.4byte	.LVL40
+ 2428 0280 38000000 		.4byte	.LVL43
+ 2429 0284 0100     		.2byte	0x1
+ 2430 0286 54       		.byte	0x54
+ 2431 0287 38000000 		.4byte	.LVL43
+ 2432 028b 40000000 		.4byte	.LVL44
+ 2433 028f 2200     		.2byte	0x22
+ 2434 0291 03       		.byte	0x3
+ 2435 0292 00000000 		.4byte	B2
+ 2436 0296 94       		.byte	0x94
+ 2437 0297 02       		.byte	0x2
+ 2438 0298 40       		.byte	0x40
+ 2439 0299 24       		.byte	0x24
+ 2440 029a 40       		.byte	0x40
+ 2441 029b 26       		.byte	0x26
+ 2442 029c 73       		.byte	0x73
+ 2443 029d 00       		.sleb128 0
+ 2444 029e 1E       		.byte	0x1e
+ 2445 029f 3B       		.byte	0x3b
+ 2446 02a0 26       		.byte	0x26
+ 2447 02a1 03       		.byte	0x3
+ 2448 02a2 00000000 		.4byte	AC2
+ 2449 02a6 94       		.byte	0x94
+ 2450 02a7 02       		.byte	0x2
+ 2451 02a8 40       		.byte	0x40
+ 2452 02a9 24       		.byte	0x24
+ 2453 02aa 40       		.byte	0x40
+ 2454 02ab 26       		.byte	0x26
+ 2455 02ac 71       		.byte	0x71
+ 2456 02ad 00       		.sleb128 0
+ 2457 02ae 1E       		.byte	0x1e
+ 2458 02af 3B       		.byte	0x3b
+ 2459 02b0 26       		.byte	0x26
+ 2460 02b1 22       		.byte	0x22
+ 2461 02b2 9F       		.byte	0x9f
+ 2462 02b3 40000000 		.4byte	.LVL44
+ 2463 02b7 4A000000 		.4byte	.LVL45
+ 2464 02bb 2700     		.2byte	0x27
+ 2465 02bd 03       		.byte	0x3
+ 2466 02be 00000000 		.4byte	B2
+ 2467 02c2 94       		.byte	0x94
+ 2468 02c3 02       		.byte	0x2
+ 2469 02c4 40       		.byte	0x40
+ 2470 02c5 24       		.byte	0x24
+ 2471 02c6 40       		.byte	0x40
+ 2472 02c7 26       		.byte	0x26
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 48
+
+
+ 2473 02c8 73       		.byte	0x73
+ 2474 02c9 00       		.sleb128 0
+ 2475 02ca 1E       		.byte	0x1e
+ 2476 02cb 3B       		.byte	0x3b
+ 2477 02cc 26       		.byte	0x26
+ 2478 02cd F3       		.byte	0xf3
+ 2479 02ce 01       		.uleb128 0x1
+ 2480 02cf 51       		.byte	0x51
+ 2481 02d0 0A       		.byte	0xa
+ 2482 02d1 A00F     		.2byte	0xfa0
+ 2483 02d3 1C       		.byte	0x1c
+ 2484 02d4 03       		.byte	0x3
+ 2485 02d5 00000000 		.4byte	AC2
+ 2486 02d9 94       		.byte	0x94
+ 2487 02da 02       		.byte	0x2
+ 2488 02db 40       		.byte	0x40
+ 2489 02dc 24       		.byte	0x24
+ 2490 02dd 40       		.byte	0x40
+ 2491 02de 26       		.byte	0x26
+ 2492 02df 1E       		.byte	0x1e
+ 2493 02e0 3B       		.byte	0x3b
+ 2494 02e1 26       		.byte	0x26
+ 2495 02e2 22       		.byte	0x22
+ 2496 02e3 9F       		.byte	0x9f
+ 2497 02e4 4A000000 		.4byte	.LVL45
+ 2498 02e8 54000000 		.4byte	.LVL48
+ 2499 02ec 3600     		.2byte	0x36
+ 2500 02ee F3       		.byte	0xf3
+ 2501 02ef 01       		.uleb128 0x1
+ 2502 02f0 51       		.byte	0x51
+ 2503 02f1 0A       		.byte	0xa
+ 2504 02f2 A00F     		.2byte	0xfa0
+ 2505 02f4 1C       		.byte	0x1c
+ 2506 02f5 F3       		.byte	0xf3
+ 2507 02f6 01       		.uleb128 0x1
+ 2508 02f7 51       		.byte	0x51
+ 2509 02f8 0A       		.byte	0xa
+ 2510 02f9 A00F     		.2byte	0xfa0
+ 2511 02fb 1C       		.byte	0x1c
+ 2512 02fc 1E       		.byte	0x1e
+ 2513 02fd 3C       		.byte	0x3c
+ 2514 02fe 26       		.byte	0x26
+ 2515 02ff 03       		.byte	0x3
+ 2516 0300 00000000 		.4byte	B2
+ 2517 0304 94       		.byte	0x94
+ 2518 0305 02       		.byte	0x2
+ 2519 0306 40       		.byte	0x40
+ 2520 0307 24       		.byte	0x24
+ 2521 0308 40       		.byte	0x40
+ 2522 0309 26       		.byte	0x26
+ 2523 030a 1E       		.byte	0x1e
+ 2524 030b 3B       		.byte	0x3b
+ 2525 030c 26       		.byte	0x26
+ 2526 030d F3       		.byte	0xf3
+ 2527 030e 01       		.uleb128 0x1
+ 2528 030f 51       		.byte	0x51
+ 2529 0310 0A       		.byte	0xa
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 49
+
+
+ 2530 0311 A00F     		.2byte	0xfa0
+ 2531 0313 1C       		.byte	0x1c
+ 2532 0314 03       		.byte	0x3
+ 2533 0315 00000000 		.4byte	AC2
+ 2534 0319 94       		.byte	0x94
+ 2535 031a 02       		.byte	0x2
+ 2536 031b 40       		.byte	0x40
+ 2537 031c 24       		.byte	0x24
+ 2538 031d 40       		.byte	0x40
+ 2539 031e 26       		.byte	0x26
+ 2540 031f 1E       		.byte	0x1e
+ 2541 0320 3B       		.byte	0x3b
+ 2542 0321 26       		.byte	0x26
+ 2543 0322 22       		.byte	0x22
+ 2544 0323 9F       		.byte	0x9f
+ 2545 0324 54000000 		.4byte	.LVL48
+ 2546 0328 58000000 		.4byte	.LVL49
+ 2547 032c 0100     		.2byte	0x1
+ 2548 032e 53       		.byte	0x53
+ 2549 032f 58000000 		.4byte	.LVL49
+ 2550 0333 60000000 		.4byte	.LVL51
+ 2551 0337 0500     		.2byte	0x5
+ 2552 0339 73       		.byte	0x73
+ 2553 033a 80807E   		.sleb128 -32768
+ 2554 033d 9F       		.byte	0x9f
+ 2555 033e 60000000 		.4byte	.LVL51
+ 2556 0342 A4000000 		.4byte	.LVL67
+ 2557 0346 3100     		.2byte	0x31
+ 2558 0348 F3       		.byte	0xf3
+ 2559 0349 01       		.uleb128 0x1
+ 2560 034a 51       		.byte	0x51
+ 2561 034b 0A       		.byte	0xa
+ 2562 034c A00F     		.2byte	0xfa0
+ 2563 034e 1C       		.byte	0x1c
+ 2564 034f 03       		.byte	0x3
+ 2565 0350 00000000 		.4byte	AC3
+ 2566 0354 94       		.byte	0x94
+ 2567 0355 02       		.byte	0x2
+ 2568 0356 40       		.byte	0x40
+ 2569 0357 24       		.byte	0x24
+ 2570 0358 40       		.byte	0x40
+ 2571 0359 26       		.byte	0x26
+ 2572 035a 1E       		.byte	0x1e
+ 2573 035b 3D       		.byte	0x3d
+ 2574 035c 26       		.byte	0x26
+ 2575 035d F3       		.byte	0xf3
+ 2576 035e 01       		.uleb128 0x1
+ 2577 035f 51       		.byte	0x51
+ 2578 0360 0A       		.byte	0xa
+ 2579 0361 A00F     		.2byte	0xfa0
+ 2580 0363 1C       		.byte	0x1c
+ 2581 0364 F3       		.byte	0xf3
+ 2582 0365 01       		.uleb128 0x1
+ 2583 0366 51       		.byte	0x51
+ 2584 0367 0A       		.byte	0xa
+ 2585 0368 A00F     		.2byte	0xfa0
+ 2586 036a 1C       		.byte	0x1c
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 50
+
+
+ 2587 036b 1E       		.byte	0x1e
+ 2588 036c 3C       		.byte	0x3c
+ 2589 036d 26       		.byte	0x26
+ 2590 036e 74       		.byte	0x74
+ 2591 036f 00       		.sleb128 0
+ 2592 0370 1E       		.byte	0x1e
+ 2593 0371 40       		.byte	0x40
+ 2594 0372 26       		.byte	0x26
+ 2595 0373 22       		.byte	0x22
+ 2596 0374 23       		.byte	0x23
+ 2597 0375 02       		.uleb128 0x2
+ 2598 0376 32       		.byte	0x32
+ 2599 0377 26       		.byte	0x26
+ 2600 0378 9F       		.byte	0x9f
+ 2601 0379 A4000000 		.4byte	.LVL67
+ 2602 037d C4000000 		.4byte	.LFE70
+ 2603 0381 3A00     		.2byte	0x3a
+ 2604 0383 F3       		.byte	0xf3
+ 2605 0384 01       		.uleb128 0x1
+ 2606 0385 51       		.byte	0x51
+ 2607 0386 0A       		.byte	0xa
+ 2608 0387 A00F     		.2byte	0xfa0
+ 2609 0389 1C       		.byte	0x1c
+ 2610 038a 03       		.byte	0x3
+ 2611 038b 00000000 		.4byte	AC3
+ 2612 038f 94       		.byte	0x94
+ 2613 0390 02       		.byte	0x2
+ 2614 0391 40       		.byte	0x40
+ 2615 0392 24       		.byte	0x24
+ 2616 0393 40       		.byte	0x40
+ 2617 0394 26       		.byte	0x26
+ 2618 0395 1E       		.byte	0x1e
+ 2619 0396 3D       		.byte	0x3d
+ 2620 0397 26       		.byte	0x26
+ 2621 0398 F3       		.byte	0xf3
+ 2622 0399 01       		.uleb128 0x1
+ 2623 039a 51       		.byte	0x51
+ 2624 039b 0A       		.byte	0xa
+ 2625 039c A00F     		.2byte	0xfa0
+ 2626 039e 1C       		.byte	0x1c
+ 2627 039f F3       		.byte	0xf3
+ 2628 03a0 01       		.uleb128 0x1
+ 2629 03a1 51       		.byte	0x51
+ 2630 03a2 0A       		.byte	0xa
+ 2631 03a3 A00F     		.2byte	0xfa0
+ 2632 03a5 1C       		.byte	0x1c
+ 2633 03a6 1E       		.byte	0x1e
+ 2634 03a7 3C       		.byte	0x3c
+ 2635 03a8 26       		.byte	0x26
+ 2636 03a9 03       		.byte	0x3
+ 2637 03aa 00000000 		.4byte	B1
+ 2638 03ae 94       		.byte	0x94
+ 2639 03af 02       		.byte	0x2
+ 2640 03b0 40       		.byte	0x40
+ 2641 03b1 24       		.byte	0x24
+ 2642 03b2 40       		.byte	0x40
+ 2643 03b3 26       		.byte	0x26
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 51
+
+
+ 2644 03b4 1E       		.byte	0x1e
+ 2645 03b5 40       		.byte	0x40
+ 2646 03b6 26       		.byte	0x26
+ 2647 03b7 22       		.byte	0x22
+ 2648 03b8 23       		.byte	0x23
+ 2649 03b9 02       		.uleb128 0x2
+ 2650 03ba 32       		.byte	0x32
+ 2651 03bb 26       		.byte	0x26
+ 2652 03bc 9F       		.byte	0x9f
+ 2653 03bd 00000000 		.4byte	0
+ 2654 03c1 00000000 		.4byte	0
+ 2655              	.LLST13:
+ 2656 03c5 36000000 		.4byte	.LVL42
+ 2657 03c9 66000000 		.4byte	.LVL53
+ 2658 03cd 0500     		.2byte	0x5
+ 2659 03cf 72       		.byte	0x72
+ 2660 03d0 00       		.sleb128 0
+ 2661 03d1 32       		.byte	0x32
+ 2662 03d2 26       		.byte	0x26
+ 2663 03d3 9F       		.byte	0x9f
+ 2664 03d4 00000000 		.4byte	0
+ 2665 03d8 00000000 		.4byte	0
+ 2666              	.LLST14:
+ 2667 03dc 62000000 		.4byte	.LVL52
+ 2668 03e0 78000000 		.4byte	.LVL56
+ 2669 03e4 0100     		.2byte	0x1
+ 2670 03e6 53       		.byte	0x53
+ 2671 03e7 78000000 		.4byte	.LVL56
+ 2672 03eb 7A000000 		.4byte	.LVL57
+ 2673 03ef 4300     		.2byte	0x43
+ 2674 03f1 F3       		.byte	0xf3
+ 2675 03f2 01       		.uleb128 0x1
+ 2676 03f3 51       		.byte	0x51
+ 2677 03f4 0A       		.byte	0xa
+ 2678 03f5 A00F     		.2byte	0xfa0
+ 2679 03f7 1C       		.byte	0x1c
+ 2680 03f8 03       		.byte	0x3
+ 2681 03f9 00000000 		.4byte	AC3
+ 2682 03fd 94       		.byte	0x94
+ 2683 03fe 02       		.byte	0x2
+ 2684 03ff 40       		.byte	0x40
+ 2685 0400 24       		.byte	0x24
+ 2686 0401 40       		.byte	0x40
+ 2687 0402 26       		.byte	0x26
+ 2688 0403 1E       		.byte	0x1e
+ 2689 0404 3D       		.byte	0x3d
+ 2690 0405 26       		.byte	0x26
+ 2691 0406 F3       		.byte	0xf3
+ 2692 0407 01       		.uleb128 0x1
+ 2693 0408 51       		.byte	0x51
+ 2694 0409 0A       		.byte	0xa
+ 2695 040a A00F     		.2byte	0xfa0
+ 2696 040c 1C       		.byte	0x1c
+ 2697 040d F3       		.byte	0xf3
+ 2698 040e 01       		.uleb128 0x1
+ 2699 040f 51       		.byte	0x51
+ 2700 0410 0A       		.byte	0xa
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 52
+
+
+ 2701 0411 A00F     		.2byte	0xfa0
+ 2702 0413 1C       		.byte	0x1c
+ 2703 0414 1E       		.byte	0x1e
+ 2704 0415 3C       		.byte	0x3c
+ 2705 0416 26       		.byte	0x26
+ 2706 0417 74       		.byte	0x74
+ 2707 0418 00       		.sleb128 0
+ 2708 0419 1E       		.byte	0x1e
+ 2709 041a 40       		.byte	0x40
+ 2710 041b 26       		.byte	0x26
+ 2711 041c 22       		.byte	0x22
+ 2712 041d 23       		.byte	0x23
+ 2713 041e 02       		.uleb128 0x2
+ 2714 041f 32       		.byte	0x32
+ 2715 0420 26       		.byte	0x26
+ 2716 0421 23       		.byte	0x23
+ 2717 0422 808002   		.uleb128 0x8000
+ 2718 0425 03       		.byte	0x3
+ 2719 0426 00000000 		.4byte	AC4
+ 2720 042a 94       		.byte	0x94
+ 2721 042b 02       		.byte	0x2
+ 2722 042c 0A       		.byte	0xa
+ 2723 042d FFFF     		.2byte	0xffff
+ 2724 042f 1A       		.byte	0x1a
+ 2725 0430 1E       		.byte	0x1e
+ 2726 0431 3F       		.byte	0x3f
+ 2727 0432 25       		.byte	0x25
+ 2728 0433 9F       		.byte	0x9f
+ 2729 0434 7A000000 		.4byte	.LVL57
+ 2730 0438 7E000000 		.4byte	.LVL58
+ 2731 043c 0100     		.2byte	0x1
+ 2732 043e 53       		.byte	0x53
+ 2733 043f 7E000000 		.4byte	.LVL58
+ 2734 0443 A4000000 		.4byte	.LVL67
+ 2735 0447 4300     		.2byte	0x43
+ 2736 0449 F3       		.byte	0xf3
+ 2737 044a 01       		.uleb128 0x1
+ 2738 044b 51       		.byte	0x51
+ 2739 044c 0A       		.byte	0xa
+ 2740 044d A00F     		.2byte	0xfa0
+ 2741 044f 1C       		.byte	0x1c
+ 2742 0450 03       		.byte	0x3
+ 2743 0451 00000000 		.4byte	AC3
+ 2744 0455 94       		.byte	0x94
+ 2745 0456 02       		.byte	0x2
+ 2746 0457 40       		.byte	0x40
+ 2747 0458 24       		.byte	0x24
+ 2748 0459 40       		.byte	0x40
+ 2749 045a 26       		.byte	0x26
+ 2750 045b 1E       		.byte	0x1e
+ 2751 045c 3D       		.byte	0x3d
+ 2752 045d 26       		.byte	0x26
+ 2753 045e F3       		.byte	0xf3
+ 2754 045f 01       		.uleb128 0x1
+ 2755 0460 51       		.byte	0x51
+ 2756 0461 0A       		.byte	0xa
+ 2757 0462 A00F     		.2byte	0xfa0
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 53
+
+
+ 2758 0464 1C       		.byte	0x1c
+ 2759 0465 F3       		.byte	0xf3
+ 2760 0466 01       		.uleb128 0x1
+ 2761 0467 51       		.byte	0x51
+ 2762 0468 0A       		.byte	0xa
+ 2763 0469 A00F     		.2byte	0xfa0
+ 2764 046b 1C       		.byte	0x1c
+ 2765 046c 1E       		.byte	0x1e
+ 2766 046d 3C       		.byte	0x3c
+ 2767 046e 26       		.byte	0x26
+ 2768 046f 74       		.byte	0x74
+ 2769 0470 00       		.sleb128 0
+ 2770 0471 1E       		.byte	0x1e
+ 2771 0472 40       		.byte	0x40
+ 2772 0473 26       		.byte	0x26
+ 2773 0474 22       		.byte	0x22
+ 2774 0475 23       		.byte	0x23
+ 2775 0476 02       		.uleb128 0x2
+ 2776 0477 32       		.byte	0x32
+ 2777 0478 26       		.byte	0x26
+ 2778 0479 23       		.byte	0x23
+ 2779 047a 808002   		.uleb128 0x8000
+ 2780 047d 03       		.byte	0x3
+ 2781 047e 00000000 		.4byte	AC4
+ 2782 0482 94       		.byte	0x94
+ 2783 0483 02       		.byte	0x2
+ 2784 0484 0A       		.byte	0xa
+ 2785 0485 FFFF     		.2byte	0xffff
+ 2786 0487 1A       		.byte	0x1a
+ 2787 0488 1E       		.byte	0x1e
+ 2788 0489 3F       		.byte	0x3f
+ 2789 048a 25       		.byte	0x25
+ 2790 048b 9F       		.byte	0x9f
+ 2791 048c A4000000 		.4byte	.LVL67
+ 2792 0490 C4000000 		.4byte	.LFE70
+ 2793 0494 4C00     		.2byte	0x4c
+ 2794 0496 F3       		.byte	0xf3
+ 2795 0497 01       		.uleb128 0x1
+ 2796 0498 51       		.byte	0x51
+ 2797 0499 0A       		.byte	0xa
+ 2798 049a A00F     		.2byte	0xfa0
+ 2799 049c 1C       		.byte	0x1c
+ 2800 049d 03       		.byte	0x3
+ 2801 049e 00000000 		.4byte	AC3
+ 2802 04a2 94       		.byte	0x94
+ 2803 04a3 02       		.byte	0x2
+ 2804 04a4 40       		.byte	0x40
+ 2805 04a5 24       		.byte	0x24
+ 2806 04a6 40       		.byte	0x40
+ 2807 04a7 26       		.byte	0x26
+ 2808 04a8 1E       		.byte	0x1e
+ 2809 04a9 3D       		.byte	0x3d
+ 2810 04aa 26       		.byte	0x26
+ 2811 04ab F3       		.byte	0xf3
+ 2812 04ac 01       		.uleb128 0x1
+ 2813 04ad 51       		.byte	0x51
+ 2814 04ae 0A       		.byte	0xa
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 54
+
+
+ 2815 04af A00F     		.2byte	0xfa0
+ 2816 04b1 1C       		.byte	0x1c
+ 2817 04b2 F3       		.byte	0xf3
+ 2818 04b3 01       		.uleb128 0x1
+ 2819 04b4 51       		.byte	0x51
+ 2820 04b5 0A       		.byte	0xa
+ 2821 04b6 A00F     		.2byte	0xfa0
+ 2822 04b8 1C       		.byte	0x1c
+ 2823 04b9 1E       		.byte	0x1e
+ 2824 04ba 3C       		.byte	0x3c
+ 2825 04bb 26       		.byte	0x26
+ 2826 04bc 03       		.byte	0x3
+ 2827 04bd 00000000 		.4byte	B1
+ 2828 04c1 94       		.byte	0x94
+ 2829 04c2 02       		.byte	0x2
+ 2830 04c3 40       		.byte	0x40
+ 2831 04c4 24       		.byte	0x24
+ 2832 04c5 40       		.byte	0x40
+ 2833 04c6 26       		.byte	0x26
+ 2834 04c7 1E       		.byte	0x1e
+ 2835 04c8 40       		.byte	0x40
+ 2836 04c9 26       		.byte	0x26
+ 2837 04ca 22       		.byte	0x22
+ 2838 04cb 23       		.byte	0x23
+ 2839 04cc 02       		.uleb128 0x2
+ 2840 04cd 32       		.byte	0x32
+ 2841 04ce 26       		.byte	0x26
+ 2842 04cf 23       		.byte	0x23
+ 2843 04d0 808002   		.uleb128 0x8000
+ 2844 04d3 03       		.byte	0x3
+ 2845 04d4 00000000 		.4byte	AC4
+ 2846 04d8 94       		.byte	0x94
+ 2847 04d9 02       		.byte	0x2
+ 2848 04da 0A       		.byte	0xa
+ 2849 04db FFFF     		.2byte	0xffff
+ 2850 04dd 1A       		.byte	0x1a
+ 2851 04de 1E       		.byte	0x1e
+ 2852 04df 3F       		.byte	0x3f
+ 2853 04e0 25       		.byte	0x25
+ 2854 04e1 9F       		.byte	0x9f
+ 2855 04e2 00000000 		.4byte	0
+ 2856 04e6 00000000 		.4byte	0
+ 2857              	.LLST15:
+ 2858 04ea 6E000000 		.4byte	.LVL54
+ 2859 04ee 74000000 		.4byte	.LVL55
+ 2860 04f2 0100     		.2byte	0x1
+ 2861 04f4 52       		.byte	0x52
+ 2862 04f5 7A000000 		.4byte	.LVL57
+ 2863 04f9 80000000 		.4byte	.LVL59
+ 2864 04fd 0100     		.2byte	0x1
+ 2865 04ff 52       		.byte	0x52
+ 2866 0500 00000000 		.4byte	0
+ 2867 0504 00000000 		.4byte	0
+ 2868              	.LLST16:
+ 2869 0508 78000000 		.4byte	.LVL56
+ 2870 050c 7A000000 		.4byte	.LVL57
+ 2871 0510 0100     		.2byte	0x1
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 55
+
+
+ 2872 0512 53       		.byte	0x53
+ 2873 0513 80000000 		.4byte	.LVL59
+ 2874 0517 9E000000 		.4byte	.LVL65
+ 2875 051b 0100     		.2byte	0x1
+ 2876 051d 53       		.byte	0x53
+ 2877 051e 9E000000 		.4byte	.LVL65
+ 2878 0522 A2000000 		.4byte	.LVL66
+ 2879 0526 0800     		.2byte	0x8
+ 2880 0528 70       		.byte	0x70
+ 2881 0529 00       		.sleb128 0
+ 2882 052a 34       		.byte	0x34
+ 2883 052b 26       		.byte	0x26
+ 2884 052c 73       		.byte	0x73
+ 2885 052d 00       		.sleb128 0
+ 2886 052e 22       		.byte	0x22
+ 2887 052f 9F       		.byte	0x9f
+ 2888 0530 A2000000 		.4byte	.LVL66
+ 2889 0534 C4000000 		.4byte	.LFE70
+ 2890 0538 0100     		.2byte	0x1
+ 2891 053a 50       		.byte	0x50
+ 2892 053b 00000000 		.4byte	0
+ 2893 053f 00000000 		.4byte	0
+ 2894              	.LLST17:
+ 2895 0543 00000000 		.4byte	.LVL68
+ 2896 0547 05000000 		.4byte	.LVL69-1
+ 2897 054b 0100     		.2byte	0x1
+ 2898 054d 50       		.byte	0x50
+ 2899 054e 05000000 		.4byte	.LVL69-1
+ 2900 0552 08000000 		.4byte	.LFE72
+ 2901 0556 0400     		.2byte	0x4
+ 2902 0558 F3       		.byte	0xf3
+ 2903 0559 01       		.uleb128 0x1
+ 2904 055a 50       		.byte	0x50
+ 2905 055b 9F       		.byte	0x9f
+ 2906 055c 00000000 		.4byte	0
+ 2907 0560 00000000 		.4byte	0
+ 2908              	.LLST18:
+ 2909 0564 10000000 		.4byte	.LVL76
+ 2910 0568 20000000 		.4byte	.LVL81
+ 2911 056c 0100     		.2byte	0x1
+ 2912 056e 55       		.byte	0x55
+ 2913 056f 00000000 		.4byte	0
+ 2914 0573 00000000 		.4byte	0
+ 2915              	.LLST19:
+ 2916 0577 16000000 		.4byte	.LVL78
+ 2917 057b 1A000000 		.4byte	.LVL79
+ 2918 057f 0100     		.2byte	0x1
+ 2919 0581 50       		.byte	0x50
+ 2920 0582 1A000000 		.4byte	.LVL79
+ 2921 0586 32000000 		.4byte	.LVL87
+ 2922 058a 0100     		.2byte	0x1
+ 2923 058c 54       		.byte	0x54
+ 2924 058d 00000000 		.4byte	0
+ 2925 0591 00000000 		.4byte	0
+ 2926              	.LLST20:
+ 2927 0595 20000000 		.4byte	.LVL81
+ 2928 0599 24000000 		.4byte	.LVL82
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 56
+
+
+ 2929 059d 0100     		.2byte	0x1
+ 2930 059f 50       		.byte	0x50
+ 2931 05a0 24000000 		.4byte	.LVL82
+ 2932 05a4 88000000 		.4byte	.LFE73
+ 2933 05a8 0100     		.2byte	0x1
+ 2934 05aa 55       		.byte	0x55
+ 2935 05ab 00000000 		.4byte	0
+ 2936 05af 00000000 		.4byte	0
+ 2937              	.LLST21:
+ 2938 05b3 2A000000 		.4byte	.LVL84
+ 2939 05b7 2C000000 		.4byte	.LVL85
+ 2940 05bb 0100     		.2byte	0x1
+ 2941 05bd 50       		.byte	0x50
+ 2942 05be 2C000000 		.4byte	.LVL85
+ 2943 05c2 88000000 		.4byte	.LFE73
+ 2944 05c6 0100     		.2byte	0x1
+ 2945 05c8 56       		.byte	0x56
+ 2946 05c9 00000000 		.4byte	0
+ 2947 05cd 00000000 		.4byte	0
+ 2948              	.LLST22:
+ 2949 05d1 4C000000 		.4byte	.LVL92
+ 2950 05d5 52000000 		.4byte	.LVL93
+ 2951 05d9 0100     		.2byte	0x1
+ 2952 05db 53       		.byte	0x53
+ 2953 05dc 52000000 		.4byte	.LVL93
+ 2954 05e0 58000000 		.4byte	.LVL94
+ 2955 05e4 0100     		.2byte	0x1
+ 2956 05e6 50       		.byte	0x50
+ 2957 05e7 00000000 		.4byte	0
+ 2958 05eb 00000000 		.4byte	0
+ 2959              		.section	.debug_aranges,"",%progbits
+ 2960 0000 64000000 		.4byte	0x64
+ 2961 0004 0200     		.2byte	0x2
+ 2962 0006 00000000 		.4byte	.Ldebug_info0
+ 2963 000a 04       		.byte	0x4
+ 2964 000b 00       		.byte	0
+ 2965 000c 0000     		.2byte	0
+ 2966 000e 0000     		.2byte	0
+ 2967 0010 00000000 		.4byte	.LFB64
+ 2968 0014 28000000 		.4byte	.LFE64-.LFB64
+ 2969 0018 00000000 		.4byte	.LFB65
+ 2970 001c 46000000 		.4byte	.LFE65-.LFB65
+ 2971 0020 00000000 		.4byte	.LFB66
+ 2972 0024 A0000000 		.4byte	.LFE66-.LFB66
+ 2973 0028 00000000 		.4byte	.LFB67
+ 2974 002c 1A000000 		.4byte	.LFE67-.LFB67
+ 2975 0030 00000000 		.4byte	.LFB68
+ 2976 0034 18000000 		.4byte	.LFE68-.LFB68
+ 2977 0038 00000000 		.4byte	.LFB69
+ 2978 003c 54000000 		.4byte	.LFE69-.LFB69
+ 2979 0040 00000000 		.4byte	.LFB70
+ 2980 0044 C4000000 		.4byte	.LFE70-.LFB70
+ 2981 0048 00000000 		.4byte	.LFB72
+ 2982 004c 08000000 		.4byte	.LFE72-.LFB72
+ 2983 0050 00000000 		.4byte	.LFB71
+ 2984 0054 1C000000 		.4byte	.LFE71-.LFB71
+ 2985 0058 00000000 		.4byte	.LFB73
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 57
+
+
+ 2986 005c 88000000 		.4byte	.LFE73-.LFB73
+ 2987 0060 00000000 		.4byte	0
+ 2988 0064 00000000 		.4byte	0
+ 2989              		.section	.debug_ranges,"",%progbits
+ 2990              	.Ldebug_ranges0:
+ 2991 0000 00000000 		.4byte	.LFB64
+ 2992 0004 28000000 		.4byte	.LFE64
+ 2993 0008 00000000 		.4byte	.LFB65
+ 2994 000c 46000000 		.4byte	.LFE65
+ 2995 0010 00000000 		.4byte	.LFB66
+ 2996 0014 A0000000 		.4byte	.LFE66
+ 2997 0018 00000000 		.4byte	.LFB67
+ 2998 001c 1A000000 		.4byte	.LFE67
+ 2999 0020 00000000 		.4byte	.LFB68
+ 3000 0024 18000000 		.4byte	.LFE68
+ 3001 0028 00000000 		.4byte	.LFB69
+ 3002 002c 54000000 		.4byte	.LFE69
+ 3003 0030 00000000 		.4byte	.LFB70
+ 3004 0034 C4000000 		.4byte	.LFE70
+ 3005 0038 00000000 		.4byte	.LFB72
+ 3006 003c 08000000 		.4byte	.LFE72
+ 3007 0040 00000000 		.4byte	.LFB71
+ 3008 0044 1C000000 		.4byte	.LFE71
+ 3009 0048 00000000 		.4byte	.LFB73
+ 3010 004c 88000000 		.4byte	.LFE73
+ 3011 0050 00000000 		.4byte	0
+ 3012 0054 00000000 		.4byte	0
+ 3013              		.section	.debug_line,"",%progbits
+ 3014              	.Ldebug_line0:
+ 3015 0000 FD020000 		.section	.debug_str,"MS",%progbits,1
+ 3015      0200DD01 
+ 3015      00000201 
+ 3015      FB0E0D00 
+ 3015      01010101 
+ 3016              	.LASF30:
+ 3017 0000 55415254 		.ascii	"UART_Print\000"
+ 3017      5F507269 
+ 3017      6E7400
+ 3018              	.LASF2:
+ 3019 000b 73686F72 		.ascii	"short int\000"
+ 3019      7420696E 
+ 3019      7400
+ 3020              	.LASF20:
+ 3021 0015 73697A65 		.ascii	"sizetype\000"
+ 3021      74797065 
+ 3021      00
+ 3022              	.LASF49:
+ 3023 001e 433A5C55 		.ascii	"C:\\Users\\leonm\\Documents\\PSoC Creator\\I2C_Sens"
+ 3023      73657273 
+ 3023      5C6C656F 
+ 3023      6E6D5C44 
+ 3023      6F63756D 
+ 3024 004c 5C493243 		.ascii	"\\I2C_Sens.cydsn\000"
+ 3024      5F53656E 
+ 3024      732E6379 
+ 3024      64736E00 
+ 3025              	.LASF31:
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 58
+
+
+ 3026 005c 73747269 		.ascii	"string\000"
+ 3026      6E6700
+ 3027              	.LASF50:
+ 3028 0063 6D61696E 		.ascii	"main\000"
+ 3028      00
+ 3029              	.LASF22:
+ 3030 0068 64617461 		.ascii	"data\000"
+ 3030      00
+ 3031              	.LASF37:
+ 3032 006d 74656D70 		.ascii	"temp_frac\000"
+ 3032      5F667261 
+ 3032      6300
+ 3033              	.LASF43:
+ 3034 0077 55415254 		.ascii	"UART_PutString\000"
+ 3034      5F507574 
+ 3034      53747269 
+ 3034      6E6700
+ 3035              	.LASF12:
+ 3036 0086 75696E74 		.ascii	"uint16\000"
+ 3036      313600
+ 3037              	.LASF14:
+ 3038 008d 696E7431 		.ascii	"int16\000"
+ 3038      3600
+ 3039              	.LASF11:
+ 3040 0093 75696E74 		.ascii	"uint8\000"
+ 3040      3800
+ 3041              	.LASF35:
+ 3042 0099 70726573 		.ascii	"pressure\000"
+ 3042      73757265 
+ 3042      00
+ 3043              	.LASF26:
+ 3044 00a2 424D5031 		.ascii	"BMP180_ReadRawTemperature\000"
+ 3044      38305F52 
+ 3044      65616452 
+ 3044      61775465 
+ 3044      6D706572 
+ 3045              	.LASF16:
+ 3046 00bc 666C6F61 		.ascii	"float\000"
+ 3046      7400
+ 3047              	.LASF6:
+ 3048 00c2 6C6F6E67 		.ascii	"long long int\000"
+ 3048      206C6F6E 
+ 3048      6720696E 
+ 3048      7400
+ 3049              	.LASF7:
+ 3050 00d0 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 3050      206C6F6E 
+ 3050      6720756E 
+ 3050      7369676E 
+ 3050      65642069 
+ 3051              	.LASF4:
+ 3052 00e7 6C6F6E67 		.ascii	"long int\000"
+ 3052      20696E74 
+ 3052      00
+ 3053              	.LASF23:
+ 3054 00f0 424D5031 		.ascii	"BMP180_WriteByte\000"
+ 3054      38305F57 
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 59
+
+
+ 3054      72697465 
+ 3054      42797465 
+ 3054      00
+ 3055              	.LASF32:
+ 3056 0101 424D5031 		.ascii	"BMP180_Init\000"
+ 3056      38305F49 
+ 3056      6E697400 
+ 3057              	.LASF19:
+ 3058 010d 6C6F6E67 		.ascii	"long double\000"
+ 3058      20646F75 
+ 3058      626C6500 
+ 3059              	.LASF41:
+ 3060 0119 4932435F 		.ascii	"I2C_MasterReadBuf\000"
+ 3060      4D617374 
+ 3060      65725265 
+ 3060      61644275 
+ 3060      6600
+ 3061              	.LASF1:
+ 3062 012b 756E7369 		.ascii	"unsigned char\000"
+ 3062      676E6564 
+ 3062      20636861 
+ 3062      7200
+ 3063              	.LASF46:
+ 3064 0139 73707269 		.ascii	"sprintf\000"
+ 3064      6E746600 
+ 3065              	.LASF0:
+ 3066 0141 7369676E 		.ascii	"signed char\000"
+ 3066      65642063 
+ 3066      68617200 
+ 3067              	.LASF10:
+ 3068 014d 696E7433 		.ascii	"int32_t\000"
+ 3068      325F7400 
+ 3069              	.LASF39:
+ 3070 0155 4932435F 		.ascii	"I2C_MasterWriteBuf\000"
+ 3070      4D617374 
+ 3070      65725772 
+ 3070      69746542 
+ 3070      756600
+ 3071              	.LASF8:
+ 3072 0168 756E7369 		.ascii	"unsigned int\000"
+ 3072      676E6564 
+ 3072      20696E74 
+ 3072      00
+ 3073              	.LASF27:
+ 3074 0175 424D5031 		.ascii	"BMP180_ReadRawPressure\000"
+ 3074      38305F52 
+ 3074      65616452 
+ 3074      61775072 
+ 3074      65737375 
+ 3075              	.LASF28:
+ 3076 018c 424D5031 		.ascii	"BMP180_CalculateTemperature\000"
+ 3076      38305F43 
+ 3076      616C6375 
+ 3076      6C617465 
+ 3076      54656D70 
+ 3077              	.LASF25:
+ 3078 01a8 424D5031 		.ascii	"BMP180_ReadWord\000"
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 60
+
+
+ 3078      38305F52 
+ 3078      65616457 
+ 3078      6F726400 
+ 3079              	.LASF18:
+ 3080 01b8 63686172 		.ascii	"char\000"
+ 3080      00
+ 3081              	.LASF45:
+ 3082 01bd 55415254 		.ascii	"UART_Start\000"
+ 3082      5F537461 
+ 3082      727400
+ 3083              	.LASF24:
+ 3084 01c8 424D5031 		.ascii	"BMP180_ReadCalibrationData\000"
+ 3084      38305F52 
+ 3084      65616443 
+ 3084      616C6962 
+ 3084      72617469 
+ 3085              	.LASF36:
+ 3086 01e3 74656D70 		.ascii	"temp_int\000"
+ 3086      5F696E74 
+ 3086      00
+ 3087              	.LASF21:
+ 3088 01ec 76616C75 		.ascii	"value\000"
+ 3088      6500
+ 3089              	.LASF40:
+ 3090 01f2 4932435F 		.ascii	"I2C_MasterStatus\000"
+ 3090      4D617374 
+ 3090      65725374 
+ 3090      61747573 
+ 3090      00
+ 3091              	.LASF33:
+ 3092 0203 62756666 		.ascii	"buffer\000"
+ 3092      657200
+ 3093              	.LASF3:
+ 3094 020a 73686F72 		.ascii	"short unsigned int\000"
+ 3094      7420756E 
+ 3094      7369676E 
+ 3094      65642069 
+ 3094      6E7400
+ 3095              	.LASF13:
+ 3096 021d 75696E74 		.ascii	"uint32\000"
+ 3096      333200
+ 3097              	.LASF48:
+ 3098 0224 6D61696E 		.ascii	"main.c\000"
+ 3098      2E6300
+ 3099              	.LASF5:
+ 3100 022b 6C6F6E67 		.ascii	"long unsigned int\000"
+ 3100      20756E73 
+ 3100      69676E65 
+ 3100      6420696E 
+ 3100      7400
+ 3101              	.LASF15:
+ 3102 023d 696E7433 		.ascii	"int32\000"
+ 3102      3200
+ 3103              	.LASF17:
+ 3104 0243 646F7562 		.ascii	"double\000"
+ 3104      6C6500
+ 3105              	.LASF29:
+ARM GAS  C:\Users\leonm\AppData\Local\Temp\ccu7XJro.s 			page 61
+
+
+ 3106 024a 424D5031 		.ascii	"BMP180_CalculatePressure\000"
+ 3106      38305F43 
+ 3106      616C6375 
+ 3106      6C617465 
+ 3106      50726573 
+ 3107              	.LASF34:
+ 3108 0263 74656D70 		.ascii	"temperature\000"
+ 3108      65726174 
+ 3108      75726500 
+ 3109              	.LASF9:
+ 3110 026f 5F5F696E 		.ascii	"__int32_t\000"
+ 3110      7433325F 
+ 3110      7400
+ 3111              	.LASF38:
+ 3112 0279 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 3112      52784275 
+ 3112      66666572 
+ 3112      00
+ 3113              	.LASF47:
+ 3114 0286 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 3114      43313120 
+ 3114      352E342E 
+ 3114      31203230 
+ 3114      31363036 
+ 3115 02b9 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 3115      20726576 
+ 3115      6973696F 
+ 3115      6E203233 
+ 3115      37373135 
+ 3116 02ec 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 3116      66756E63 
+ 3116      74696F6E 
+ 3116      2D736563 
+ 3116      74696F6E 
+ 3117              	.LASF42:
+ 3118 0314 43794465 		.ascii	"CyDelay\000"
+ 3118      6C617900 
+ 3119              	.LASF44:
+ 3120 031c 4932435F 		.ascii	"I2C_Start\000"
+ 3120      53746172 
+ 3120      7400
+ 3121              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

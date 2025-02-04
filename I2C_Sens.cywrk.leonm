@@ -13,10 +13,9 @@
 <v>Output</v>
 </TreeKeys>
 <TreeStates>
-<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="I2C_Sens\I2C_Sens\Source Files\main.c">
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="I2C_Sens\I2C_Sens">
 <ExpandedNodeIds>
 <v>I2C_Sens</v>
-<v>I2C_Sens\I2C_Sens</v>
 <v>I2C_Sens\I2C_Sens\TopDesign</v>
 <v>I2C_Sens\I2C_Sens\I2C_Sens.cydwr</v>
 <v>I2C_Sens\I2C_Sens\I2C_Sens.cydwr\Pins</v>
@@ -38,51 +37,6 @@
 <VisibleNodeIds>
 <v>I2C_Sens</v>
 <v>I2C_Sens\I2C_Sens</v>
-<v>I2C_Sens\I2C_Sens\TopDesign</v>
-<v>I2C_Sens\I2C_Sens\I2C_Sens.cydwr</v>
-<v>I2C_Sens\I2C_Sens\I2C_Sens.cydwr\Pins</v>
-<v>I2C_Sens\I2C_Sens\I2C_Sens.cydwr\Analog</v>
-<v>I2C_Sens\I2C_Sens\I2C_Sens.cydwr\Clocks</v>
-<v>I2C_Sens\I2C_Sens\I2C_Sens.cydwr\Interrupts</v>
-<v>I2C_Sens\I2C_Sens\I2C_Sens.cydwr\DMA</v>
-<v>I2C_Sens\I2C_Sens\I2C_Sens.cydwr\System</v>
-<v>I2C_Sens\I2C_Sens\I2C_Sens.cydwr\Directives</v>
-<v>I2C_Sens\I2C_Sens\I2C_Sens.cydwr\Flash Security</v>
-<v>I2C_Sens\I2C_Sens\I2C_Sens.cydwr\EEPROM</v>
-<v>I2C_Sens\I2C_Sens\Header Files</v>
-<v>I2C_Sens\I2C_Sens\Header Files\cyapicallbacks.h</v>
-<v>I2C_Sens\I2C_Sens\Source Files</v>
-<v>I2C_Sens\I2C_Sens\Source Files\main.c</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\Control_Reg_1</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\cy_boot</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\Em_EEPROM_Dynamic</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\I2C_Master</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\LED_0</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\LED_1</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\LED_2</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\LED_3</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\LED_4</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\LED_5</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\LED_6</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\LED_7</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\SCL</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\SDA</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\cycodeshareexport.ld</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\cycodeshareimport.ld</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\cycodeshareimport.scat</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\cydevice.h</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\cydevice_trm.h</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\cydevicegnu.inc</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\cydevicegnu_trm.inc</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\cydeviceiar.inc</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\cydeviceiar_trm.inc</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\cydevicerv.inc</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\cydevicerv_trm.inc</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\cydisabledsheets.h</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\cyfitter.h</v>
-<v>I2C_Sens\I2C_Sens\Generated_Source\PSoC5\cyfitter_cfg.c</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 <CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
@@ -103,6 +57,46 @@
 <ExpandedNodeIds>
 <v>I2C_Sens</v>
 <v>I2C_Sens\I2C_Sens</v>
+<v>I2C_Sens\I2C_Sens\CortexM3</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\Control_Reg_1.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\Control_Reg_1_PM.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_BOOT.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_INT.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_PM.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\LED_0.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\LED_1.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\LED_2.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\LED_3.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\LED_4.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\LED_5.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\LED_6.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\LED_7.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\SCL.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\SDA.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\UART.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_BOOT.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_INT.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_IntClock.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_PM.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\I2C_Sens.elf</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\I2C_Sens.hex</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\I2C_Sens.map</v>
 <v>I2C_Sens\I2C_Sens\I2C_Sens.gpdsc</v>
 <v>I2C_Sens\I2C_Sens\I2C_Sens.rpt</v>
 <v>I2C_Sens\I2C_Sens\I2C_Sens_timing.html</v>
@@ -110,6 +104,46 @@
 <VisibleNodeIds>
 <v>I2C_Sens</v>
 <v>I2C_Sens\I2C_Sens</v>
+<v>I2C_Sens\I2C_Sens\CortexM3</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\Control_Reg_1.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\Control_Reg_1_PM.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_BOOT.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_INT.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_PM.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\LED_0.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\LED_1.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\LED_2.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\LED_3.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\LED_4.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\LED_5.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\LED_6.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\LED_7.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\SCL.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\SDA.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\UART.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_BOOT.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_INT.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_IntClock.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_PM.lst</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\I2C_Sens.elf</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\I2C_Sens.hex</v>
+<v>I2C_Sens\I2C_Sens\CortexM3\ARM_GCC_541\Debug\I2C_Sens.map</v>
 <v>I2C_Sens\I2C_Sens\I2C_Sens.gpdsc</v>
 <v>I2C_Sens\I2C_Sens\I2C_Sens.rpt</v>
 <v>I2C_Sens\I2C_Sens\I2C_Sens_timing.html</v>
@@ -132,6 +166,7 @@
 <v>I2C_Sens\I2C_Sens\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
 <v>I2C_Sens\I2C_Sens\CyControlReg_v1_80.pdf</v>
 <v>I2C_Sens\I2C_Sens\I2C_v3_50.pdf</v>
+<v>I2C_Sens\I2C_Sens\UART_v2_50.pdf</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
 <v>I2C_Sens</v>
@@ -144,6 +179,7 @@
 <v>I2C_Sens\I2C_Sens\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
 <v>I2C_Sens\I2C_Sens\CyControlReg_v1_80.pdf</v>
 <v>I2C_Sens\I2C_Sens\I2C_v3_50.pdf</v>
+<v>I2C_Sens\I2C_Sens\UART_v2_50.pdf</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 </TreeStatesV2>
